@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Proto.unity
+- path: Assets/TestCam.unity
   isLoaded: 1
   isActive: 1
