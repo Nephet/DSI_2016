@@ -18,6 +18,7 @@ public class Movement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		_rigidB = GetComponent<Rigidbody> ();
 
         id = GetComponent<PlayerActions>().id;

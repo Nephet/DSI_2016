@@ -15,6 +15,8 @@ public class PlayerActions : MonoBehaviour {
     public static int nbPlayers;
     public int id;
 
+    public int teamId;
+
     void Awake()
     {
         nbPlayers++;
