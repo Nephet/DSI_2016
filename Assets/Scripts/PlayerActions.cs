@@ -41,9 +41,11 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
+
 		Snap = Input.GetButtonDown ("A_Button_"+id);
 
-		if (Snap && currentBall)
+
+		if (Snap && currentBall != null)
         {
             Throw(throwPower);
         }
@@ -53,7 +55,7 @@ public class PlayerActions : MonoBehaviour {
 				currentBall = nearestBall;
 				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
 				currentBall.transform.parent = mesh.transform;
-				currentBall.transform.position = transform.position + currentBall.transform.forward /2;
+				currentBall.transform.position = transform.position + mesh.transform.forward /2;
 			}
 
 		}
@@ -64,6 +66,9 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
         currentBall.GetComponent<Rigidbody>().AddForce(mesh.transform.forward * power, ForceMode.Impulse);
+		currentBall = null;
+		nearestBall = null;
+		nearestdistance = Mathf.Infinity;
     }
 
 	void DistanceBalls()
