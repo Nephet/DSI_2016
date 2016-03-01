@@ -14,8 +14,13 @@ public class PlayerActions : MonoBehaviour {
 
     public static int nbPlayers;
     public int id;
-
+    
     public int teamId;
+
+	bool Snap;
+	public float rangeSnap = 1.0f;
+	float nearestdistance = Mathf.Infinity;
+	GameObject nearestBall;
 
     void Awake()
     {
@@ -38,10 +43,24 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetButtonDown("A_Button_"+id) && currentBall)
+
+		Snap = Input.GetButtonDown ("A_Button_"+id);
+
+
+		if (Snap && currentBall != null)
         {
             Throw(throwPower);
         }
+		else if (Snap) {
+			DistanceBalls ();
+			if (nearestBall != null) {
+				currentBall = nearestBall;
+				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
+				currentBall.transform.parent = mesh.transform;
+				currentBall.transform.position = transform.position + mesh.transform.forward /2;
+			}
+
+		}
     }
 
     void Throw(float power)
@@ -49,5 +68,19 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
         currentBall.GetComponent<Rigidbody>().AddForce(mesh.transform.forward * power, ForceMode.Impulse);
+		currentBall = null;
+		nearestBall = null;
+		nearestdistance = Mathf.Infinity;
     }
+
+	void DistanceBalls()
+	{
+		for (int i = 0; i < BallsManager.instance.balls.Count; i++) 
+		{
+			float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
+			if (distance < nearestdistance && distance <= rangeSnap) {
+				nearestBall = BallsManager.instance.balls [i].gameObject;
+			}
+		}
+	}
 }
