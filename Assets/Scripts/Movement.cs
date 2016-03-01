@@ -46,7 +46,6 @@ public class Movement : MonoBehaviour {
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
 		_rotation = Quaternion.LookRotation (_directionAlt, transform.up);
-		Debug.Log (_directionAlt);
 
 	}
 
