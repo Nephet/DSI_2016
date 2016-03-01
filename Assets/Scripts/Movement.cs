@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour {
 	Vector3 _velocity;
 	Quaternion _rotation; 
 	Vector3 _directionAlt;
+	Vector3 _lastDirectionAlt;
     
 	public GameObject mesh;
 
@@ -44,8 +45,12 @@ public class Movement : MonoBehaviour {
 		_directionAlt = Vector3.ClampMagnitude (_directionAlt, 1.0f);
 		_directionAlt.y = 0f;
 
+		if (_directionAlt.x != 0.0f || _directionAlt.z != 0.0f) {
+			_lastDirectionAlt = _directionAlt;
+		}
+
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
-		_rotation = Quaternion.LookRotation (_directionAlt, transform.up);
+		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
 
 	}
 
