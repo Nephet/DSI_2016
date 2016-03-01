@@ -11,20 +11,25 @@ public class Movement : MonoBehaviour {
 	Vector3 _velocity;
 	Quaternion _rotation; 
 	Vector3 _directionAlt;
-
+    
 	public GameObject mesh;
+
+    int id;
+
 	// Use this for initialization
 	void Start () {
 		_rigidB = GetComponent<Rigidbody> ();
+
+        id = GetComponent<PlayerActions>().id;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		float _horizontal = Input.GetAxis ("L_XAxis_1");
-		float _vertical = Input.GetAxis ("L_YAxis_1");
+		float _horizontal = Input.GetAxis ("L_XAxis_"+id);
+		float _vertical = Input.GetAxis ("L_YAxis_"+id);
 
-		float _altHorizontal = Input.GetAxis("L_XAxis_1");
-		float _altVertical = Input.GetAxis("L_YAxis_1");
+		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
+		float _altVertical = Input.GetAxis("L_YAxis_"+id);
 
 
 		Vector3 _movHorizontal = transform.right * _horizontal;
