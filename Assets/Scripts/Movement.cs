@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour {
 	Vector3 _lastDirectionAlt;
     
 	public GameObject mesh;
+    public GameObject ballMesh;
 
     int id;
 

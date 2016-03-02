@@ -7,6 +7,7 @@ public class Ball : MonoBehaviour {
     
     void OnCollisionEnter(Collision other)
     {
+        if (!enabled) return;
         SpeedModifier = 1f;
     }
 }

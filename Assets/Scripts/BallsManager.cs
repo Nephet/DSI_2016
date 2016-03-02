@@ -35,4 +35,14 @@ public class BallsManager : MonoBehaviour {
 		}
 
 	}
+
+    public void AddBall(GameObject ball)
+    {
+        balls.Add(ball);
+    }
+
+    public void RemoveBall(GameObject ball)
+    {
+        balls.Remove(ball);
+    }
 }

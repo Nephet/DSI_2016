@@ -21,11 +21,25 @@ public class TeamZone : MonoBehaviour {
         
         if (!pA) return;
 
-        Debug.Log(pA.GetComponent<Rigidbody>().velocity);
+        pA.currentZone = id;
 
-        if (Mathf.Abs(pA.GetComponent<Rigidbody>().velocity.x) < 0.01f || Mathf.Abs(pA.GetComponent<Rigidbody>().velocity.z) < 0.01f)
+        switch (pA.state)
         {
-            pA.SetToBall(pA.teamId != id);
+            case PlayerActions.State.HUMAN:
+                pA.SetToBall(pA.teamId != id);
+                break;
+            case PlayerActions.State.FREEBALL:
+                pA.state = pA.teamId != id ? PlayerActions.State.PRISONNERBALL : PlayerActions.State.FREEBALL;
+                break;
+            case PlayerActions.State.PRISONNERBALL:
+                pA.state = pA.teamId != id ? PlayerActions.State.PRISONNERBALL : PlayerActions.State.FREEBALL;
+                break;
+            case PlayerActions.State.TAKENBALL:
+                
+                break;
+            case PlayerActions.State.THROWBALL:
+                
+                break;
         }
     }
 }

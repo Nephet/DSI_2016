@@ -21,7 +21,7 @@ public class Goal : MonoBehaviour {
     {
         PlayerActions pA = other.GetComponent<PlayerActions>();
         
-        if(pA && pA.isBall)
+        if(pA && pA.state != PlayerActions.State.HUMAN)
         {
            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
         }
