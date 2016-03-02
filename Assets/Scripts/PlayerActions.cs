@@ -17,6 +17,8 @@ public class PlayerActions : MonoBehaviour {
     
     public int teamId;
 
+    public bool isBall;
+
 	bool Snap;
 	public float rangeSnap = 1.0f;
 	float nearestdistance = Mathf.Infinity;
@@ -83,4 +85,9 @@ public class PlayerActions : MonoBehaviour {
 			}
 		}
 	}
+
+    public void SetToBall(bool b)
+    {
+        isBall = b;
+    }
 }
