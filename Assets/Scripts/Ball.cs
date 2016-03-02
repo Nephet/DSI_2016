@@ -15,7 +15,7 @@ public class Ball : MonoBehaviour {
 			respawning = false;
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			GetComponent<Rigidbody> ().freezeRotation = true;
-		} else {
+		} else if(!gameObject.GetComponent<PlayerActions>()) {
 			GetComponent<Rigidbody> ().freezeRotation = false;
 		}
 

@@ -105,20 +105,7 @@ public class MatchManager : MonoBehaviour {
 
 	public void Respawn(int _id)
 	{
-		GameObject myGo;
-
-		if (_id == 1) {
-			myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal1.transform.position, respawnGoal1.transform.rotation) as GameObject;
-		} 
-		else 
-		{
-			myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal2.transform.position, respawnGoal1.transform.rotation) as GameObject;
-		}
-
-		BallsManager.instance.AddBall(myGo);
-		myGo.GetComponent<Ball> ().respawning = true;
-		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
-		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
+		StartCoroutine (CountDownRespawnBall (_id));
 	}
 
 	public void RespawnPlayer(GameObject _player)
@@ -132,11 +119,29 @@ public class MatchManager : MonoBehaviour {
 		{
 			_player.transform.position = spawnPlayer2.transform.position;
 		}
-
+		_player.GetComponent<PlayerActions> ().SetToBall (false);
 		StartCoroutine (CountDownRespawnPlayer (_player));
 
 	}
 
+	IEnumerator CountDownRespawnBall(int _id)
+	{
+		yield return new WaitForSeconds (1.0f);
+		GameObject myGo;
+
+		if (_id == 1) {
+			myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal1.transform.position, respawnGoal1.transform.rotation) as GameObject;
+		} 
+		else 
+		{
+			myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal2.transform.position, respawnGoal2.transform.rotation) as GameObject;
+		}
+
+		BallsManager.instance.AddBall(myGo);
+		myGo.GetComponent<Ball> ().respawning = true;
+		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
+		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
+	}
 	IEnumerator CountDownRespawnPlayer(GameObject _player)
 	{
 		yield return new WaitForSeconds (1.0f);
