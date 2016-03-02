@@ -67,7 +67,7 @@ public class MatchManager : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) 
 		{
-			Respawn ();
+			//Respawn (1);
 			RespawnPlayer(testPlayer);
 		}
     }
@@ -95,16 +95,27 @@ public class MatchManager : MonoBehaviour {
 
 		player1.transform.position = spawnPlayer1.transform.position;
 		player1.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+		player1.GetComponent<PlayerActions> ().teamId = 1;
 
 		player2.transform.position = spawnPlayer2.transform.position;
 		player2.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+		player2.GetComponent<PlayerActions> ().teamId = 2;
 
 	}
 
-	public void Respawn()
+	public void Respawn(int _id)
 	{
-		GameObject myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal1.transform.position, respawnGoal1.transform.rotation) as GameObject;
-		BallsManager.instance.balls.Add (myGo);
+		GameObject myGo;
+
+		if (_id == 1) {
+			myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal1.transform.position, respawnGoal1.transform.rotation) as GameObject;
+		} 
+		else 
+		{
+			myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal2.transform.position, respawnGoal1.transform.rotation) as GameObject;
+		}
+
+		BallsManager.instance.AddBall(myGo);
 		myGo.GetComponent<Ball> ().respawning = true;
 		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
 		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
@@ -114,7 +125,14 @@ public class MatchManager : MonoBehaviour {
 	{
 		
 		_player.SetActive (false);
-		_player.transform.position = spawnPlayer1.transform.position;
+		if (_player.GetComponent<PlayerActions> ().teamId == 1) {
+			_player.transform.position = spawnPlayer1.transform.position;
+		} 
+		else 
+		{
+			_player.transform.position = spawnPlayer2.transform.position;
+		}
+
 		StartCoroutine (CountDownRespawnPlayer (_player));
 
 	}

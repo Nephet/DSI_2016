@@ -24,12 +24,17 @@ public class Goal : MonoBehaviour {
         if(pA && pA.state != PlayerActions.State.HUMAN)
         {
            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
+			MatchManager.Instance.RespawnPlayer (other.gameObject);
         }
         else if (other.tag == "Ball")
         {
             Debug.Log("buuuuut");
+			BallsManager.instance.RemoveBall (other.gameObject);
+			Destroy (other.gameObject, 0.5f);
 
             MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, _mM.normalBallPoints);
+			MatchManager.Instance.Respawn (teamId);
+
 
         }
     }
