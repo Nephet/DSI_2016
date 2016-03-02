@@ -13,7 +13,7 @@ public class PlayerActions : MonoBehaviour {
         THROWBALL,
     }
 
-    bool _dashing;
+    public bool dashing;
 
     public State state = State.HUMAN;
 
@@ -51,10 +51,13 @@ public class PlayerActions : MonoBehaviour {
     Bounce _bounceScript;
 
     public int currentZone;
+
+
+	bool _oldTriggerHeld;
     
     void Awake()
     {
-        _dashing = false;
+		dashing = false;
 
         nbPlayers++;
 
@@ -82,17 +85,19 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
-        snap = Input.GetButtonDown ("A_Button_"+id);
+        snap = Input.GetAxis ("Fire_"+id) < 0.0f;
+		Debug.Log (Input.GetAxis ("Fire_" + id));
 
         _transfo = Input.GetButtonDown("B_Button_" + id);
 
-        _dash = Input.GetButtonDown("X_Button_" + id);
+		_dash = Input.GetAxis("Fire_" + id) < 0.0f;
 
-        if (snap && currentBall != null && state == State.HUMAN)
+        if (_oldTriggerHeld != snap && snap  && currentBall != null && state == State.HUMAN)
         {
             Throw(throwPower);
+
         }
-        else if (snap && state == State.HUMAN)
+		else if (_oldTriggerHeld != snap && snap && state == State.HUMAN)
         {
             DistanceBalls();
             if (_nearestBall != null)
@@ -113,10 +118,12 @@ public class PlayerActions : MonoBehaviour {
         {
             SetToBall(state == State.HUMAN);
         }
-        else if (_dash && (state == PlayerActions.State.FREEBALL || state == PlayerActions.State.PRISONNERBALL || state == PlayerActions.State.THROWBALL))
+		else if (_oldTriggerHeld != snap && snap && (state == PlayerActions.State.FREEBALL || state == PlayerActions.State.PRISONNERBALL || state == PlayerActions.State.THROWBALL))
         {
             StartDash();
         }
+
+		_oldTriggerHeld = snap;
     }
 
     void Throw(float power)
@@ -187,7 +194,7 @@ public class PlayerActions : MonoBehaviour {
 
         Debug.Log("Start Dash !");
 
-        _dashing = true;
+		dashing = true;
 
         GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * dashPower, ForceMode.Impulse);
 
@@ -199,6 +206,24 @@ public class PlayerActions : MonoBehaviour {
     void StopDash()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        _dashing = false;
+		dashing = false;
     }
+
+	public void Stun ()
+	{
+		ActiveStun ();
+	}
+
+	void ActiveStun ()
+	{
+		GetComponent<Movement> ().enabled = false;
+		GetComponent<PlayerActions> ().enabled = false;
+		Invoke ("DisableStun", 2.0f);
+	}
+
+	void DisableStun()
+	{
+		GetComponent<Movement> ().enabled = true;
+		GetComponent<PlayerActions> ().enabled = true;
+	}
 }

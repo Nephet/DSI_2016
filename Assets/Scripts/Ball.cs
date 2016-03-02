@@ -19,6 +19,15 @@ public class Ball : MonoBehaviour {
 			GetComponent<Rigidbody> ().freezeRotation = false;
 		}
 
+		if (gameObject.GetComponent<PlayerActions>() && gameObject.GetComponent<PlayerActions>().dashing) 
+		{
+			
+			if (other.gameObject.GetComponent<PlayerActions> () && other.gameObject.GetComponent<PlayerActions> ().teamId != gameObject.GetComponent<PlayerActions>().teamId ) 
+			{
+				other.gameObject.GetComponent<PlayerActions> ().Stun ();
+			}
+		}
+
 		/*if (currentCoroutine != null) 
 		{
 			StopCoroutine (currentCoroutine);

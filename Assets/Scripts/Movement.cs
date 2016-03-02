@@ -39,8 +39,8 @@ public class Movement : MonoBehaviour {
         float _horizontal = Input.GetAxis ("L_XAxis_"+id);
 		float _vertical = Input.GetAxis ("L_YAxis_"+id);
 
-		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
-		float _altVertical = Input.GetAxis("L_YAxis_"+id);
+		float _altHorizontal = Input.GetAxis("R_XAxis_"+id);
+		float _altVertical = Input.GetAxis("R_YAxis_"+id);
         
 		Vector3 _movHorizontal = transform.right * _horizontal;
 		Vector3 _movVertical = transform.forward * _vertical;
