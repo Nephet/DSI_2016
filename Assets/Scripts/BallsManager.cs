@@ -24,6 +24,7 @@ public class BallsManager : MonoBehaviour {
 	#endregion
 
 	public List<GameObject> balls;
+	public float friction = 0.8f;
 
 	void Start()
 	{

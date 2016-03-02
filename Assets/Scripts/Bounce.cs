@@ -5,12 +5,13 @@ using System.Collections;
 public class Bounce : MonoBehaviour {
 
 	Vector3 _oldVelocity;
-	public float friction = 0.8f;
+	float _friction = 0.8f;
 
 	Rigidbody rigidBody;
 	// Use this for initialization
 	void Start () {
 		rigidBody = GetComponent<Rigidbody> ();
+		_friction = BallsManager.instance.friction;
 	}
 	
 	// Update is called once per frame
@@ -30,7 +31,7 @@ public class Bounce : MonoBehaviour {
 		/**************/
 
 		rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
-		rigidBody.velocity *= friction;
+		rigidBody.velocity *= _friction;
 
 	}
 }

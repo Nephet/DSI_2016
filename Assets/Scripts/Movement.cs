@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour {
 
 	Rigidbody _rigidB;
 
+
 	public float speed = 5f;
 	public float rotationSpeed = 5;
 	Vector3 _velocity;
@@ -76,8 +77,3 @@ public class Movement : MonoBehaviour {
 	}
 }
 
-/*
- * 
- * 
- * 
- * */
