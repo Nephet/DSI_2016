@@ -10,7 +10,7 @@ public class MatchManager : MonoBehaviour {
 
     public float timerDuration = 5f;
     public float timer;
-    float timerStart;
+    float _timerStart;
 
     public static MatchManager Instance
     {
@@ -26,12 +26,12 @@ public class MatchManager : MonoBehaviour {
 
         timer = timerDuration;
 
-        timerStart = Time.time;
+        _timerStart = Time.time;
     }
 
     void Update()
     {
-        timer = timerDuration - (Time.time - timerStart);
+        timer = timerDuration - (Time.time - _timerStart);
 
         if(timer < 0)
         {

@@ -8,7 +8,7 @@ public class PlayerActions : MonoBehaviour {
 
 	public List<GameObject> balls;
 
-    GameObject mesh;
+    GameObject _mesh;
 
     public float throwPower = 5f;
 
@@ -19,10 +19,10 @@ public class PlayerActions : MonoBehaviour {
 
     public bool isBall;
 
-	bool Snap;
+	bool snap;
 	public float rangeSnap = 1.0f;
-	float nearestdistance = Mathf.Infinity;
-	GameObject nearestBall;
+	float _nearestdistance = Mathf.Infinity;
+	GameObject _nearestBall;
 
     void Awake()
     {
@@ -33,33 +33,34 @@ public class PlayerActions : MonoBehaviour {
 
     void Start()
     {
-        mesh = GetComponent<Movement>().mesh;
+        _mesh = GetComponent<Movement>().mesh;
 
         if (currentBall)
         {
             currentBall.GetComponent<Rigidbody>().isKinematic = true;
-            currentBall.transform.parent = mesh.transform;
-            currentBall.transform.position = transform.position + mesh.transform.forward/2;
+            currentBall.transform.parent = _mesh.transform;
+            currentBall.transform.position = transform.position + _mesh.transform.forward/2;
         }
     }
 
     void Update()
     {
 
-		Snap = Input.GetButtonDown ("A_Button_"+id);
+        snap = Input.GetButtonDown ("A_Button_"+id);
 
 
-		if (Snap && currentBall != null)
+		if (snap && currentBall != null)
         {
             Throw(throwPower);
         }
-		else if (Snap) {
-			DistanceBalls ();
-			if (nearestBall != null) {
-				currentBall = nearestBall;
+        else if (snap)
+        {
+            DistanceBalls();
+			if (_nearestBall != null) {
+				currentBall = _nearestBall;
 				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
-				currentBall.transform.parent = mesh.transform;
-				currentBall.transform.position = transform.position + mesh.transform.forward /2;
+				currentBall.transform.parent = _mesh.transform;
+				currentBall.transform.position = transform.position + _mesh.transform.forward /2;
 			}
 
 		}
@@ -69,10 +70,12 @@ public class PlayerActions : MonoBehaviour {
     {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
-        currentBall.GetComponent<Rigidbody>().AddForce(mesh.transform.forward * power, ForceMode.Impulse);
+        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * currentBall.GetComponent<Ball>().SpeedModifier, ForceMode.Impulse);
 		currentBall = null;
-		nearestBall = null;
-		nearestdistance = Mathf.Infinity;
+		_nearestBall = null;
+		_nearestdistance = Mathf.Infinity;
+
+        currentBall.GetComponent<Ball>().SpeedModifier += 0.2f;
     }
 
 	void DistanceBalls()
@@ -80,8 +83,8 @@ public class PlayerActions : MonoBehaviour {
 		for (int i = 0; i < BallsManager.instance.balls.Count; i++) 
 		{
 			float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
-			if (distance < nearestdistance && distance <= rangeSnap) {
-				nearestBall = BallsManager.instance.balls [i].gameObject;
+			if (distance < _nearestdistance && distance <= rangeSnap) {
+				_nearestBall = BallsManager.instance.balls [i].gameObject;
 			}
 		}
 	}
