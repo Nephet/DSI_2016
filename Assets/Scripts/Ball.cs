@@ -9,7 +9,7 @@ public class Ball : MonoBehaviour {
     
     void OnCollisionEnter(Collision other)
     {
-		Debug.Log ("collision");
+        if (!enabled) return;
         SpeedModifier = 1f;
 		if (respawning) {
 			respawning = false;

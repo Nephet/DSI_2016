@@ -26,15 +26,13 @@ public class Bounce : MonoBehaviour {
 
 	void OnCollisionEnter(Collision other)
 	{
-		
+		if (!enabled) return;
 
-		/**************/
 		if (!GetComponent<Ball> ().respawning) 
 		{
 			rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
 			rigidBody.velocity *= _friction;
 		}
-
 
 	}
 }

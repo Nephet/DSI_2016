@@ -21,7 +21,25 @@ public class TeamZone : MonoBehaviour {
         
         if (!pA) return;
 
-        pA.SetToBall(pA.teamId != id);
-        
+        pA.currentZone = id;
+
+        switch (pA.state)
+        {
+            case PlayerActions.State.HUMAN:
+                pA.SetToBall(pA.teamId != id);
+                break;
+            case PlayerActions.State.FREEBALL:
+                pA.state = pA.teamId != id ? PlayerActions.State.PRISONNERBALL : PlayerActions.State.FREEBALL;
+                break;
+            case PlayerActions.State.PRISONNERBALL:
+                pA.state = pA.teamId != id ? PlayerActions.State.PRISONNERBALL : PlayerActions.State.FREEBALL;
+                break;
+            case PlayerActions.State.TAKENBALL:
+                
+                break;
+            case PlayerActions.State.THROWBALL:
+                
+                break;
+        }
     }
 }
