@@ -29,9 +29,12 @@ public class Bounce : MonoBehaviour {
 		
 
 		/**************/
+		if (!GetComponent<Ball> ().respawning) 
+		{
+			rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
+			rigidBody.velocity *= _friction;
+		}
 
-		rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
-		rigidBody.velocity *= _friction;
 
 	}
 }

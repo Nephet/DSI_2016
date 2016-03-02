@@ -11,6 +11,24 @@ public class MatchManager : MonoBehaviour {
     public float timerDuration = 5f;
     public float timer;
     float _timerStart;
+	public bool respawning;
+
+	public GameObject player1;
+	public GameObject player2;
+
+	public GameObject spawnBall1;
+	public GameObject spawnBall2;
+	public GameObject respawnGoal1;
+	public GameObject respawnGoal2;
+	public GameObject spawnPlayer1;
+	public GameObject spawnPlayer2;
+	public GameObject center;
+
+	public GameObject testPlayer;
+
+	public float width = 3f;
+	public float height = 3f;
+	public float respawnSpeed = 3f;
 
     public static MatchManager Instance
     {
@@ -29,14 +47,25 @@ public class MatchManager : MonoBehaviour {
         _timerStart = Time.time;
     }
 
+	void Start()
+	{
+		Spawn ();
+	}
+
     void Update()
     {
         timer = timerDuration - (Time.time - _timerStart);
 
         if(timer < 0)
         {
-            Debug.Log("end");
+			
         }
+
+		if (Input.GetKeyDown (KeyCode.Space)) 
+		{
+			Respawn ();
+			RespawnPlayer(testPlayer);
+		}
     }
 
     public void AddPoint(int id, int score)
@@ -52,5 +81,45 @@ public class MatchManager : MonoBehaviour {
             teamTwoScore += score;
         }
     }
+
+	void Spawn()
+	{
+		GameObject firstBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall1.transform.position, Quaternion.identity) as GameObject;
+		BallsManager.instance.balls.Add (firstBall);
+		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
+		BallsManager.instance.balls.Add (secondBall);
+
+		player1.transform.position = spawnPlayer1.transform.position;
+		player1.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+
+		player2.transform.position = spawnPlayer2.transform.position;
+		player2.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+
+	}
+
+	public void Respawn()
+	{
+		GameObject myGo = Instantiate (Resources.Load ("Prefabs/Ball"), respawnGoal1.transform.position, respawnGoal1.transform.rotation) as GameObject;
+		BallsManager.instance.balls.Add (myGo);
+		myGo.GetComponent<Ball> ().respawning = true;
+		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
+		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
+	}
+
+	public void RespawnPlayer(GameObject _player)
+	{
+		
+		_player.SetActive (false);
+		_player.transform.position = spawnPlayer1.transform.position;
+		StartCoroutine (CountDownRespawnPlayer (_player));
+
+	}
+
+	IEnumerator CountDownRespawnPlayer(GameObject _player)
+	{
+		yield return new WaitForSeconds (1.0f);
+		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+		_player.SetActive (true);
+	}
 
 }
