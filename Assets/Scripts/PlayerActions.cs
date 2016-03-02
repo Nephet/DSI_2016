@@ -71,11 +71,12 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * currentBall.GetComponent<Ball>().SpeedModifier, ForceMode.Impulse);
-		currentBall = null;
+        
+        currentBall.GetComponent<Ball>().SpeedModifier += 0.2f;
+
+        currentBall = null;
 		_nearestBall = null;
 		_nearestdistance = Mathf.Infinity;
-
-        currentBall.GetComponent<Ball>().SpeedModifier += 0.2f;
     }
 
 	void DistanceBalls()
