@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour {
 
 
 	public float speed = 5f;
+    public float speedInBall = .5f;
+
 	public float rotationSpeed = 5;
 	Vector3 _velocity;
 	Quaternion _rotation; 
@@ -29,17 +31,23 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float _horizontal = Input.GetAxis ("L_XAxis_"+id);
+
+        _velocity = Vector3.zero;
+        
+        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL) return;
+
+        float _horizontal = Input.GetAxis ("L_XAxis_"+id);
 		float _vertical = Input.GetAxis ("L_YAxis_"+id);
 
 		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
 		float _altVertical = Input.GetAxis("L_YAxis_"+id);
-
-
+        
 		Vector3 _movHorizontal = transform.right * _horizontal;
 		Vector3 _movVertical = transform.forward * _vertical;
 
-		_velocity = (_movHorizontal + _movVertical).normalized * speed;
+        float modifier = GetComponent<PlayerActions>().state == PlayerActions.State.HUMAN ? speed : speedInBall;
+
+		_velocity = (_movHorizontal + _movVertical).normalized * modifier;
 
 		/*************/
 
@@ -54,9 +62,8 @@ public class Movement : MonoBehaviour {
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
 		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
-
 	}
-
+    
 	void FixedUpdate()
 	{
 		PerformMovement ();
