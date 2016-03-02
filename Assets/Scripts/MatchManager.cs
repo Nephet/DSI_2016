@@ -8,6 +8,10 @@ public class MatchManager : MonoBehaviour {
     public int teamOneScore = 0;
     public int teamTwoScore = 0;
 
+    public int normalBallPoints = 1;
+    public int playerBallPoints = 5;
+    public int ennemyBallPoints = 8;
+
     public float timerDuration = 5f;
     public float timer;
     float _timerStart;

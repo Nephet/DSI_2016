@@ -21,7 +21,11 @@ public class TeamZone : MonoBehaviour {
         
         if (!pA) return;
 
-        pA.SetToBall(pA.teamId != id);
-        
+        Debug.Log(pA.GetComponent<Rigidbody>().velocity);
+
+        if (Mathf.Abs(pA.GetComponent<Rigidbody>().velocity.x) < 0.01f || Mathf.Abs(pA.GetComponent<Rigidbody>().velocity.z) < 0.01f)
+        {
+            pA.SetToBall(pA.teamId != id);
+        }
     }
 }

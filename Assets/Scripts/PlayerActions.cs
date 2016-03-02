@@ -24,6 +24,8 @@ public class PlayerActions : MonoBehaviour {
 	float _nearestdistance = Mathf.Infinity;
 	GameObject _nearestBall;
 
+    public float passSpeedModifier = 0.2f;
+
     void Awake()
     {
         nbPlayers++;
@@ -72,7 +74,7 @@ public class PlayerActions : MonoBehaviour {
         currentBall.transform.parent = null;
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * currentBall.GetComponent<Ball>().SpeedModifier, ForceMode.Impulse);
         
-        currentBall.GetComponent<Ball>().SpeedModifier += 0.2f;
+        currentBall.GetComponent<Ball>().SpeedModifier += passSpeedModifier;
 
         currentBall = null;
 		_nearestBall = null;

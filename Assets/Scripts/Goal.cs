@@ -5,9 +5,11 @@ public class Goal : MonoBehaviour {
 
     public int teamId;
 
+    MatchManager _mM;
+
 	// Use this for initialization
 	void Start () {
-	
+        _mM = MatchManager.Instance;
 	}
 	
 	// Update is called once per frame
@@ -17,11 +19,17 @@ public class Goal : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Ball")
+        PlayerActions pA = other.GetComponent<PlayerActions>();
+        
+        if(pA && pA.isBall)
+        {
+           MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
+        }
+        else if (other.tag == "Ball")
         {
             Debug.Log("buuuuut");
 
-            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, 1);
+            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, _mM.normalBallPoints);
 
         }
     }
