@@ -42,6 +42,7 @@ public class PlayerActions : MonoBehaviour {
     bool _transfo;
     bool _dash;
 	bool _suicide;
+    bool _bonus;
 
 	float _smashButtonCount;
 	public float _maxTimerSmashButton = 0.5f;
@@ -59,13 +60,19 @@ public class PlayerActions : MonoBehaviour {
     public int currentZone;
 
 	List<GameObject> _listPlayers;
-
-
-	bool _oldTriggerHeld;
     
+	bool _oldTriggerHeld;
+
+    [HideInInspector]
+    public bool willIgnoreSnap;
+    [HideInInspector]
+    public bool doubleDash;
+
     void Awake()
     {
-		dashing = false;
+        willIgnoreSnap = false;
+
+        dashing = false;
 
         nbPlayers++;
 
@@ -107,8 +114,9 @@ public class PlayerActions : MonoBehaviour {
 
 		_suicide = Input.GetButtonDown ("A_Button_"+id);
 
+        _bonus = Input.GetButtonDown("X_Button_" + id);
 
-		if (_oldTriggerHeld != snap && snap && currentBall != null && state == State.HUMAN) {
+        if (_oldTriggerHeld != snap && snap && currentBall != null && state == State.HUMAN) {
 			Throw (_throwPower);
 
 		} else if (_oldTriggerHeld != snap && snap && state == State.HUMAN) {
@@ -147,10 +155,12 @@ public class PlayerActions : MonoBehaviour {
 			{
 				_smashButtonCount -=0.5f;
 				SmashButton ();
-
 			}
-
 		}
+        else if (_bonus)
+        {
+            PinataManager.instance.ApplyBonus(this);
+        }
 
 		_oldTriggerHeld = snap;
     }
@@ -167,6 +177,10 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Ball>().StartSpeedDrop();
 
         currentBall.GetComponent<Ball>().StopPowerDrop();
+        
+        currentBall.GetComponent<Ball>().ignoreSnap = willIgnoreSnap;
+
+        willIgnoreSnap = false;
 
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier * Time.deltaTime * 350, ForceMode.Impulse);
         
@@ -186,7 +200,14 @@ public class PlayerActions : MonoBehaviour {
 		{
 			float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
 			if (distance < _nearestdistance && distance <= rangeSnap) {
-				_nearestBall = BallsManager.instance.balls [i].gameObject;
+                if (!BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap)
+                {
+                    _nearestBall = BallsManager.instance.balls[i].gameObject;
+                }
+                else
+                {
+                    BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
+                }
 			}
 		}
 	}
@@ -227,7 +248,9 @@ public class PlayerActions : MonoBehaviour {
 
     void StartDash()
     {
-        if (Time.time - _lastDash < _dashCooldown) return;
+        if (Time.time - _lastDash < _dashCooldown && !doubleDash) return;
+
+        doubleDash = false;
 
         Debug.Log("Start Dash !");
 

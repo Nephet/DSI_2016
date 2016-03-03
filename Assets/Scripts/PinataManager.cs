@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PinataManager : MonoBehaviour {
 
@@ -22,10 +23,19 @@ public class PinataManager : MonoBehaviour {
 
     #endregion
 
+    public List<GameObject> bonusList;
+
+    public float reinitDelay = 5f;
+
     public Pinata[] pinatas;
 
-	// Use this for initialization
-	void Start () {
+    public Bonus BonusTeam1;
+    public Bonus BonusTeam2;
+
+    public int currentTeam;
+
+    // Use this for initialization
+    void Start () {
         pinatas = GameObject.FindObjectsOfType<Pinata>();
 	}
 
@@ -67,17 +77,39 @@ public class PinataManager : MonoBehaviour {
 
     public void CheckEffect()
     {
-        switch (CheckPinatas())
+        currentTeam = CheckPinatas();
+
+        if (currentTeam == 0) return;
+        
+        GameObject bonus = bonusList[Random.Range(0, bonusList.Count)];
+
+        bonus = Instantiate(bonus) as GameObject;
+
+        bonus.GetComponent<Bonus>().idTeam = currentTeam;
+
+        if(currentTeam == 1)
         {
-            case 0:
-                Debug.Log("nobody has it");
-                break;
-            case 1:
-                Debug.Log("team 1 has it");
-                break;
-            case 2:
-                Debug.Log("team 2 has it");
-                break;
+            BonusTeam1 = bonus.GetComponent<Bonus>();
+        }
+        else
+        {
+            BonusTeam2 = bonus.GetComponent<Bonus>();
+        }
+    }
+
+    public void ApplyBonus(PlayerActions pA)
+    {
+        int id = pA.teamId;
+
+        if(id == 1 && BonusTeam1)
+        {
+            BonusTeam1.Execute(pA);
+            BonusTeam1 = null;
+        }
+        else if(id == 2 && BonusTeam2)
+        {
+            BonusTeam2.Execute(pA);
+            BonusTeam2 = null;
         }
     }
 
