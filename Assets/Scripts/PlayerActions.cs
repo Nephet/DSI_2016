@@ -172,6 +172,9 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
         
+		if (currentBall.GetComponent<Ball> ().currentPowerLevel == 0) {
+			Debug.Log ("BUG");
+		}
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
         currentBall.GetComponent<Ball>().StartSpeedDrop();
@@ -270,6 +273,7 @@ public class PlayerActions : MonoBehaviour {
     void StopDash()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+		state = currentZone == teamId ? State.FREEBALL : State.PRISONNERBALL;
 		dashing = false;
     }
 
