@@ -25,12 +25,13 @@ public class PlayerActions : MonoBehaviour {
 
     GameObject _ballMesh;
 
-    public float throwPower = 5f;
+    float _throwPower;
 
-    public float dashPower = 7.5f;
-    public float dashDuration = 0.5f;
-    public float dashCooldown = 1f;
+    float _dashPower;
+    float _dashDuration;
+    float _dashCooldown;
     float _lastDash;
+	float _suicideRange;
 
     public static int nbPlayers;
     public int id;
@@ -57,6 +58,8 @@ public class PlayerActions : MonoBehaviour {
 
     public int currentZone;
 
+	List<GameObject> _listPlayers;
+
 
 	bool _oldTriggerHeld;
     
@@ -80,6 +83,12 @@ public class PlayerActions : MonoBehaviour {
         _mesh = GetComponent<Movement>().mesh;
         _ballMesh = GetComponent<Movement>().ballMesh;
 
+		_throwPower = PlayerManager.instance.throwPower;
+		_dashPower = PlayerManager.instance.dashPower;
+		_dashDuration = PlayerManager.instance.dashDuration;
+		_dashCooldown = PlayerManager.instance.dashCooldown;
+		_suicideRange = PlayerManager.instance.suicideRange;
+
         if (currentBall)
         {
             currentBall.GetComponent<Rigidbody>().isKinematic = true;
@@ -100,7 +109,7 @@ public class PlayerActions : MonoBehaviour {
 
 
 		if (_oldTriggerHeld != snap && snap && currentBall != null && state == State.HUMAN) {
-			Throw (throwPower);
+			Throw (_throwPower);
 
 		} else if (_oldTriggerHeld != snap && snap && state == State.HUMAN) {
 			DistanceBalls ();
@@ -129,7 +138,6 @@ public class PlayerActions : MonoBehaviour {
 			StartDash ();
 		} else if (_suicide && state == PlayerActions.State.TAKENBALL) 
 		{
-			Debug.Log ("smash");
 			if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f) 
 			{
 				_currentTimerSmashButton -= Time.deltaTime;
@@ -216,17 +224,17 @@ public class PlayerActions : MonoBehaviour {
 
     void StartDash()
     {
-        if (Time.time - _lastDash < dashCooldown) return;
+        if (Time.time - _lastDash < _dashCooldown) return;
 
         Debug.Log("Start Dash !");
 
 		dashing = true;
 
-        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * dashPower, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
 
         _lastDash = Time.time;
 
-        Invoke("StopDash",dashDuration);
+        Invoke("StopDash",_dashDuration);
     }
 
     void StopDash()
@@ -256,7 +264,6 @@ public class PlayerActions : MonoBehaviour {
 
 	void SmashButton()
 	{
-		Debug.Log (_smashButtonCount);
 		_currentTimerSmashButton = _maxTimerSmashButton;
 		_smashButtonCount++;
 		if (_smashButtonCount >= 10) 
@@ -267,9 +274,19 @@ public class PlayerActions : MonoBehaviour {
 
 	void Suicide()
 	{
-		Debug.Log ("Suicide");
 		_smashButtonCount = 0;
-		transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
+		_listPlayers = PlayerManager.instance.listPlayers;
+		//transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
+		for (int i = 0; i < _listPlayers.Count; i++) 
+		{
+			if (_listPlayers[i].GetComponent<PlayerActions> ().teamId != GetComponent<PlayerActions> ().teamId) 
+			{
+				if(Vector3.Distance(_listPlayers[i].transform.position, transform.position) <= _suicideRange)
+				{
+					_listPlayers [i].GetComponent<PlayerActions> ().ActiveStun ();
+				}
+			}
+		}
 		MatchManager.Instance.RespawnPlayer (this.gameObject);
 
 	}
