@@ -19,7 +19,7 @@ public class PlayerActions : MonoBehaviour {
 
 	public GameObject currentBall;
 
-	public List<GameObject> balls;
+	//public List<GameObject> balls;
 
     GameObject _mesh;
 
@@ -40,6 +40,11 @@ public class PlayerActions : MonoBehaviour {
 	bool snap;
     bool _transfo;
     bool _dash;
+	bool _suicide;
+
+	float _smashButtonCount;
+	public float _maxTimerSmashButton = 0.5f;
+	float _currentTimerSmashButton;
 
 	public float rangeSnap = 1.0f;
 	float _nearestdistance = Mathf.Infinity;
@@ -86,42 +91,52 @@ public class PlayerActions : MonoBehaviour {
     void Update()
     {
         snap = Input.GetAxis ("Fire_"+id) < 0.0f;
-		Debug.Log (Input.GetAxis ("Fire_" + id));
 
         _transfo = Input.GetButtonDown("B_Button_" + id);
 
 		_dash = Input.GetAxis("Fire_" + id) < 0.0f;
 
-        if (_oldTriggerHeld != snap && snap  && currentBall != null && state == State.HUMAN)
-        {
-            Throw(throwPower);
+		_suicide = Input.GetButtonDown ("A_Button_"+id);
 
-        }
-		else if (_oldTriggerHeld != snap && snap && state == State.HUMAN)
-        {
-            DistanceBalls();
-            if (_nearestBall != null)
-            {
-                currentBall = _nearestBall;
-                currentBall.GetComponent<Rigidbody>().isKinematic = true;
-                currentBall.transform.parent = _mesh.transform;
-                currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
-                if (currentBall.GetComponent<PlayerActions>())
-                {
-                    currentBall.GetComponent<PlayerActions>().state = State.TAKENBALL;
-                }
+		if (_oldTriggerHeld != snap && snap && currentBall != null && state == State.HUMAN) {
+			Throw (throwPower);
 
-            }
-        }
-        else if (_transfo && (state == State.HUMAN || state == State.FREEBALL))
-        {
-            SetToBall(state == State.HUMAN);
-        }
-		else if (_oldTriggerHeld != snap && snap && (state == PlayerActions.State.FREEBALL || state == PlayerActions.State.PRISONNERBALL || state == PlayerActions.State.THROWBALL))
-        {
-            StartDash();
-        }
+		} else if (_oldTriggerHeld != snap && snap && state == State.HUMAN) {
+			DistanceBalls ();
+			if (_nearestBall != null) {
+				currentBall = _nearestBall;
+				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
+				currentBall.transform.parent = _mesh.transform;
+				currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
+
+				if (currentBall.GetComponent<PlayerActions> ()) {
+					currentBall.GetComponent<PlayerActions> ().state = State.TAKENBALL;
+				}
+
+			}
+		} else if (_transfo && (state == State.HUMAN || state == State.FREEBALL)) {
+			SetToBall (state == State.HUMAN);
+		} else if (_oldTriggerHeld != snap && snap && (state == PlayerActions.State.FREEBALL || state == PlayerActions.State.PRISONNERBALL || state == PlayerActions.State.THROWBALL)) {
+			StartDash ();
+		} else if (_suicide && state == PlayerActions.State.TAKENBALL) 
+		{
+			Debug.Log ("smash");
+			if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f) 
+			{
+				_currentTimerSmashButton -= Time.deltaTime;
+				SmashButton ();
+			} 
+			else if(_currentTimerSmashButton <= 0f) 
+			{
+				_smashButtonCount -=0.5f;
+				SmashButton ();
+
+			}
+
+		}
+
+
 
 		_oldTriggerHeld = snap;
     }
@@ -218,6 +233,7 @@ public class PlayerActions : MonoBehaviour {
 	{
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
+		Throw (0);
 		Invoke ("DisableStun", 2.0f);
 	}
 
@@ -226,4 +242,26 @@ public class PlayerActions : MonoBehaviour {
 		GetComponent<Movement> ().enabled = true;
 		GetComponent<PlayerActions> ().enabled = true;
 	}
+
+	void SmashButton()
+	{
+		Debug.Log (_smashButtonCount);
+		_currentTimerSmashButton = _maxTimerSmashButton;
+		_smashButtonCount++;
+		if (_smashButtonCount >= 10) 
+		{
+			Suicide ();
+		}
+	}
+
+	void Suicide()
+	{
+		Debug.Log ("Suicide");
+		_smashButtonCount = 0;
+		transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
+		MatchManager.Instance.RespawnPlayer (this.gameObject);
+
+	}
+
+
 }

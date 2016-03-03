@@ -25,6 +25,7 @@ public class Goal : MonoBehaviour {
         {
            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
 			MatchManager.Instance.RespawnPlayer (other.gameObject);
+			other.GetComponent<Rigidbody> ().velocity = Vector3.zero;
         }
         else if (other.tag == "Ball")
         {

@@ -126,7 +126,7 @@ public class MatchManager : MonoBehaviour {
 
 	IEnumerator CountDownRespawnBall(int _id)
 	{
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (2.0f);
 		GameObject myGo;
 
 		if (_id == 1) {
@@ -142,9 +142,10 @@ public class MatchManager : MonoBehaviour {
 		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
 		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
 	}
+
 	IEnumerator CountDownRespawnPlayer(GameObject _player)
 	{
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (2.0f);
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		_player.SetActive (true);
 	}
