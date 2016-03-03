@@ -17,5 +17,7 @@ public class InstantExplosion : Bonus
     public override void Execute(PlayerActions pA)
     {
         Debug.Log("Execute InstantExplosion");
+
+        pA.instantExplosion = true;
     }
 }

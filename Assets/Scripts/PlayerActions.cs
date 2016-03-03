@@ -64,14 +64,16 @@ public class PlayerActions : MonoBehaviour {
 	bool _oldTriggerHeld;
 
     [HideInInspector]
-    public bool willIgnoreSnap;
+    public bool willIgnoreSnap = false;
     [HideInInspector]
-    public bool doubleDash;
+    public bool doubleDash = false;
+    [HideInInspector]
+    public bool maxSpeed = false;
+    [HideInInspector]
+    public bool instantExplosion = false;
 
     void Awake()
     {
-        willIgnoreSnap = false;
-
         dashing = false;
 
         nbPlayers++;
@@ -172,7 +174,9 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
         
-        float speedModifier = BallsManager.instance.speedMaxByPowerLevel[currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
+        float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
+
+        maxSpeed = false;
 
         currentBall.GetComponent<Ball>().StartSpeedDrop();
 
@@ -296,10 +300,11 @@ public class PlayerActions : MonoBehaviour {
 	{
 		_currentTimerSmashButton = _maxTimerSmashButton;
 		_smashButtonCount++;
-		if (_smashButtonCount >= 10) 
+		if (_smashButtonCount >= 10 || instantExplosion) 
 		{
 			Suicide ();
-		}
+            instantExplosion = false;
+        }
 	}
 
 	void Suicide()
