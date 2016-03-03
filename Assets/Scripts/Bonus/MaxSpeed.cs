@@ -17,5 +17,7 @@ public class MaxSpeed : Bonus
     public override void Execute(PlayerActions pA)
     {
         Debug.Log("Execute MaxSpeed");
+
+        pA.maxSpeed = true;
     }
 }
