@@ -14,8 +14,12 @@ public class Ball : MonoBehaviour {
 
     public int idTeam;
 
+    public bool ignoreSnap;
+
     void Start()
     {
+        ignoreSnap = false;
+
         currentPowerLevel = 0;
 
         _speedMaxByPowerLevel = BallsManager.instance.speedMaxByPowerLevel;

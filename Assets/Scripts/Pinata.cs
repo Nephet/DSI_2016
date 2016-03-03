@@ -22,16 +22,28 @@ public class Pinata : MonoBehaviour {
         if (!pA || pA.state == PlayerActions.State.HUMAN) return;
 
         ChangeTeam(other.transform.GetComponent<Ball>().idTeam);
-        
+
+        StartCoroutine(Reinit());
+    }
+
+    IEnumerator Reinit()
+    {
+        yield return new WaitForSeconds(PinataManager.instance.reinitDelay);
+
+        ChangeTeam(0);
     }
 
     void ChangeTeam(int id)
     {
         teamId = id;
-
-        PinataManager.instance.CheckEffect();
         
         ChangeColor(id == 1 ? Color.red : id == 2 ? Color.blue : Color.white);
+
+        if (id != 0)
+        {
+            PinataManager.instance.CheckEffect();
+        }
+
     }
 
     void ChangeColor(Color c)

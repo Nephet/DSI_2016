@@ -18,27 +18,27 @@ public class MatchManager : MonoBehaviour {
 	public bool respawning;
 	public int direction = 1;
 
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject player1;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject player2;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject spawnBall1;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject spawnBall2;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject respawnGoal1;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject respawnGoal2;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject spawnPlayer11;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject spawnPlayer21;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject spawnPlayer12;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject spawnPlayer22;
-	[HideInInspector]
+	//[HideInInspector]
 	public GameObject center;
 
 	float width = 3f;
