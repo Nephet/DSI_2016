@@ -75,9 +75,16 @@ public class PinataManager : MonoBehaviour {
 
     }
 
-    public void CheckEffect()
+    public void CheckEffect(int id)
     {
-        currentTeam = CheckPinatas();
+        if (id > 0)
+        {
+            currentTeam = id;
+        }
+        else
+        {
+            currentTeam = CheckPinatas();
+        }
 
         if (currentTeam == 0) return;
         

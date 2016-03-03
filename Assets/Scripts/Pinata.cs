@@ -41,7 +41,7 @@ public class Pinata : MonoBehaviour {
 
         if (id != 0)
         {
-            PinataManager.instance.CheckEffect();
+            PinataManager.instance.CheckEffect(0);
         }
 
     }

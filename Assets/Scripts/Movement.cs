@@ -11,7 +11,8 @@ public class Movement : MonoBehaviour {
     float _speedInBall;
 	float _rotationSpeed;
 
-	Vector3 _velocity;
+    [HideInInspector]
+	public Vector3 _velocity;
 	Quaternion _rotation; 
 	Vector3 _directionAlt;
 	Vector3 _lastDirectionAlt;

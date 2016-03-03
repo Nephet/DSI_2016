@@ -18,8 +18,15 @@ public class MatchManager : MonoBehaviour {
 	public bool respawning;
 	public int direction = 1;
 
-	//[HideInInspector]
-	public GameObject player1;
+    public float publicFeverTeam1 = 0f;
+    public float publicFeverTeam2 = 0f;
+    public float feverMax = 100f;
+    public float feverIncreaseDelay = 0.1f;
+    float lastTeam1Increase = 0f;
+    float lastTeam2Increase = 0f;
+
+    //[HideInInspector]
+    public GameObject player1;
 	//[HideInInspector]
 	public GameObject player2;
 	//[HideInInspector]
@@ -168,5 +175,31 @@ public class MatchManager : MonoBehaviour {
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		_player.SetActive (true);
 	}
+
+    public void IncreaseFever(int id)
+    {
+        if(id == 1 && Time.time - lastTeam1Increase > feverIncreaseDelay)
+        {
+            publicFeverTeam1++;
+            lastTeam1Increase = Time.time;
+
+            if (publicFeverTeam1 >= feverMax)
+            {
+                publicFeverTeam1 = 0;
+                PinataManager.instance.CheckEffect(id);
+            }
+        }
+        else if(id == 2 && Time.time - lastTeam2Increase > feverIncreaseDelay)
+        {
+            publicFeverTeam2++;
+            lastTeam2Increase = Time.time;
+
+            if (publicFeverTeam2 >= feverMax)
+            {
+                publicFeverTeam2 = 0;
+                PinataManager.instance.CheckEffect(id);
+            }
+        }
+    }
 
 }

@@ -43,8 +43,9 @@ public class PlayerActions : MonoBehaviour {
     bool _dash;
 	bool _suicide;
     bool _bonus;
+    bool _dance;
 
-	float _smashButtonCount;
+    float _smashButtonCount;
 	public float _maxTimerSmashButton = 0.5f;
 	float _currentTimerSmashButton;
 
@@ -118,6 +119,8 @@ public class PlayerActions : MonoBehaviour {
 
         _bonus = Input.GetButtonDown("X_Button_" + id);
 
+        _dance = Input.GetButton("A_Button_" + id);
+
         if (_oldTriggerHeld != snap && snap && currentBall != null && state == State.HUMAN) {
 			Throw (_throwPower);
 
@@ -162,6 +165,10 @@ public class PlayerActions : MonoBehaviour {
         else if (_bonus)
         {
             PinataManager.instance.ApplyBonus(this);
+        }
+        else if(_dance && state == State.HUMAN && GetComponent<Movement>()._velocity == Vector3.zero)
+        {
+            Dance();
         }
 
 		_oldTriggerHeld = snap;
@@ -331,5 +338,9 @@ public class PlayerActions : MonoBehaviour {
 
 	}
 
+    void Dance()
+    {
+        MatchManager.Instance.IncreaseFever(teamId);
+    }
 
 }
