@@ -168,7 +168,7 @@ public class PlayerActions : MonoBehaviour {
 
         currentBall.GetComponent<Ball>().StopPowerDrop();
 
-        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
+        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier * Time.deltaTime * 350, ForceMode.Impulse);
         
         if (currentBall.GetComponent<PlayerActions>())
         {
@@ -193,6 +193,7 @@ public class PlayerActions : MonoBehaviour {
 
     public void SetToBall(bool b)
     {
+
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -213,6 +214,8 @@ public class PlayerActions : MonoBehaviour {
         {
             BallsManager.instance.AddBall(gameObject);
 
+            _ballScript.idTeam = teamId;
+
             Throw(0);
         }
         else
@@ -230,7 +233,11 @@ public class PlayerActions : MonoBehaviour {
 
 		dashing = true;
 
-        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
+
+        Debug.Log(Time.deltaTime);
+
+
+        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower * Time.deltaTime *350, ForceMode.Impulse);
 
         _lastDash = Time.time;
 

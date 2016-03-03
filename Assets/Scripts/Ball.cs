@@ -16,7 +16,7 @@ public class Ball : MonoBehaviour {
 
     void Start()
     {
-        currentPowerLevel = 3;
+        currentPowerLevel = 0;
 
         _speedMaxByPowerLevel = BallsManager.instance.speedMaxByPowerLevel;
     }
