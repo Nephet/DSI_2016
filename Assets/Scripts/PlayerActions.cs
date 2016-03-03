@@ -79,7 +79,7 @@ public class PlayerActions : MonoBehaviour {
 
         nbPlayers++;
 
-        id = nbPlayers;
+        //id = nbPlayers;
 
         _ballScript = GetComponent<Ball>();
         _ballScript.enabled = false;
@@ -181,6 +181,9 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
 
+		if (currentBall.GetComponent<Ball> ().currentPowerLevel <= 0) {
+			currentBall.GetComponent<Ball> ().currentPowerLevel = 1;
+		}
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
         maxSpeed = false;
@@ -193,7 +196,7 @@ public class PlayerActions : MonoBehaviour {
 
         willIgnoreSnap = false;
 
-        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier * Time.deltaTime * 350, ForceMode.Impulse);
+        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
         
         if (currentBall.GetComponent<PlayerActions>())
         {
@@ -225,7 +228,9 @@ public class PlayerActions : MonoBehaviour {
 
     public void SetToBall(bool b)
     {
-
+		if (!_mesh)
+			return;
+		
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -275,7 +280,7 @@ public class PlayerActions : MonoBehaviour {
         Debug.Log(Time.deltaTime);
 
 
-        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower * Time.deltaTime *350, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
 
         _lastDash = Time.time;
 

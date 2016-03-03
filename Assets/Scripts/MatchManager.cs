@@ -48,6 +48,8 @@ public class MatchManager : MonoBehaviour {
 	//[HideInInspector]
 	public GameObject center;
 
+	public GameObject prefabPlayer;
+
 	float width = 3f;
 	float height = 3f;
 	float respawnSpeed = 3f;
@@ -105,13 +107,42 @@ public class MatchManager : MonoBehaviour {
 		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
 		BallsManager.instance.balls.Add (secondBall);
 
-		player1.transform.position = spawnPlayer11.transform.position;
-		player1.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
-		player1.GetComponent<PlayerActions> ().teamId = 1;
+		for (int i = 1; i < 5; i++) 
+		{
+			GameObject _player = Instantiate (prefabPlayer) as GameObject;
+			GameObject _mask = Instantiate (SelectionManager.instance.currentMask [i]) as GameObject;
+			_mask.transform.localScale *= 0.3f;
+			_mask.transform.parent = _player.transform;
+			_mask.transform.localPosition = Vector3.zero;
 
-		player2.transform.position = spawnPlayer21.transform.position;
-		player2.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
-		player2.GetComponent<PlayerActions> ().teamId = 2;
+
+			_player.GetComponent<PlayerActions> ().id = i;
+			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
+			PlayerManager.instance.AddPlayer(_player);
+
+		}
+
+		int nbSpawn1 = 0;
+		int nbSpawn2 = 0;
+
+		for (int i = 0; i < 4; i++) {
+			if (PlayerManager.instance.listPlayers [i].GetComponent<PlayerActions> ().teamId == 1) {
+				if (nbSpawn1 == 0) {
+					PlayerManager.instance.listPlayers [i].transform.position = spawnPlayer11.transform.position;
+				} else {
+					PlayerManager.instance.listPlayers [i].transform.position = spawnPlayer12.transform.position;
+				}
+				nbSpawn1++;
+			}else{
+				if (nbSpawn2 == 0) {
+					PlayerManager.instance.listPlayers [i].transform.position = spawnPlayer21.transform.position;
+				} else {
+					PlayerManager.instance.listPlayers [i].transform.position = spawnPlayer22.transform.position;
+				}
+				nbSpawn2++;
+			}
+			PlayerManager.instance.listPlayers [i].GetComponent<Movement>().mesh.transform.LookAt (new Vector3(center.transform.position.x, PlayerManager.instance.listPlayers [i].transform.position.y, center.transform.position.z));
+		}
 
 	}
 

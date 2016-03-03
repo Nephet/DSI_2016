@@ -50,10 +50,10 @@ public class PlayerManager : MonoBehaviour {
 
 	void Start()
 	{
-		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Player");
+		/*GameObject[] temp = GameObject.FindGameObjectsWithTag ("Player");
 		foreach (GameObject go in temp)
 		{
 			AddPlayer (go); 
-		}
+		}*/
 	}
 }
