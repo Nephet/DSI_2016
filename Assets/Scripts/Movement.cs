@@ -7,10 +7,10 @@ public class Movement : MonoBehaviour {
 	Rigidbody _rigidB;
 
 
-	public float speed = 5f;
-    public float speedInBall = .5f;
+	float _speed;
+    float _speedInBall;
+	float _rotationSpeed;
 
-	public float rotationSpeed = 5;
 	Vector3 _velocity;
 	Quaternion _rotation; 
 	Vector3 _directionAlt;
@@ -27,6 +27,10 @@ public class Movement : MonoBehaviour {
 		_rigidB = GetComponent<Rigidbody> ();
 
         id = GetComponent<PlayerActions>().id;
+
+		_speed = PlayerManager.instance.speed;
+		_speedInBall = PlayerManager.instance.speedInBall;
+		_rotationSpeed = PlayerManager.instance.rotationSpeed;
 	}
 	
 	// Update is called once per frame
@@ -45,7 +49,7 @@ public class Movement : MonoBehaviour {
 		Vector3 _movHorizontal = transform.right * _horizontal;
 		Vector3 _movVertical = transform.forward * _vertical;
 
-        float modifier = GetComponent<PlayerActions>().state == PlayerActions.State.HUMAN ? speed : speedInBall;
+        float modifier = GetComponent<PlayerActions>().state == PlayerActions.State.HUMAN ? _speed : _speedInBall;
 
 		_velocity = (_movHorizontal + _movVertical).normalized * modifier;
 

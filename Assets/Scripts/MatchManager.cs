@@ -17,22 +17,28 @@ public class MatchManager : MonoBehaviour {
     float _timerStart;
 	public bool respawning;
 
+	[HideInInspector]
 	public GameObject player1;
+	[HideInInspector]
 	public GameObject player2;
-
+	[HideInInspector]
 	public GameObject spawnBall1;
+	[HideInInspector]
 	public GameObject spawnBall2;
+	[HideInInspector]
 	public GameObject respawnGoal1;
+	[HideInInspector]
 	public GameObject respawnGoal2;
+	[HideInInspector]
 	public GameObject spawnPlayer1;
+	[HideInInspector]
 	public GameObject spawnPlayer2;
+	[HideInInspector]
 	public GameObject center;
 
-	public GameObject testPlayer;
-
-	public float width = 3f;
-	public float height = 3f;
-	public float respawnSpeed = 3f;
+	float width = 3f;
+	float height = 3f;
+	float respawnSpeed = 3f;
 
     public static MatchManager Instance
     {
@@ -64,12 +70,6 @@ public class MatchManager : MonoBehaviour {
         {
 			
         }
-
-		if (Input.GetKeyDown (KeyCode.Space)) 
-		{
-			//Respawn (1);
-			RespawnPlayer(testPlayer);
-		}
     }
 
     public void AddPoint(int id, int score)

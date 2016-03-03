@@ -34,6 +34,8 @@ public class PlayerManager : MonoBehaviour {
 
 	public float rotationSpeed = 5;
 
+	public float suicideRange = 2;
+
 	public List<GameObject> listPlayers;
 
 	public void AddPlayer(GameObject _player)
@@ -44,5 +46,14 @@ public class PlayerManager : MonoBehaviour {
 	public void RemovePlayer(GameObject _player)
 	{
 		listPlayers.Remove(_player);
+	}
+
+	void Start()
+	{
+		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Player");
+		foreach (GameObject go in temp)
+		{
+			AddPlayer (go); 
+		}
 	}
 }
