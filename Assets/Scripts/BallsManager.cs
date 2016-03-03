@@ -26,7 +26,14 @@ public class BallsManager : MonoBehaviour {
 	public List<GameObject> balls;
 	public float friction = 0.8f;
 
-	void Start()
+    public int[] speedMaxByPowerLevel;
+
+    public float powerLevelDropDelay = 2f;
+
+    public float speedDropDelay = .5f;
+    public int speedDropAmount = 5;
+
+    void Start()
 	{
 		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Ball");
 		foreach (GameObject go in temp)
@@ -45,4 +52,6 @@ public class BallsManager : MonoBehaviour {
     {
         balls.Remove(ball);
     }
+
+    
 }

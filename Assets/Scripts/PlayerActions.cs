@@ -107,6 +107,12 @@ public class PlayerActions : MonoBehaviour {
                 currentBall.transform.parent = _mesh.transform;
                 currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
+                currentBall.GetComponent<Ball>().currentPowerLevel++;
+
+                currentBall.GetComponent<Ball>().StopSpeedDrop();
+
+                currentBall.GetComponent<Ball>().StartPowerDrop();
+
                 if (currentBall.GetComponent<PlayerActions>())
                 {
                     currentBall.GetComponent<PlayerActions>().state = State.TAKENBALL;
@@ -132,10 +138,15 @@ public class PlayerActions : MonoBehaviour {
 
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
-        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * currentBall.GetComponent<Ball>().SpeedModifier, ForceMode.Impulse);
-        
-        currentBall.GetComponent<Ball>().SpeedModifier += passSpeedModifier;
 
+        float speedModifier = BallsManager.instance.speedMaxByPowerLevel[currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
+
+        currentBall.GetComponent<Ball>().StartSpeedDrop();
+
+        currentBall.GetComponent<Ball>().StopPowerDrop();
+
+        currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
+        
         if (currentBall.GetComponent<PlayerActions>())
         {
             currentBall.GetComponent<PlayerActions>().state = power == 0 ? State.FREEBALL : State.THROWBALL;

@@ -2,15 +2,29 @@
 using System.Collections;
 
 public class Ball : MonoBehaviour {
-
-    public float SpeedModifier = 1f;
+    
 	public bool respawning = false;
 	IEnumerator currentCoroutine;
+
+    int[] _speedMaxByPowerLevel;
     
+    public int currentPowerLevel;
+
+    public int currentSpeed;
+
+    void Start()
+    {
+        currentPowerLevel = 3;
+
+        _speedMaxByPowerLevel = BallsManager.instance.speedMaxByPowerLevel;
+    }
+
     void OnCollisionEnter(Collision other)
     {
         if (!enabled) return;
-        SpeedModifier = 1f;
+
+
+
 		if (respawning) {
 			respawning = false;
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
@@ -37,13 +51,81 @@ public class Ball : MonoBehaviour {
 
     }
 
-	/*public void LaunchCoroutine()
+    public void StartPowerDrop()
+    {
+        StartCoroutine(PowerDrop());
+    }
+
+    public void StopPowerDrop()
+    {
+        StopCoroutine(PowerDrop());
+    }
+
+    IEnumerator PowerDrop()
+    {
+        while (currentPowerLevel > 1)
+        {
+            yield return new WaitForSeconds(BallsManager.instance.powerLevelDropDelay);
+
+            currentPowerLevel--;
+        }
+
+        yield return null;
+    }
+
+    public void StartSpeedDrop()
+    {
+        StartCoroutine(SpeedDrop());
+    }
+    
+    public void StopSpeedDrop()
+    {
+        StopCoroutine(SpeedDrop());
+    }
+
+    IEnumerator SpeedDrop()
+    {
+        currentSpeed = BallsManager.instance.speedMaxByPowerLevel[currentPowerLevel-1];
+        
+        while (currentPowerLevel > 0)
+        {
+            yield return new WaitForSeconds(BallsManager.instance.speedDropDelay);
+
+            currentSpeed -= BallsManager.instance.speedDropAmount;
+
+            UpdatePowerLevel();
+        }
+
+        yield return null;
+    }
+
+    public void UpdatePowerLevel()
+    {
+        int[] tab = BallsManager.instance.speedMaxByPowerLevel;
+
+        for (int i = 0; i < tab.Length - 1; i++)
+        {
+            if (currentSpeed <= tab[i] && currentSpeed > 0)
+            {
+                currentPowerLevel = i+1;
+                break;
+            }
+            else if (currentSpeed <= 0)
+            {
+                currentSpeed = 0;
+                currentPowerLevel = 0;
+                break;
+            }
+        }
+    }
+
+    /*public void LaunchCoroutine()
 	{
 		currentCoroutine = MoveRespawn (this.gameObject, MatchManager.Instance.width, MatchManager.Instance.height, MatchManager.Instance.respawnSpeed, MatchManager.Instance.respawnGoal1.transform.right);
 		StartCoroutine (currentCoroutine);
 	}*/
 
-	/*IEnumerator MoveRespawn(GameObject _go, float _width, float _height, float _respawnSpeed, Vector3 _dir)
+    /*IEnumerator MoveRespawn(GameObject _go, float _width, float _height, float _respawnSpeed, Vector3 _dir)
 	{
 
 		if (_go.GetComponent<Ball>().respawning)
