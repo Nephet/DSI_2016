@@ -18,6 +18,7 @@ public class Movement : MonoBehaviour {
     
 	public GameObject mesh;
     public GameObject ballMesh;
+	public GameObject arrowDirection;
 
     int id;
 
@@ -63,6 +64,12 @@ public class Movement : MonoBehaviour {
 		if (_directionAlt.x != 0.0f || _directionAlt.z != 0.0f) {
 			_lastDirectionAlt = _directionAlt;
 		}
+		if (GetComponent<PlayerActions> ().currentBall != null) {
+			Feedback ();
+		} 
+		else {
+			arrowDirection.SetActive (false);
+		}
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
 		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
@@ -86,6 +93,18 @@ public class Movement : MonoBehaviour {
 	void PerformRotation()
 	{
 		mesh.transform.localRotation = _rotation;
+	}
+
+	void Feedback()
+	{
+		arrowDirection.SetActive (true);
+		Vector3 _targetPoint = transform.position + _lastDirectionAlt;
+
+		Vector3 _midPoint = transform.position + (_targetPoint - transform.position) / 2.0f;
+		_midPoint = new Vector3 (_midPoint.x, 0.1f, _midPoint.z);
+		arrowDirection.transform.position = _midPoint;
+
+		arrowDirection.transform.LookAt (new Vector3(_targetPoint.x, 0.1f, _targetPoint.z));
 	}
 }
 

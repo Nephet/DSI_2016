@@ -16,6 +16,7 @@ public class MatchManager : MonoBehaviour {
     public float timer;
     float _timerStart;
 	public bool respawning;
+	public int direction = 1;
 
 	[HideInInspector]
 	public GameObject player1;
@@ -30,9 +31,13 @@ public class MatchManager : MonoBehaviour {
 	[HideInInspector]
 	public GameObject respawnGoal2;
 	[HideInInspector]
-	public GameObject spawnPlayer1;
+	public GameObject spawnPlayer11;
 	[HideInInspector]
-	public GameObject spawnPlayer2;
+	public GameObject spawnPlayer21;
+	[HideInInspector]
+	public GameObject spawnPlayer12;
+	[HideInInspector]
+	public GameObject spawnPlayer22;
 	[HideInInspector]
 	public GameObject center;
 
@@ -93,11 +98,11 @@ public class MatchManager : MonoBehaviour {
 		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
 		BallsManager.instance.balls.Add (secondBall);
 
-		player1.transform.position = spawnPlayer1.transform.position;
+		player1.transform.position = spawnPlayer11.transform.position;
 		player1.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		player1.GetComponent<PlayerActions> ().teamId = 1;
 
-		player2.transform.position = spawnPlayer2.transform.position;
+		player2.transform.position = spawnPlayer21.transform.position;
 		player2.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		player2.GetComponent<PlayerActions> ().teamId = 2;
 
@@ -113,11 +118,25 @@ public class MatchManager : MonoBehaviour {
 		
 		_player.SetActive (false);
 		if (_player.GetComponent<PlayerActions> ().teamId == 1) {
-			_player.transform.position = spawnPlayer1.transform.position;
+			if (direction > 0) {
+				_player.transform.position = spawnPlayer11.transform.position;
+			} 
+			else 
+			{
+				_player.transform.position = spawnPlayer12.transform.position;
+			}
+
 		} 
 		else 
 		{
-			_player.transform.position = spawnPlayer2.transform.position;
+			if (direction > 0) {
+				_player.transform.position = spawnPlayer21.transform.position;
+			} 
+			else 
+			{
+				_player.transform.position = spawnPlayer22.transform.position;
+			}
+
 		}
 		_player.GetComponent<PlayerActions> ().SetToBall (false);
 		StartCoroutine (CountDownRespawnPlayer (_player));

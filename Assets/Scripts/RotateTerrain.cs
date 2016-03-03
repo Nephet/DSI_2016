@@ -5,15 +5,16 @@ public class RotateTerrain : MonoBehaviour {
 
 	public float speed;
 
-    public int direction = 1;
+    int _direction = 1;
 
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate(new Vector3(0f,speed * Time.deltaTime * direction, 0f));
+		_direction = MatchManager.Instance.direction;
+		transform.Rotate(new Vector3(0f,speed * Time.deltaTime * _direction, 0f));
 	}
 }
