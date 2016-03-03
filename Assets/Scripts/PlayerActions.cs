@@ -252,10 +252,14 @@ public class PlayerActions : MonoBehaviour {
 
     void StartDash()
     {
-        if (Time.time - _lastDash < _dashCooldown && !doubleDash) return;
+        if (doubleDash)
+        {
+            doubleDash = false;
+            _lastDash = 0f;
+        }
 
-        doubleDash = false;
-
+        if (Time.time - _lastDash < _dashCooldown) return;
+        
         Debug.Log("Start Dash !");
 
 		dashing = true;
