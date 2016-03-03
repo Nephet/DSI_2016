@@ -12,6 +12,8 @@ public class Ball : MonoBehaviour {
 
     public int currentSpeed;
 
+    public int idTeam;
+
     void Start()
     {
         currentPowerLevel = 3;
@@ -22,10 +24,8 @@ public class Ball : MonoBehaviour {
     void OnCollisionEnter(Collision other)
     {
         if (!enabled) return;
-
-
-
-		if (respawning) {
+        
+        if (respawning) {
 			respawning = false;
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			GetComponent<Rigidbody> ().freezeRotation = true;

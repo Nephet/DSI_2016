@@ -111,6 +111,8 @@ public class PlayerActions : MonoBehaviour {
 				currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
                 currentBall.GetComponent<Ball>().currentPowerLevel++;
+                
+                currentBall.GetComponent<Ball>().idTeam = id;
 
                 currentBall.GetComponent<Ball>().StopSpeedDrop();
 
@@ -151,7 +153,7 @@ public class PlayerActions : MonoBehaviour {
 
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
         currentBall.transform.parent = null;
-
+        
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
         currentBall.GetComponent<Ball>().StartSpeedDrop();
