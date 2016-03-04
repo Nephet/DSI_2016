@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class ButtonManager : MonoBehaviour {
@@ -88,6 +89,7 @@ public class ButtonManager : MonoBehaviour {
                     case 0:
                         
                        //Play
+					SceneManager.LoadSceneAsync("TeamSelection");
                         break;
                     case 1:
                         
