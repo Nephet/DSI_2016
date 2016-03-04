@@ -30,8 +30,6 @@ public class Ball : MonoBehaviour {
         PlayerActions pA = GetComponent<PlayerActions>();
 
         if (!pA || pA.state != PlayerActions.State.THROWBALL || GetComponent<Rigidbody>().velocity.magnitude == 0) return;
-        
-        Debug.Log(GetComponent<Rigidbody>().velocity.magnitude);
 
 		if (GetComponent<Rigidbody> ().velocity.magnitude <= BallsManager.instance.throwMinVelocity) {
 

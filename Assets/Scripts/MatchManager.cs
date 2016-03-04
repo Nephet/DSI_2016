@@ -58,6 +58,10 @@ public class MatchManager : MonoBehaviour {
 
 	public GameObject panelPause;
 
+	public GameObject timerUI;
+	public GameObject scoreTeam1UI;
+	public GameObject scoreTeam2UI;
+
 	float width = 3f;
 	float height = 3f;
 	float respawnSpeed = 3f;
@@ -92,11 +96,24 @@ public class MatchManager : MonoBehaviour {
 		
         timer = timerDuration - (Time.time - _timerStart);
 
+		UpdateUI ();
+
         if(timer < 0)
         {
 			EndGame ();
         }
     }
+
+	void UpdateUI()
+	{
+		int _tempMin = (int)timer / 60;
+		int _tempSec = ((int)timer % 60);
+
+
+		timerUI.GetComponent<Text>().text = _tempMin+":"+_tempSec;
+		scoreTeam1UI.GetComponent<Text>().text = teamOneScore+"";
+		scoreTeam2UI.GetComponent<Text> ().text = teamTwoScore+"";
+	}
 
 	void EndGame()
 	{
@@ -112,8 +129,6 @@ public class MatchManager : MonoBehaviour {
 
     public void AddPoint(int id, int score)
     {
-        Debug.Log(id + " " + score);
-
         if(id == 1)
         {
             teamOneScore += score;

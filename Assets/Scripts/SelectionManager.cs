@@ -171,7 +171,7 @@ public class SelectionManager : MonoBehaviour {
 			currentMask [i] = listMaskedPlayers [CheckMask (currentMask [i])];
         }
 		this.enabled = false;
-		SceneManager.LoadSceneAsync (1);
+		SceneManager.LoadSceneAsync (2);
 
 	}
 

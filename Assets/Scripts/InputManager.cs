@@ -15,7 +15,8 @@ public class InputManager : MonoBehaviour {
 		{
 			if(Input.GetButtonDown("A_Button_1"))
 			{
-				SceneManager.LoadSceneAsync ("TeamSelection");
+				Destroy (FindObjectOfType<SelectionManager> ().gameObject);
+				SceneManager.LoadSceneAsync ("Splash");
 			}
 
 		}

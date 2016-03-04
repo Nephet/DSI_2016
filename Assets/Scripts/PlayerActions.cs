@@ -112,6 +112,7 @@ public class PlayerActions : MonoBehaviour {
 		if (MatchManager.Instance.pause)
 			return;
 
+		transform.rotation = Quaternion.Euler (Vector3.zero);
         snap = Input.GetAxis ("Fire_"+id) < 0.0f;
 
         _transfo = Input.GetButtonDown("B_Button_" + id);
@@ -138,7 +139,7 @@ public class PlayerActions : MonoBehaviour {
 
                 currentBall.GetComponent<Ball>().currentPowerLevel++;
                 
-                currentBall.GetComponent<Ball>().idTeam = id;
+				currentBall.GetComponent<Ball>().idTeam = teamId;
 
                 currentBall.GetComponent<Ball>().StopSpeedDrop();
 
@@ -183,7 +184,7 @@ public class PlayerActions : MonoBehaviour {
         if (!currentBall) return;
 
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
-		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY;;
+		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		//currentBall.GetComponent<SphereCollider> ().enabled = true;
         currentBall.transform.parent = null;
 
