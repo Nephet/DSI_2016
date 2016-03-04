@@ -24,7 +24,7 @@ public class ButtonManager : MonoBehaviour {
 
     //main menu elements
     public Image Arrow;
-    public Image circleMenu;
+	public GameObject circleMenu;
     private float circleMenuAngle;
 
     public Button currButt;
@@ -51,14 +51,15 @@ public class ButtonManager : MonoBehaviour {
         //TODO: verifier que l'angle et le currbutt sont synchro
     }
 
+
+
 	void Update ()
     {
-        Debug.Log(Mathf.Rad2Deg * 1);
         //define currbutt and find next buttons left and right
         if (!isMenuRotating)
         {
-            circleMenuAngle = Mathf.Rad2Deg*circleMenu.transform.rotation.z;
-            Debug.Log(circleMenuAngle);
+			circleMenuAngle = circleMenu.transform.rotation.z*(180/Mathf.PI);
+			Debug.Log(circleMenuAngle*2);
             if (circleMenuAngle > 300 || circleMenuAngle <= 30)
             {
                 currButt = bPlay;

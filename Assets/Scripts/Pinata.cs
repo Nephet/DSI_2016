@@ -15,13 +15,17 @@ public class Pinata : MonoBehaviour {
 	
 	}
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         PlayerActions pA = other.transform.GetComponent<PlayerActions>();
 
         if (!pA || pA.state == PlayerActions.State.HUMAN) return;
 
-        ChangeTeam(other.transform.GetComponent<Ball>().idTeam);
+		if(pA && pA.state == PlayerActions.State.THROWBALL){
+			ChangeTeam(other.transform.GetComponent<Ball>().idTeam);
+
+		}
+        
 
         StartCoroutine(Reinit());
     }
