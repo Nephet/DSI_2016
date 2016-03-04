@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MatchManager : MonoBehaviour {
 
@@ -50,6 +51,10 @@ public class MatchManager : MonoBehaviour {
 
 	public GameObject prefabPlayer;
 
+	public GameObject panelVictory;
+
+	public GameObject panelPause;
+
 	float width = 3f;
 	float height = 3f;
 	float respawnSpeed = 3f;
@@ -85,6 +90,16 @@ public class MatchManager : MonoBehaviour {
 			
         }
     }
+
+	void EndGame()
+	{
+		panelVictory.SetActive (true);
+	}
+
+	void CheckTeamVictory()
+	{
+		//panelVictory.GetComponentsInChildren<Text>().
+	}
 
     public void AddPoint(int id, int score)
     {
