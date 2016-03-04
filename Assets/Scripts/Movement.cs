@@ -37,7 +37,9 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		if (MatchManager.Instance.pause)
+			return;
+		
         _velocity = Vector3.zero;
         
         if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL) return;
@@ -78,6 +80,8 @@ public class Movement : MonoBehaviour {
     
 	void FixedUpdate()
 	{
+		if (MatchManager.Instance.pause)
+			return;
 		PerformMovement ();
 		PerformRotation ();
 
@@ -85,6 +89,9 @@ public class Movement : MonoBehaviour {
 
 	void PerformMovement()
 	{
+		if (MatchManager.Instance.pause)
+			return;
+		
 		if (_velocity != Vector3.zero) 
 		{
 			_rigidB.MovePosition (_rigidB.position + _velocity * Time.fixedDeltaTime);

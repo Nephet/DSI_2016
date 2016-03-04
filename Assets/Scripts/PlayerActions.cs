@@ -109,6 +109,9 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
+		if (MatchManager.Instance.pause)
+			return;
+
         snap = Input.GetAxis ("Fire_"+id) < 0.0f;
 
         _transfo = Input.GetButtonDown("B_Button_" + id);
