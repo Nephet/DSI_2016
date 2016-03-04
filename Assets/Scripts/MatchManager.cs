@@ -90,6 +90,19 @@ public class MatchManager : MonoBehaviour {
 
     void Update()
     {
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			pause = !pause;
+		}
+
+		if (pause) {
+			Time.timeScale = 0f;
+			panelVictory.SetActive (true);
+
+		} else {
+			panelVictory.SetActive (false);
+			Time.timeScale = 1f;
+		}
+
 
 		if (pause)
 			return;

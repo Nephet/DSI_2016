@@ -15,6 +15,8 @@ public class InputManager : MonoBehaviour {
 		{
 			if(Input.GetButtonDown("A_Button_1"))
 			{
+				MatchManager.Instance.pause = false;
+				Time.timeScale = 1.0f;
 				Destroy (FindObjectOfType<SelectionManager> ().gameObject);
 				SceneManager.LoadSceneAsync ("Splash");
 			}
