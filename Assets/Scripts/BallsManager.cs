@@ -33,6 +33,8 @@ public class BallsManager : MonoBehaviour {
     public float speedDropDelay = .5f;
     public int speedDropAmount = 5;
 
+    public float throwMinVelocity = .5f;
+
     void Start()
 	{
 		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Ball");

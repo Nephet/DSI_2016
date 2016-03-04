@@ -25,6 +25,22 @@ public class Ball : MonoBehaviour {
         _speedMaxByPowerLevel = BallsManager.instance.speedMaxByPowerLevel;
     }
 
+    void Update()
+    {
+        PlayerActions pA = GetComponent<PlayerActions>();
+
+        if (!pA || pA.state != PlayerActions.State.THROWBALL || GetComponent<Rigidbody>().velocity.magnitude == 0) return;
+        
+        Debug.Log(GetComponent<Rigidbody>().velocity.magnitude);
+
+        if (GetComponent<Rigidbody>().velocity.magnitude <= BallsManager.instance.throwMinVelocity)
+        {
+
+            pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;
+        }
+
+    }
+
     void OnCollisionEnter(Collision other)
     {
         if (!enabled) return;
