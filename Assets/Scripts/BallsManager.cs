@@ -40,7 +40,10 @@ public class BallsManager : MonoBehaviour {
 		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Ball");
 		foreach (GameObject go in temp)
 		{
-			balls.Add (go); 
+            if (!balls.Contains(go))
+            {
+                balls.Add(go);
+            }
 		}
 
 	}
