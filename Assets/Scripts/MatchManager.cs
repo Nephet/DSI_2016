@@ -128,8 +128,9 @@ public class MatchManager : MonoBehaviour {
 			GameObject _mask = Instantiate (SelectionManager.instance.currentMask [i]) as GameObject;
 			_mask.transform.localScale *= 0.3f;
 			_mask.transform.parent = _player.transform;
-			_mask.transform.localPosition = Vector3.zero;
+			_mask.transform.localPosition = Vector3.zero - (Vector3.up * 0.71f);
 
+            _player.GetComponent<Movement>().mesh = _mask;
 
 			_player.GetComponent<PlayerActions> ().id = i;
 			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
