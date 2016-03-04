@@ -1,51 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 
 public class ButtonManager : MonoBehaviour {
 
-    //buttons
-    public Button bPlay;
-    public Button bSettings;
-    public Button bSandbox;
-    public Button bCredits;
-    public Button bQuit;
 
-    private const float PLAY_BUTTON_ANGLE = 0;
-    private const float SETTINGS_BUTTON_ANGLE = 43;
-    private const float SANDBOX_BUTTON_ANGLE = 90;
-    private const float QUIT_BUTTON_ANGLE = 135;
-    private const float CREDITS_BUTTON_ANGLE = 230;
-   
+	public Image circleMenu;
 
-    //private float[] buttonAngles = { 0, 43, 90, 135, 230 };
+	public int index = 0;
 
+	public List<float> buttonAngles = new List<float>();
+	public List<Button> buttonList = new List<Button>();
 
-    //main menu elements
-    public Image Arrow;
-    public Image circleMenu;
-    private float circleMenuAngle;
+	//inputs
+	public float joyX;
+	public float joyY;
 
-    public Button currButt;
-    public float leftButt;
-    public float rightButt;
-    public bool isTurningLeft = false;
-    public bool isTurningRight = false;
-    public bool isMenuRotating = false;
+	public bool isTurning;
 
     //menu backgrounds
-    public Image credits;
+	public Image credits;
+	public Image quitConf;
 
     public bool isOnMainMenu = true;
-    public bool isCreditsDisplayed = false;
-    public bool isInSettings = false;
-    public bool isInPlayMenu = false;
+	public bool isTrans = false;
       
-    //inputs
-    public float joyX;
-    public float joyY;
-
 	void Start()
     {
         //TODO: verifier que l'angle et le currbutt sont synchro
@@ -53,147 +34,113 @@ public class ButtonManager : MonoBehaviour {
 
 	void Update ()
     {
-        Debug.Log(Mathf.Rad2Deg * 1);
-        //define currbutt and find next buttons left and right
-        if (!isMenuRotating)
-        {
-            circleMenuAngle = Mathf.Rad2Deg*circleMenu.transform.rotation.z;
-            Debug.Log(circleMenuAngle);
-            if (circleMenuAngle > 300 || circleMenuAngle <= 30)
-            {
-                currButt = bPlay;
-                Debug.Log("currButt = bPlay");
-                leftButt = CREDITS_BUTTON_ANGLE;
-                rightButt = SANDBOX_BUTTON_ANGLE;
-            }
-            else if (circleMenuAngle > 30 && circleMenuAngle <= 60)
-            {
-                currButt = bSandbox;
-                Debug.Log("currButt = bSandbox");
-                leftButt = PLAY_BUTTON_ANGLE;
-                rightButt = SETTINGS_BUTTON_ANGLE;
-            }
-            else if (circleMenuAngle > 60 && circleMenuAngle <= 100)
-            {
-                currButt = bSettings;
-                Debug.Log("currButt = bSettings");
-                leftButt = SANDBOX_BUTTON_ANGLE;
-                rightButt = QUIT_BUTTON_ANGLE;
-            }
-            else if (circleMenuAngle > 100 && circleMenuAngle <= 200)
-            {
-                currButt = bQuit;
-                Debug.Log("currButt = bQuit");
-                leftButt = SETTINGS_BUTTON_ANGLE;
-                rightButt = CREDITS_BUTTON_ANGLE;
-            }
-            else
-            {
-                currButt = bCredits;
-                Debug.Log("currButt = bCredits");
-                leftButt = QUIT_BUTTON_ANGLE;
-                rightButt = PLAY_BUTTON_ANGLE;
-            }
-        }
-
-        // OLD SELECTION SYSTEM 
+        
+		joyX = Input.GetAxis("L_XAxis_0");
+		joyY = Input.GetAxis("L_YAxis_0");
 
         if (isOnMainMenu)
         {
-            //je choppe l'angle du joysticku
-            joyX = Input.GetAxis("L_XAxis_0");
-            joyY = Input.GetAxis("L_YAxis_0");
 
-            /*
-            Arrow.transform.eulerAngles = new Vector3(Arrow.transform.eulerAngles.x, Arrow.transform.eulerAngles.y, Mathf.Atan2(joyX, joyY) * Mathf.Rad2Deg);
+			index = (int)modulo((index), buttonAngles.Count);
 
-            if (0 == joyX && 0 == joyY)
-                Arrow.enabled = false;
-            else
-                Arrow.enabled = true;
+			if (Input.GetKeyDown(KeyCode.A)){
+				circleMenu.transform.eulerAngles = new Vector3(0, 0, -200);
+			}
 
-            if (0 < joyX)
-            {
-                if (0 < joyY)
-                {
+			if (!isTurning){
+				if (joyX < 0){
+					float tempRot = circleMenu.transform.eulerAngles.z;
+					if (index == 0){
+						tempRot = circleMenu.transform.eulerAngles.z + 360;
+						Debug.Log("yo");
+					}
+					Debug.Log(circleMenu.transform.eulerAngles.z);
+					StartCoroutine(Turn(tempRot, (float)buttonAngles[(int)modulo((index-1), buttonAngles.Count)]));
+					index--;
+					isTurning = true;
+				}
+				if (joyX > 0){
 
-                    //Debug.Log("TR");
-                    bSettings.GetComponent<Image>().color = Color.red;
-                    currButt = bSettings;
-
-                    bPlay.GetComponent<Image>().color = Color.white;
-                    bCredits.GetComponent<Image>().color = Color.white;
-
-                }
-                if (0 > joyY)
-                {
-
-                    //Debug.Log("BR");
-                    bCredits.GetComponent<Image>().color = Color.red;
-                    currButt = bCredits;
-                    bPlay.GetComponent<Image>().color = Color.white;
-                    bSettings.GetComponent<Image>().color = Color.white;
-
-                }
-            }
-            if (0 > joyX)
-            {
-                if (0 < joyY)
-                {
-
-                    //Debug.Log("TL");
-                    bPlay.GetComponent<Image>().color = Color.red;
-                    currButt = bPlay;
-
-                    bSettings.GetComponent<Image>().color = Color.white;
-                    bCredits.GetComponent<Image>().color = Color.white;
-
-                }
-                if (0 > joyY)
-                {
-
-                    //Debug.Log("BL");
-
-                }
-            }
-            */
+					float tempRot = circleMenu.transform.eulerAngles.z;
+					if (index == buttonAngles.Count-1){
+						tempRot = circleMenu.transform.eulerAngles.z - 360;
+						Debug.Log("yo-");
+					}
+					Debug.Log(circleMenu.transform.eulerAngles.z);
+					StartCoroutine(Turn(tempRot, (float)buttonAngles[(int)modulo((index+1), buttonAngles.Count)]));
+					index++;
+					isTurning = true;
+				}
+			}
+            
         }
         
 
         //A Button Action in Menus
         if (Input.GetButtonDown("A_Button_1"))
         {
-            //Debug.Log(currButt);
 
 
             //A button action on Main Menu
-            if (isOnMainMenu)
-            {
-                switch (currButt.tag)
+			if (isOnMainMenu && ! isTurning && !isTrans){
+                switch (index)
                 {
-                    case "Play":
+                    case 0:
                         
-                        Play();
+                       //Play
                         break;
-                    case "Settings":
+                    case 1:
                         
-                        Settings();
+                        //Sandbox
                         break;
-                    case "Credits":
+                    case 2:
                         
-                        ToggleCredits();
-                        //Credits();
-
+                       //Settings
+                       break;
+                    case 3:
+                       //Quit
+						ToggleQuit();
                         break;
-                    case "Quit":
-                       
-                        break;
+					case 4:
+						//Credits
+						ToggleCredits();
+						break;
                     default:
                         break;
 
                 }
+				isOnMainMenu = false;
+				isTrans = true;
             }
 
+			if (!isOnMainMenu  && !isTrans){
+				switch (index)
+				{
+				case 0:
+
+					//Play
+					break;
+				case 1:
+
+					//Sandbox
+					break;
+				case 2:
+
+					//Settings
+					break;
+				case 3:
+					//Quit
+					Application.Quit();
+					break;
+				case 4:
+					//Credits
+					break;
+				default:
+					break;
+
+				}
+
+			}
 
             //A button action on Credits Menu
 
@@ -211,155 +158,173 @@ public class ButtonManager : MonoBehaviour {
         //B Button Action in Menus
         if (Input.GetButtonDown("B_Button_1"))
         {
+			if (!isOnMainMenu && !isTrans){
+				switch (index){
+					case 0:
 
-            //B button action on Credits Menu
-            if (isCreditsDisplayed)
-            {
+						//Play
+						break;
+					case 1:
 
-            }
+						//Sandbox
+						break;
+					case 2:
+
+						//Settings
+						
+						break;
+					case 3:
+						//Quit
+						ToggleQuit();
+						break;
+					case 4:
+						//Credits
+						ToggleCredits();
+						break;
+					default:
+						break;
+							
+				}
+				isOnMainMenu = true;
+				isTrans = true;
+			}           
         }
 
-        //Circular Menu Rotation
-
-        //Left Input
-        if (joyX < 0 && !isMenuRotating)
-        {
-
-            Debug.Log("Turing Right!!!!!!!!!!!");
-            StartCoroutine(CircleRotation());
-            isMenuRotating = true;
-            isTurningRight = true;
-        }
-
-        //Right Input
-        else if (joyX > 0 && !isMenuRotating)
-        {
-            /*
-            isMenuRotating = true;
-            isTurningLeft = true;
-            */
-        }
+       
     }
 
 
 
-    public void Play()
-    {
-        Debug.Log("Playing");
-    }
+	public IEnumerator Turn(float start, float end){
 
-    public void Settings()
-    {
-        Debug.Log("Settings");
-    }
+		float temp = 0;
+		while (!((int) modulo(circleMenu.transform.eulerAngles.z, 360) <= (int) modulo(end, 360) +1 
+			&& (int) modulo(circleMenu.transform.eulerAngles.z, 360) >= (int) modulo(end, 360) -1 )){
 
-    /*
-    public void Credits()
-    {
-        Debug.Log("Crediting");
 
-        //centrer l'image des credits
-                
-    }
-    */
+			temp += Time.deltaTime * 250 / (modulo(Mathf.Abs(end-start), 360));
+			circleMenu.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(start, end, temp));
+			yield return null;
+		}
+		circleMenu.transform.eulerAngles = new Vector3(0, 0, end);
+		isTurning = false;
+	}
 
-    public IEnumerator CircleRotation()
-    {
-        /*
-        float startRotation = circleMenuAngle;
-        while(circleMenuAngle != startRotation - 90)
-        {
-            //circleMenu.transform.Rotate(new Vector3(0, 0, -5) * 200 * Time.deltaTime);
-            circleMenu.transform.eulerAngles = new Vector3(0,0,Mathf.Lerp(startRotation, startRotation - 90, 3 * Time.deltaTime));
-            yield return new WaitForSeconds(0.0000001f);
-        }
-
-        isMenuRotating = false;
-        */
-        if (currButt.CompareTag("Sandbox"))
-        {
-            
-            while (circleMenuAngle > leftButt && circleMenuAngle < SANDBOX_BUTTON_ANGLE)
-            {
-                circleMenu.transform.Rotate(new Vector3(0, 0, -5) * 200 * Time.deltaTime);
-                yield return new WaitForSeconds(0.0000001f);
-            }
-        }
-        else if (currButt.CompareTag("Play"))
-        {
-            while (circleMenuAngle > leftButt || circleMenuAngle == 0)
-            {
-                Debug.Log("going to Credits");
-                Debug.Log(leftButt);
-                circleMenu.transform.Rotate(new Vector3(0, 0, -5) * 200 * Time.deltaTime);
-                yield return new WaitForSeconds(0.0000001f);
-            }
-        }
-        else
-        {
-            while (circleMenuAngle > leftButt)
-            {
-                Debug.Log("going to Quit");
-                circleMenu.transform.Rotate(new Vector3(0, 0, -5) * 200 * Time.deltaTime);
-                yield return new WaitForSeconds(0.0000001f);
-            }
-        }
-
-        Debug.Log("Destination reached "+ currButt);
-        isMenuRotating = false;
-        isTurningLeft = false;
-    }
 
         
     public IEnumerator SlideInCredits()
     {
-        
-        while (credits.transform.position.x > 1)
-        {
-            credits.transform.Translate(Vector3.left * 200 * Time.deltaTime);
-            yield return new WaitForSeconds(0.0000001f);
+		float temp = 0;
+		while (credits.transform.localPosition.x > 1)
+		{
+			temp += Time.deltaTime *1;
+			credits.transform.localPosition = new Vector3(Mathf.Lerp(600, 0, temp), 0, 0);
+			yield return null;
         }
+		isTrans = false;
     }
 
-    public IEnumerator SlideOutCredits()
+	public IEnumerator SlideOutCredits()
     {
-
-        while (credits.transform.position.x > 1)
-        {
-            credits.transform.Translate(Vector3.left * 200 * Time.deltaTime);
-            yield return new WaitForSeconds(0.0000001f);
-        }
+		float temp = 0;
+		while (credits.transform.localPosition.x <555)
+		{
+			temp += Time.deltaTime *1;
+			credits.transform.localPosition = new Vector3(Mathf.Lerp(0, 600, temp), 0, 0);
+			yield return null;
+		}
+		isTrans = false;
     }
+
+	public IEnumerator SlideInQuit()
+	{
+		float temp = 0;
+		while (quitConf.transform.localScale.x < 0.95)
+		{
+			temp += Time.deltaTime * 10;
+			quitConf.transform.localScale = new Vector3(Mathf.Lerp(0, 1, temp), Mathf.Lerp(0, 1, temp), 1);
+			yield return null;
+		}
+		isTrans = false;
+	}
+
+	public IEnumerator SlideOutQuit()
+	{
+		Debug.Log("cya?");
+		float temp = 0;
+		while (quitConf.transform.localScale.x > 0.05)
+		{
+			temp += Time.deltaTime * 10;
+			quitConf.transform.localScale = new Vector3(Mathf.Lerp(1, 0, temp), Mathf.Lerp(1, 0, temp), 1);
+			yield return null;
+		}
+		isTrans = false;
+	}
 
     public void ToggleMainMenu()
     {
         isOnMainMenu = !isOnMainMenu;
 
-        if (isOnMainMenu)
+        /*if (isOnMainMenu)
         {
             bPlay.GetComponent<Image>().enabled = true;
         }
         else
         {
-            Arrow.enabled = false;
             bPlay.GetComponent<Image>().enabled = false;
 
-        }
+        }*/
 
     }
 
-    public void ToggleCredits()
-    {
+    public void ToggleCredits(){
 
         ToggleMainMenu();
         //use right coroutine depending on credit screen location
-        if (credits.transform.position.x > 1)
-        {
+        if (!isOnMainMenu){
             StartCoroutine(SlideInCredits());
         }
-        else
-        {
+        else{
             StartCoroutine(SlideOutCredits());
         }
+
     }
+
+	public void ToggleQuit(){
+
+		ToggleMainMenu();
+		//use right coroutine depending on credit screen location
+		if (!isOnMainMenu){
+			StartCoroutine(SlideInQuit());
+		}
+		else{
+			StartCoroutine(SlideOutQuit());
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+	public float modulo(float dividend, float divisor){
+
+		return (((dividend) % divisor) + divisor) % divisor;
+	}
+	public float modulo(float dividend, int divisor){
+
+		return (((dividend) % divisor) + divisor) % divisor;
+	}
+	public float modulo(int dividend, float divisor){
+
+		return (((dividend) % divisor) + divisor) % divisor;
+	}
+	public float modulo(int dividend, int divisor){
+
+		return (((dividend) % divisor) + divisor) % divisor;
+	}
 }
