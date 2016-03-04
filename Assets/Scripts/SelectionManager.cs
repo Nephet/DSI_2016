@@ -26,7 +26,10 @@ public class SelectionManager : MonoBehaviour {
 	#endregion
 
 	public List<GameObject> listMaskPlayers;
-	public GameObject[] tabPlayers;
+
+    public List<GameObject> listMaskedPlayers;
+
+    public GameObject[] tabPlayers;
 	public GameObject[] currentMask;
 	public int[] currentTeam;
 
@@ -165,8 +168,8 @@ public class SelectionManager : MonoBehaviour {
 		for (int i = 1; i < 5; i++) 
 		{
 			currentTeam [i] = tabPlayers [i].transform.position.x == -4.5f ? 1 : 2; 
-			currentMask [i] = listMaskPlayers [CheckMask (currentMask [i])];
-		}
+			currentMask [i] = listMaskedPlayers [CheckMask (currentMask [i])];
+        }
 		this.enabled = false;
 		SceneManager.LoadSceneAsync (1);
 
