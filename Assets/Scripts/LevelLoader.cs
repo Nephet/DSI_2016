@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
 
@@ -20,9 +21,9 @@ public class LevelLoader : MonoBehaviour {
             s_Instance = this;
         DontDestroyOnLoad(this);
 
-        if (Application.loadedLevel != 0 && !b)
+        if (SceneManager.GetActiveScene().buildIndex != 0 && !b)
         {
-            Application.LoadLevel(0);
+            SceneManager.LoadSceneAsync(0);
             b = true;
         }
 	}
