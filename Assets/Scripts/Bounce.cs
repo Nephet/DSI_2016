@@ -13,11 +13,6 @@ public class Bounce : MonoBehaviour {
 		rigidBody = GetComponent<Rigidbody> ();
 		_friction = BallsManager.instance.friction;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
 	void FixedUpdate()
 	{
@@ -28,13 +23,13 @@ public class Bounce : MonoBehaviour {
 	{
 		if (!enabled) return;
 
-		if (!GetComponent<Ball> ().respawning) 
-		{
+		if (!GetComponent<Ball> ().respawning) {
 			if (other.contacts.Length == 0)
 				return;
 			rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
 			rigidBody.velocity *= _friction;
-		}
+			rigidBody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+		} 
 
 	}
 }

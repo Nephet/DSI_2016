@@ -33,11 +33,10 @@ public class Ball : MonoBehaviour {
         
         Debug.Log(GetComponent<Rigidbody>().velocity.magnitude);
 
-        if (GetComponent<Rigidbody>().velocity.magnitude <= BallsManager.instance.throwMinVelocity)
-        {
+		if (GetComponent<Rigidbody> ().velocity.magnitude <= BallsManager.instance.throwMinVelocity) {
 
-            pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;
-        }
+			pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;
+		} 
 
     }
 
@@ -48,9 +47,9 @@ public class Ball : MonoBehaviour {
         if (respawning) {
 			respawning = false;
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
-			GetComponent<Rigidbody> ().freezeRotation = true;
+			//GetComponent<Rigidbody> ().freezeRotation = true;
 		} else if(!gameObject.GetComponent<PlayerActions>()) {
-			GetComponent<Rigidbody> ().freezeRotation = false;
+			//GetComponent<Rigidbody> ().freezeRotation = false;
 		}
 
 		if (gameObject.GetComponent<PlayerActions>() && gameObject.GetComponent<PlayerActions>().dashing) 
@@ -61,12 +60,6 @@ public class Ball : MonoBehaviour {
 				other.gameObject.GetComponent<PlayerActions> ().Stun ();
 			}
 		}
-
-		/*if (currentCoroutine != null) 
-		{
-			StopCoroutine (currentCoroutine);
-			currentCoroutine = null;
-		}*/
 
 
     }
@@ -138,30 +131,4 @@ public class Ball : MonoBehaviour {
             }
         }
     }
-
-    /*public void LaunchCoroutine()
-	{
-		currentCoroutine = MoveRespawn (this.gameObject, MatchManager.Instance.width, MatchManager.Instance.height, MatchManager.Instance.respawnSpeed, MatchManager.Instance.respawnGoal1.transform.right);
-		StartCoroutine (currentCoroutine);
-	}*/
-
-    /*IEnumerator MoveRespawn(GameObject _go, float _width, float _height, float _respawnSpeed, Vector3 _dir)
-	{
-
-		if (_go.GetComponent<Ball>().respawning)
-			yield break;
-
-		_go.GetComponent<Ball>().respawning = true;
-		Vector3 startPos = _go.transform.localPosition;
-		float timer = 0.0f;
-		_dir.Normalize ();
-
-		while (_go.GetComponent<Ball>().respawning) 
-		{
-			float currentHeight = ((4f / _width) * _height * (1+ timer)) - ((4f / (_width * _width)) * _height * ((1+ timer)*(1+ timer)));
-			_go.transform.localPosition = new Vector3 ((startPos.x + timer) * _go.transform.right.x, currentHeight, _go.transform.localPosition.z * _go.transform.right.z);
-			timer += Time.deltaTime * (_respawnSpeed * _width / 7f);
-			yield return null;
-		}
-	}*/
 }

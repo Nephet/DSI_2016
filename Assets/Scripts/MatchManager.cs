@@ -196,6 +196,7 @@ public class MatchManager : MonoBehaviour {
 
 		BallsManager.instance.AddBall(myGo);
 		myGo.GetComponent<Ball> ().respawning = true;
+		myGo.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
 		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
 	}

@@ -129,6 +129,7 @@ public class PlayerActions : MonoBehaviour {
 			if (_nearestBall != null) {
 				currentBall = _nearestBall;
 				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
+				//currentBall.GetComponent<SphereCollider> ().enabled = false;
 				currentBall.transform.parent = _mesh.transform;
 				currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
@@ -179,6 +180,8 @@ public class PlayerActions : MonoBehaviour {
         if (!currentBall) return;
 
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
+		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY;;
+		//currentBall.GetComponent<SphereCollider> ().enabled = true;
         currentBall.transform.parent = null;
 
 		if (currentBall.GetComponent<Ball> ().currentPowerLevel <= 0) {
