@@ -129,6 +129,7 @@ public class PlayerActions : MonoBehaviour {
 			if (_nearestBall != null) {
 				currentBall = _nearestBall;
 				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
+				//currentBall.GetComponent<SphereCollider> ().enabled = false;
 				currentBall.transform.parent = _mesh.transform;
 				currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
@@ -147,7 +148,7 @@ public class PlayerActions : MonoBehaviour {
 			}
 		} else if (_transfo && (state == State.HUMAN || state == State.FREEBALL)) {
 			SetToBall (state == State.HUMAN);
-		} else if (_oldTriggerHeld != snap && snap && (state == PlayerActions.State.FREEBALL || state == PlayerActions.State.PRISONNERBALL || state == PlayerActions.State.THROWBALL)) {
+		} else if (_oldTriggerHeld != snap && snap && (state == PlayerActions.State.THROWBALL)) {
 			StartDash ();
 		} else if (_suicide && state == PlayerActions.State.TAKENBALL) 
 		{
@@ -179,6 +180,8 @@ public class PlayerActions : MonoBehaviour {
         if (!currentBall) return;
 
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
+		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY;;
+		//currentBall.GetComponent<SphereCollider> ().enabled = true;
         currentBall.transform.parent = null;
 
 		if (currentBall.GetComponent<Ball> ().currentPowerLevel <= 0) {
@@ -195,6 +198,8 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Ball>().ignoreSnap = willIgnoreSnap;
 
         willIgnoreSnap = false;
+
+        currentBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
         
