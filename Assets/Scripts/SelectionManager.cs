@@ -56,7 +56,6 @@ public class SelectionManager : MonoBehaviour {
 			currentMask[id].transform.parent = player.transform;
 			currentMask[id].transform.localPosition = Vector3.zero;
 		}
-
 	}
 
 	void Update()
@@ -71,11 +70,11 @@ public class SelectionManager : MonoBehaviour {
 
 			if (_oldTriggerHeldTeam [i] != _switchTeamLeft && _switchTeamLeft)
 			{
-				tabPlayers [i].transform.position = new Vector3 (Mathf.Clamp (tabPlayers [i].transform.position.x - 6f, -6f, 6f), tabPlayers [i].transform.position.y, tabPlayers [i].transform.position.z);
+				tabPlayers [i].transform.position = new Vector3 (Mathf.Clamp (tabPlayers [i].transform.position.x - 9f, -4.5f, 4.5f), tabPlayers [i].transform.position.y, tabPlayers [i].transform.position.z);
 			} 
 			else if (_oldTriggerHeldTeam [i] != _switchTeamRight && _switchTeamRight) 
 			{
-				tabPlayers [i].transform.position = new Vector3 (Mathf.Clamp (tabPlayers [i].transform.position.x + 6f, -6f, 6f), tabPlayers [i].transform.position.y, tabPlayers [i].transform.position.z);
+				tabPlayers [i].transform.position = new Vector3 (Mathf.Clamp (tabPlayers [i].transform.position.x + 9f, -4.5f, 4.5f), tabPlayers [i].transform.position.y, tabPlayers [i].transform.position.z);
 			}
 
 			if (_oldTriggerHeldMask [i] != _switchMaskLeft && _switchMaskLeft)
@@ -137,19 +136,27 @@ public class SelectionManager : MonoBehaviour {
 		int nbTeam1 = 0;
 		int nbTeam2 = 0;
 
-		for (int i = 1; i < 5; i++) 
+        List<GameObject> team1 = new List<GameObject>();
+        List<GameObject> team2 = new List<GameObject>();
+
+        for (int i = 1; i < 5; i++) 
 		{
-			if (tabPlayers [i].transform.position.x == -6f) 
+			if (tabPlayers [i].transform.position.x == -4.5f) 
 			{
 				nbTeam1++;
+                team1.Add(tabPlayers[i]);
 			}
-			else if(tabPlayers [i].transform.position.x == 6f)
+			else if(tabPlayers [i].transform.position.x == 4.5f)
 			{
 				nbTeam2++;
-			}
+                team2.Add(tabPlayers[i]);
+            }
 		}
 
-		return nbTeam1 == nbTeam2 && nbTeam1 ==1;
+        bool doubleMask1 = nbTeam1 == 2 && team1[0].transform.GetChild(0).name == team1[1].transform.GetChild(0).name;
+        bool doubleMask2 = nbTeam2 == 2 && team2[0].transform.GetChild(0).name == team2[1].transform.GetChild(0).name;
+
+        return nbTeam1 == nbTeam2 && nbTeam1 ==2 && !doubleMask1 && !doubleMask2;
 
 	}
 
@@ -157,7 +164,7 @@ public class SelectionManager : MonoBehaviour {
 	{
 		for (int i = 1; i < 5; i++) 
 		{
-			currentTeam [i] = tabPlayers [i].transform.position.x == -6f ? 1 : 2; 
+			currentTeam [i] = tabPlayers [i].transform.position.x == -4.5f ? 1 : 2; 
 			currentMask [i] = listMaskPlayers [CheckMask (currentMask [i])];
 		}
 		this.enabled = false;
