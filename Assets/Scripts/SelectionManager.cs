@@ -122,7 +122,6 @@ public class SelectionManager : MonoBehaviour {
 	{
 		for (int i = 0; i < 4; i++) 
 		{
-			Debug.Log (listMaskPlayers [i].name + " " + _mask.name);
 			if (listMaskPlayers [i].name == _mask.name) 
 			{
 				return i;

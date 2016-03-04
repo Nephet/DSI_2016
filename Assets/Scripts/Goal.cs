@@ -21,13 +21,13 @@ public class Goal : MonoBehaviour {
     {
         PlayerActions pA = other.GetComponent<PlayerActions>();
         
-        if(pA && pA.state != PlayerActions.State.HUMAN)
+        if(pA && pA.state == PlayerActions.State.THROWBALL)
         {
            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
 			MatchManager.Instance.RespawnPlayer (other.gameObject);
 			other.GetComponent<Rigidbody> ().velocity = Vector3.zero;
         }
-        else if (other.tag == "Ball")
+        else if (other.tag == "Ball" && !pA && !other.GetComponent<Rigidbody>().isKinematic)
         {
             Debug.Log("buuuuut");
 			BallsManager.instance.RemoveBall (other.gameObject);
