@@ -87,18 +87,19 @@ public class MatchManager : MonoBehaviour {
 
         if(timer < 0)
         {
-			
+			EndGame ();
         }
     }
 
 	void EndGame()
 	{
 		panelVictory.SetActive (true);
+		CheckTeamVictory ();
 	}
 
 	void CheckTeamVictory()
 	{
-		//panelVictory.GetComponentsInChildren<Text>().
+		panelVictory.GetComponentInChildren<Text>().text = teamOneScore +" / "+ teamTwoScore;
 	}
 
     public void AddPoint(int id, int score)
@@ -117,6 +118,9 @@ public class MatchManager : MonoBehaviour {
 
 	void Spawn()
 	{
+		panelVictory.SetActive (false);
+		panelPause.SetActive (false);
+
 		GameObject firstBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall1.transform.position, Quaternion.identity) as GameObject;
 		BallsManager.instance.balls.Add (firstBall);
 		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
