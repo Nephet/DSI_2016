@@ -109,6 +109,10 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
+		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
+			return;
+
+		transform.rotation = Quaternion.Euler (Vector3.zero);
         snap = Input.GetAxis ("Fire_"+id) < 0.0f;
 
         _transfo = Input.GetButtonDown("B_Button_" + id);
@@ -135,7 +139,7 @@ public class PlayerActions : MonoBehaviour {
 
                 currentBall.GetComponent<Ball>().currentPowerLevel++;
                 
-                currentBall.GetComponent<Ball>().idTeam = id;
+				currentBall.GetComponent<Ball>().idTeam = teamId;
 
                 currentBall.GetComponent<Ball>().StopSpeedDrop();
 
@@ -180,7 +184,7 @@ public class PlayerActions : MonoBehaviour {
         if (!currentBall) return;
 
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
-		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY;;
+		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		//currentBall.GetComponent<SphereCollider> ().enabled = true;
         currentBall.transform.parent = null;
 
@@ -285,7 +289,9 @@ public class PlayerActions : MonoBehaviour {
         Debug.Log(Time.deltaTime);
 
 
-        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
+        //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Rigidbody>().AddForce(GetComponent<Movement>()._lastDirectionAlt * _dashPower, ForceMode.Impulse);
 
         _lastDash = Time.time;
 

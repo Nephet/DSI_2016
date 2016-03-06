@@ -119,9 +119,4 @@ public class PinataManager : MonoBehaviour {
             BonusTeam2 = null;
         }
     }
-
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

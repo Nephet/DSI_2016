@@ -14,6 +14,8 @@ public class RotateTerrain : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (MatchManager.Instance.pause)
+			return;
 		//_direction = MatchManager.Instance.direction;
 		transform.Rotate(new Vector3(0f,speed * Time.deltaTime * direction, 0f));
 	}

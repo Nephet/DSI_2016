@@ -26,6 +26,10 @@ public class MatchManager : MonoBehaviour {
     float lastTeam1Increase = 0f;
     float lastTeam2Increase = 0f;
 
+	public bool pause = false;
+	public bool endGame = false;
+	bool _pauseButton;
+
     //[HideInInspector]
     public GameObject player1;
 	//[HideInInspector]
@@ -55,6 +59,10 @@ public class MatchManager : MonoBehaviour {
 
 	public GameObject panelPause;
 
+	public GameObject timerUI;
+	public GameObject scoreTeam1UI;
+	public GameObject scoreTeam2UI;
+
 	float width = 3f;
 	float height = 3f;
 	float respawnSpeed = 3f;
@@ -83,28 +91,59 @@ public class MatchManager : MonoBehaviour {
 
     void Update()
     {
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			pause = !pause;
+		}
+
+		if (pause) {
+			Time.timeScale = 0f;
+			panelPause.SetActive (true);
+
+		} else {
+			panelPause.SetActive (false);
+			Time.timeScale = 1f;
+		}
+
+
+		if (pause || endGame)
+			return;
+		
         timer = timerDuration - (Time.time - _timerStart);
+
+		UpdateUI ();
 
         if(timer < 0)
         {
-			
+			EndGame ();
         }
     }
+
+	void UpdateUI()
+	{
+		int _tempMin = (int)timer / 60;
+		int _tempSec = ((int)timer % 60);
+
+
+		timerUI.GetComponent<Text>().text = _tempMin+":"+_tempSec;
+		scoreTeam1UI.GetComponent<Text>().text = teamOneScore+"";
+		scoreTeam2UI.GetComponent<Text> ().text = teamTwoScore+"";
+	}
 
 	void EndGame()
 	{
 		panelVictory.SetActive (true);
+		//pause = true;
+		endGame = true;
+		CheckTeamVictory ();
 	}
 
 	void CheckTeamVictory()
 	{
-		//panelVictory.GetComponentsInChildren<Text>().
+		panelVictory.GetComponentInChildren<Text>().text = teamOneScore +" / "+ teamTwoScore;
 	}
 
     public void AddPoint(int id, int score)
     {
-        Debug.Log(id + " " + score);
-
         if(id == 1)
         {
             teamOneScore += score;
@@ -117,6 +156,9 @@ public class MatchManager : MonoBehaviour {
 
 	void Spawn()
 	{
+		panelVictory.SetActive (false);
+		panelPause.SetActive (false);
+
 		GameObject firstBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall1.transform.position, Quaternion.identity) as GameObject;
 		BallsManager.instance.balls.Add (firstBall);
 		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
