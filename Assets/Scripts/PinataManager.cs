@@ -23,7 +23,9 @@ public class PinataManager : MonoBehaviour {
 
     #endregion
 
-    public List<GameObject> bonusList;
+    public List<GameObject> bonusListWeak;
+    public List<GameObject> bonusListStrong1;
+    public List<GameObject> bonusListStrong2;
 
     public float reinitDelay = 5f;
 
@@ -33,6 +35,19 @@ public class PinataManager : MonoBehaviour {
     public Bonus BonusTeam2;
 
     public int currentTeam;
+
+    public int weakPercentageEgality = 75;
+    public int strong1PercentageEgality = 15;
+    public int strong2PercentageEgality = 10;
+
+    public int weakPercentageIncrease = -14;
+    public int strong1PercentageIncrease = 6;
+    public int strong2PercentageIncrease = 8;
+
+    public int weakPercentageMax = 5;
+    public int strong1PercentageMax = 45;
+    public int strong2PercentageMax = 50;
+
 
     // Use this for initialization
     void Start () {
@@ -88,7 +103,7 @@ public class PinataManager : MonoBehaviour {
 
         if (currentTeam == 0) return;
         
-        GameObject bonus = bonusList[Random.Range(0, bonusList.Count)];
+        GameObject bonus = GetBonus(currentTeam);
 
         bonus = Instantiate(bonus) as GameObject;
 
@@ -102,6 +117,40 @@ public class PinataManager : MonoBehaviour {
         {
             BonusTeam2 = bonus.GetComponent<Bonus>();
         }
+    }
+
+    GameObject GetBonus(int idTeam)
+    {
+        GameObject bonus = null;
+        
+        int score = idTeam == 1 ? MatchManager.Instance.teamOneScore : MatchManager.Instance.teamTwoScore;
+        int scoreEnemy = idTeam == 2 ? MatchManager.Instance.teamOneScore : MatchManager.Instance.teamTwoScore;
+
+        int prcFaible = Mathf.Clamp(weakPercentageEgality + (scoreEnemy - score) * weakPercentageIncrease, weakPercentageMax,weakPercentageEgality);
+        int prcFort1 = Mathf.Clamp(strong1PercentageEgality + (scoreEnemy - score) * strong1PercentageIncrease, strong1PercentageEgality, strong1PercentageMax);
+        int prcFort2 = Mathf.Clamp(strong2PercentageEgality + (scoreEnemy - score) * strong2PercentageIncrease, strong2PercentageEgality, strong2PercentageMax);
+
+        int randomNumber = ((int)(Random.Range(0, 10000) * Time.time))%101;
+
+        Debug.Log(Time.time);
+
+        if(randomNumber < prcFaible)
+        {
+            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + prcFaible+prcFort1 + " |Fort2 : " + prcFaible+ prcFort1+prcFort2 + " |Random : " + randomNumber + " -> faible");
+            bonus = bonusListWeak[Random.Range(0, bonusListWeak.Count)];
+        }
+        else if(randomNumber < prcFaible + prcFort1)
+        {
+            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + prcFaible + prcFort1 + " |Fort2 : " + prcFaible + prcFort1 + prcFort2 + " |Random : " + randomNumber + " -> fort1");
+            bonus = bonusListStrong1[Random.Range(0, bonusListWeak.Count)];
+        }
+        else
+        {
+            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + prcFaible + prcFort1 + " |Fort2 : " + prcFaible + prcFort1 + prcFort2 + " |Random : " + randomNumber + " -> fort2");
+            bonus = bonusListStrong2[Random.Range(0, bonusListWeak.Count)];
+        }
+
+        return bonus;
     }
 
     public void ApplyBonus(PlayerActions pA)

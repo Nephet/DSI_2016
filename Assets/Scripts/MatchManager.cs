@@ -23,10 +23,12 @@ public class MatchManager : MonoBehaviour {
     public float publicFeverTeam2 = 0f;
     public float feverMax = 100f;
     public float feverIncreaseDelay = 0.1f;
+    public float feverDecreaseDelay = 0.1f;
     float lastTeam1Increase = 0f;
     float lastTeam2Increase = 0f;
+    float lastTeamDecrease = 0f;
 
-	public bool pause = false;
+    public bool pause = false;
 	public bool endGame = false;
 	bool _pauseButton;
 
@@ -91,6 +93,8 @@ public class MatchManager : MonoBehaviour {
 
     void Update()
     {
+        DecreaseFever();
+
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			pause = !pause;
 		}
@@ -291,5 +295,17 @@ public class MatchManager : MonoBehaviour {
             }
         }
     }
+
+    public void DecreaseFever()
+    {
+        if (Time.time - lastTeamDecrease > feverDecreaseDelay)
+        {
+            publicFeverTeam1 = Mathf.Clamp(publicFeverTeam1-1,0,100);
+            publicFeverTeam2 = Mathf.Clamp(publicFeverTeam2 - 1, 0, 100);
+
+            lastTeamDecrease = Time.time;
+        }
+    }
+    
 
 }

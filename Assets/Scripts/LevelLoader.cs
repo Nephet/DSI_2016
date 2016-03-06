@@ -17,7 +17,7 @@ public class LevelLoader : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
-        /*if (s_Instance == null)
+        if (s_Instance == null)
             s_Instance = this;
         DontDestroyOnLoad(this);
 
@@ -25,7 +25,7 @@ public class LevelLoader : MonoBehaviour {
         {
             SceneManager.LoadSceneAsync(0);
             b = true;
-        }*/
+        }
 	}
 	
 	// Update is called once per frame
