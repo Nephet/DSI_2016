@@ -118,7 +118,6 @@ public class Movement : MonoBehaviour {
 		arrowDirection.transform.position = _midPoint;
 		arrowDirection.transform.localRotation = Quaternion.Euler (new Vector3 (90f,0f,0f));
 
-		//arrowDirection.transform.LookAt (new Vector3(_targetPoint.x, 0.1f, _targetPoint.z));
 	}
 }
 
