@@ -16,6 +16,9 @@ public class Ball : MonoBehaviour {
 
     public bool ignoreSnap;
 
+	public GameObject parentMeshBall;
+	public GameObject meshBall;
+
     void Start()
     {
         ignoreSnap = false;
@@ -27,6 +30,8 @@ public class Ball : MonoBehaviour {
 
     void Update()
     {
+		
+		RotateMesh ();
         PlayerActions pA = GetComponent<PlayerActions>();
 
         if (!pA || pA.state != PlayerActions.State.THROWBALL || GetComponent<Rigidbody>().velocity.magnitude == 0) return;
@@ -129,4 +134,14 @@ public class Ball : MonoBehaviour {
             }
         }
     }
+
+	void RotateMesh()
+	{
+		
+
+		Debug.Log (GetComponent<Rigidbody> ().velocity);
+		parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
+		meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+
+	}
 }
