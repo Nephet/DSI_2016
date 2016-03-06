@@ -62,6 +62,8 @@ public class PlayerActions : MonoBehaviour {
     public int currentZone;
 
 	List<GameObject> _listPlayers;
+	float _lastMagnitude;
+	Vector3 _dirAlt;
     
 	bool _oldTriggerHeld;
 
@@ -138,7 +140,8 @@ public class PlayerActions : MonoBehaviour {
 				currentBall.transform.parent = _mesh.transform;
 				currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
-                currentBall.GetComponent<Ball>().currentPowerLevel++;
+
+				currentBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(currentBall.GetComponent<Ball>().currentPowerLevel+1, 1, 5);
                 
 				currentBall.GetComponent<Ball>().idTeam = teamId;
 
@@ -191,14 +194,15 @@ public class PlayerActions : MonoBehaviour {
 		if (currentBall.GetComponent<Ball> ().currentPowerLevel <= 0) {
 			currentBall.GetComponent<Ball> ().currentPowerLevel = 1;
 		}
+		Debug.Log (currentBall.GetComponent<Ball>().currentPowerLevel);
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
         maxSpeed = false;
 
+		currentBall.GetComponent<Ball>().StopPowerDrop();
+
         currentBall.GetComponent<Ball>().StartSpeedDrop();
 
-        currentBall.GetComponent<Ball>().StopPowerDrop();
-        
         currentBall.GetComponent<Ball>().ignoreSnap = willIgnoreSnap;
 
         willIgnoreSnap = false;
@@ -288,7 +292,8 @@ public class PlayerActions : MonoBehaviour {
 
         Debug.Log(Time.deltaTime);
 
-
+		_lastMagnitude = GetComponent<Rigidbody> ().velocity.magnitude;
+		_dirAlt = GetComponent<Movement> ()._lastDirectionAlt;
         //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
 		GetComponent<Rigidbody>().AddForce(GetComponent<Movement>()._lastDirectionAlt * _dashPower, ForceMode.Impulse);
@@ -300,8 +305,9 @@ public class PlayerActions : MonoBehaviour {
 
     void StopDash()
     {
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-		state = currentZone == teamId ? State.FREEBALL : State.PRISONNERBALL;
+        //GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Rigidbody>().AddForce(_dirAlt * _lastMagnitude, ForceMode.Impulse);
+		//state = currentZone == teamId ? State.FREEBALL : State.PRISONNERBALL;
 		dashing = false;
     }
 

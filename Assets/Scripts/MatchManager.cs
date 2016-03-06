@@ -267,6 +267,7 @@ public class MatchManager : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (2.0f);
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+		_player.GetComponent<Ball> ().currentPowerLevel = 0;
 		_player.SetActive (true);
 	}
 

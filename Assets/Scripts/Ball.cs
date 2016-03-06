@@ -69,12 +69,14 @@ public class Ball : MonoBehaviour {
 
     public void StartPowerDrop()
     {
-        StartCoroutine(PowerDrop());
+		
+		StartCoroutine(PowerDrop ());
     }
 
     public void StopPowerDrop()
     {
-        StopCoroutine(PowerDrop());
+		StopAllCoroutines ();
+		//StopCoroutine(PowerDrop ());
     }
 
     IEnumerator PowerDrop()
@@ -91,12 +93,13 @@ public class Ball : MonoBehaviour {
 
     public void StartSpeedDrop()
     {
-        StartCoroutine(SpeedDrop());
+		StartCoroutine(SpeedDrop());
     }
     
     public void StopSpeedDrop()
     {
-        StopCoroutine(SpeedDrop());
+		StopAllCoroutines ();
+		//StopCoroutine(SpeedDrop() );
     }
 
     IEnumerator SpeedDrop()
@@ -137,9 +140,6 @@ public class Ball : MonoBehaviour {
 
 	void RotateMesh()
 	{
-		
-
-		Debug.Log (GetComponent<Rigidbody> ().velocity);
 		parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
 		meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 
