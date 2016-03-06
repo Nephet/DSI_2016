@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour {
 	public Vector3 _velocity;
 	Quaternion _rotation; 
 	Vector3 _directionAlt;
-	Vector3 _lastDirectionAlt;
+	public Vector3 _lastDirectionAlt;
     
 	public GameObject mesh;
     public GameObject ballMesh;
@@ -37,27 +37,13 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (MatchManager.Instance.pause)
+		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 		
         _velocity = Vector3.zero;
-        
-        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL) return;
-
-        float _horizontal = Input.GetAxis ("L_XAxis_"+id);
-		float _vertical = Input.GetAxis ("L_YAxis_"+id);
 
 		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
 		float _altVertical = Input.GetAxis("L_YAxis_"+id);
-        
-		Vector3 _movHorizontal = transform.right * _horizontal;
-		Vector3 _movVertical = transform.forward * _vertical;
-
-        float modifier = GetComponent<PlayerActions>().state == PlayerActions.State.HUMAN ? _speed : _speedInBall;
-
-		_velocity = (_movHorizontal + _movVertical).normalized * modifier;
-
-		/*************/
 
 		_directionAlt = new Vector3 (_altHorizontal, 0f, _altVertical);
 		_directionAlt.Normalize ();
@@ -67,6 +53,22 @@ public class Movement : MonoBehaviour {
 		if (_directionAlt.x != 0.0f || _directionAlt.z != 0.0f) {
 			_lastDirectionAlt = _directionAlt;
 		}
+
+        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL) return;
+
+        float _horizontal = Input.GetAxis ("L_XAxis_"+id);
+		float _vertical = Input.GetAxis ("L_YAxis_"+id);
+
+
+        
+		Vector3 _movHorizontal = transform.right * _horizontal;
+		Vector3 _movVertical = transform.forward * _vertical;
+
+        float modifier = GetComponent<PlayerActions>().state == PlayerActions.State.HUMAN ? _speed : _speedInBall;
+
+		_velocity = (_movHorizontal + _movVertical).normalized * modifier;
+
+		/*************/
 		if (GetComponent<PlayerActions> ().currentBall != null) {
 			Feedback ();
 		} 

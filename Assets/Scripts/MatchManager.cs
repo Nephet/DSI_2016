@@ -27,6 +27,7 @@ public class MatchManager : MonoBehaviour {
     float lastTeam2Increase = 0f;
 
 	public bool pause = false;
+	public bool endGame = false;
 	bool _pauseButton;
 
     //[HideInInspector]
@@ -96,15 +97,15 @@ public class MatchManager : MonoBehaviour {
 
 		if (pause) {
 			Time.timeScale = 0f;
-			panelVictory.SetActive (true);
+			panelPause.SetActive (true);
 
 		} else {
-			panelVictory.SetActive (false);
+			panelPause.SetActive (false);
 			Time.timeScale = 1f;
 		}
 
 
-		if (pause)
+		if (pause || endGame)
 			return;
 		
         timer = timerDuration - (Time.time - _timerStart);
@@ -131,7 +132,8 @@ public class MatchManager : MonoBehaviour {
 	void EndGame()
 	{
 		panelVictory.SetActive (true);
-		pause = true;
+		//pause = true;
+		endGame = true;
 		CheckTeamVictory ();
 	}
 

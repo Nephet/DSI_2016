@@ -109,7 +109,7 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
-		if (MatchManager.Instance.pause)
+		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 
 		transform.rotation = Quaternion.Euler (Vector3.zero);
@@ -289,7 +289,9 @@ public class PlayerActions : MonoBehaviour {
         Debug.Log(Time.deltaTime);
 
 
-        GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
+        //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Rigidbody>().AddForce(GetComponent<Movement>()._lastDirectionAlt * _dashPower, ForceMode.Impulse);
 
         _lastDash = Time.time;
 
