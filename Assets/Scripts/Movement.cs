@@ -33,6 +33,8 @@ public class Movement : MonoBehaviour {
 		_speed = PlayerManager.instance.speed;
 		_speedInBall = PlayerManager.instance.speedInBall;
 		_rotationSpeed = PlayerManager.instance.rotationSpeed;
+		mesh.transform.localPosition = new Vector3 (0f, -1.0f, 0f);
+		arrowDirection.transform.parent = mesh.transform;
 	}
 	
 	// Update is called once per frame
@@ -108,13 +110,15 @@ public class Movement : MonoBehaviour {
 	void Feedback()
 	{
 		arrowDirection.SetActive (true);
+		arrowDirection.transform.localPosition = Vector3.zero;
 		Vector3 _targetPoint = transform.position + _lastDirectionAlt;
 
 		Vector3 _midPoint = transform.position + (_targetPoint - transform.position) / 2.0f;
-		_midPoint = new Vector3 (_midPoint.x, 0.1f, _midPoint.z);
+		_midPoint = new Vector3 (_midPoint.x, 2.5f, _midPoint.z);
 		arrowDirection.transform.position = _midPoint;
+		arrowDirection.transform.localRotation = Quaternion.Euler (new Vector3 (90f,0f,0f));
 
-		arrowDirection.transform.LookAt (new Vector3(_targetPoint.x, 0.1f, _targetPoint.z));
+		//arrowDirection.transform.LookAt (new Vector3(_targetPoint.x, 0.1f, _targetPoint.z));
 	}
 }
 
