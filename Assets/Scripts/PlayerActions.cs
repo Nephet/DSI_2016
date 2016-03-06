@@ -48,8 +48,9 @@ public class PlayerActions : MonoBehaviour {
     float _smashButtonCount;
 	public float _maxTimerSmashButton = 0.5f;
 	float _currentTimerSmashButton;
+    public int nbSuicideInput = 10;
 
-	public float rangeSnap = 1.0f;
+    public float rangeSnap = 1.0f;
 	float _nearestdistance = Mathf.Infinity;
 	GameObject _nearestBall;
 
@@ -151,7 +152,6 @@ public class PlayerActions : MonoBehaviour {
                 if (currentBall.GetComponent<PlayerActions> ()) {
 					currentBall.GetComponent<PlayerActions> ().state = State.TAKENBALL;
 				}
-
 			}
 		} else if (_transfo && (state == State.HUMAN || state == State.FREEBALL)) {
 			SetToBall (state == State.HUMAN);
@@ -166,7 +166,7 @@ public class PlayerActions : MonoBehaviour {
 			} 
 			else if(_currentTimerSmashButton <= 0f) 
 			{
-				_smashButtonCount -=0.5f;
+				//_smashButtonCount -=0.5f;
 				SmashButton ();
 			}
 		}
@@ -334,7 +334,7 @@ public class PlayerActions : MonoBehaviour {
 	{
 		_currentTimerSmashButton = _maxTimerSmashButton;
 		_smashButtonCount++;
-		if (_smashButtonCount >= 10 || instantExplosion) 
+		if (_smashButtonCount >= nbSuicideInput || instantExplosion) 
 		{
 			Suicide ();
             instantExplosion = false;
