@@ -32,6 +32,8 @@ public class MatchManager : MonoBehaviour {
 	public bool endGame = false;
 	bool _pauseButton;
 
+	public float slow;
+
     //[HideInInspector]
     public GameObject player1;
 	//[HideInInspector]
@@ -165,8 +167,6 @@ public class MatchManager : MonoBehaviour {
 
 		GameObject firstBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall1.transform.position, Quaternion.identity) as GameObject;
 		BallsManager.instance.balls.Add (firstBall);
-		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
-		BallsManager.instance.balls.Add (secondBall);
 
 		for (int i = 1; i < 5; i++) 
 		{

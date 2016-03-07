@@ -7,6 +7,7 @@ public class CameraView : MonoBehaviour {
 	Vector3 _centerPlayer;
 	Vector3 _centerCam;
 	public GameObject center;
+	public int smooth = 4;
 
 	// Use this for initialization
 	void Start () {
