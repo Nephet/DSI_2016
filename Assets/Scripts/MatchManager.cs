@@ -217,7 +217,8 @@ public class MatchManager : MonoBehaviour {
 
 	public void RespawnPlayer(GameObject _player)
 	{
-		
+
+		_player.transform.parent = null;
 		_player.SetActive (false);
 		if (_player.GetComponent<PlayerActions> ().teamId == 1) {
 			if (direction > 0) {
@@ -275,6 +276,7 @@ public class MatchManager : MonoBehaviour {
 		yield return new WaitForSeconds (2.0f);
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		_player.GetComponent<Ball> ().currentPowerLevel = 0;
+		_player.GetComponent<PlayerActions> ().state = PlayerActions.State.HUMAN;
 		_player.SetActive (true);
 	}
 

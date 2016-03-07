@@ -145,7 +145,6 @@ public class PlayerActions : MonoBehaviour {
 
 		} else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null &&  state == State.HUMAN) {
 			_currentSnapDelay = 0f;
-			Debug.Log (_currentSnapDelay + "snap");
 			DistanceBalls ();
 			if (_nearestBall != null) {
 				currentBall = _nearestBall;
@@ -174,6 +173,8 @@ public class PlayerActions : MonoBehaviour {
 			StartDash ();
 		} else if (_suicide && state == PlayerActions.State.TAKENBALL) 
 		{
+			Debug.Log (_smashButtonCount);
+			Debug.Log (_currentTimerSmashButton);
 			if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f) 
 			{
 				_currentTimerSmashButton -= Time.deltaTime;
@@ -369,7 +370,10 @@ public class PlayerActions : MonoBehaviour {
 	void Suicide()
 	{
 		_smashButtonCount = 0;
+		_currentTimerSmashButton = 0;
 		_listPlayers = PlayerManager.instance.listPlayers;
+		transform.parent.parent.GetComponent<PlayerActions> ().currentBall = null;
+		transform.parent.parent.GetComponent<PlayerActions> ()._nearestBall = null;
 		//transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
 		for (int i = 0; i < _listPlayers.Count; i++) 
 		{
