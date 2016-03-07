@@ -75,6 +75,8 @@ public class PlayerActions : MonoBehaviour {
     public bool maxSpeed = false;
     [HideInInspector]
     public bool instantExplosion = false;
+    [HideInInspector]
+    public bool snakeBall = false;
 
     void Awake()
     {

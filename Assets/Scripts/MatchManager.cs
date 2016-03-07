@@ -208,9 +208,9 @@ public class MatchManager : MonoBehaviour {
 
 	}
 
-	public void Respawn(int _id)
+	public void Respawn(int _id, bool b)
 	{
-		StartCoroutine (CountDownRespawnBall (_id));
+		StartCoroutine (CountDownRespawnBall (_id,b));
 	}
 
 	public void RespawnPlayer(GameObject _player)
@@ -243,7 +243,7 @@ public class MatchManager : MonoBehaviour {
 
 	}
 
-	IEnumerator CountDownRespawnBall(int _id)
+	IEnumerator CountDownRespawnBall(int _id, bool b)
 	{
 		yield return new WaitForSeconds (2.0f);
 		GameObject myGo;
@@ -261,6 +261,11 @@ public class MatchManager : MonoBehaviour {
 		myGo.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
 		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
+
+        if (b)
+        {
+            Destroy(myGo, PinataManager.instance.destroyBallDelay);
+        }
 	}
 
 	IEnumerator CountDownRespawnPlayer(GameObject _player)
