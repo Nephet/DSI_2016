@@ -139,7 +139,7 @@ public class PlayerActions : MonoBehaviour {
         _dance = Input.GetButton("A_Button_" + id);
 
 		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
-
+        
         if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && currentBall != null && state == State.HUMAN)
         {
             Throw(_throwPower);
@@ -153,17 +153,17 @@ public class PlayerActions : MonoBehaviour {
             {
 
                 _nearestBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(_nearestBall.GetComponent<Ball>().currentPowerLevel + 2, 1, 5);
-                
+
                 MatchManager.Instance.slowmo = true;
 
                 Time.timeScale *= MatchManager.Instance.slowMoPower;
                 Time.fixedDeltaTime *= MatchManager.Instance.slowMoPower;
 
                 Snap();
-                
+
                 Throw(_throwPower);
 
-                Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration*MatchManager.Instance.slowMoPower);
+                Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
             }
         }
         else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
@@ -186,6 +186,8 @@ public class PlayerActions : MonoBehaviour {
         }
         else if (_suicide && state == PlayerActions.State.TAKENBALL)
         {
+            Debug.Log(_smashButtonCount);
+            Debug.Log(_currentTimerSmashButton);
             if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f)
             {
                 _currentTimerSmashButton -= Time.deltaTime;
@@ -413,7 +415,10 @@ public class PlayerActions : MonoBehaviour {
 	void Suicide()
 	{
 		_smashButtonCount = 0;
+		_currentTimerSmashButton = 0;
 		_listPlayers = PlayerManager.instance.listPlayers;
+		transform.parent.parent.GetComponent<PlayerActions> ().currentBall = null;
+		transform.parent.parent.GetComponent<PlayerActions> ()._nearestBall = null;
 		//transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
 		for (int i = 0; i < _listPlayers.Count; i++) 
 		{
