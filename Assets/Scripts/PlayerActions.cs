@@ -64,6 +64,10 @@ public class PlayerActions : MonoBehaviour {
 	List<GameObject> _listPlayers;
 	float _lastMagnitude;
 	Vector3 _dirAlt;
+	Vector3 _shootDirection;
+
+	public float snapDelay = 0.5f;
+	float _currentSnapDelay = Mathf.Infinity;
     
 	bool _oldTriggerHeld;
 
@@ -117,8 +121,12 @@ public class PlayerActions : MonoBehaviour {
 		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 
+		_currentSnapDelay += Time.deltaTime;
+		float _altHorizontal = Input.GetAxis("R_XAxis_"+id);
+		float _altVertical = Input.GetAxis("R_YAxis_"+id);
+
 		transform.rotation = Quaternion.Euler (Vector3.zero);
-        snap = Input.GetAxis ("Fire_"+id) < 0.0f;
+		snap = Input.GetButtonDown ("A_Button_"+id);
 
         _transfo = Input.GetButtonDown("B_Button_" + id);
 
@@ -130,10 +138,14 @@ public class PlayerActions : MonoBehaviour {
 
         _dance = Input.GetButton("A_Button_" + id);
 
-        if (_oldTriggerHeld != snap && snap && currentBall != null && state == State.HUMAN) {
+		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
+
+		if ((Mathf.Abs(_altHorizontal)+Mathf.Abs(_altVertical) >0.8f) && currentBall != null && state == State.HUMAN) {
 			Throw (_throwPower);
 
-		} else if (_oldTriggerHeld != snap && snap && state == State.HUMAN) {
+		} else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null &&  state == State.HUMAN) {
+			_currentSnapDelay = 0f;
+			Debug.Log (_currentSnapDelay + "snap");
 			DistanceBalls ();
 			if (_nearestBall != null) {
 				currentBall = _nearestBall;
@@ -158,7 +170,7 @@ public class PlayerActions : MonoBehaviour {
 			}
 		} else if (_transfo && (state == State.HUMAN || state == State.FREEBALL)) {
 			SetToBall (state == State.HUMAN);
-		} else if (_oldTriggerHeld != snap && snap && (state == PlayerActions.State.THROWBALL)) {
+		} else if ((Mathf.Abs(_altHorizontal)+Mathf.Abs(_altVertical) >0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId) {
 			StartDash ();
 		} else if (_suicide && state == PlayerActions.State.TAKENBALL) 
 		{
@@ -185,7 +197,7 @@ public class PlayerActions : MonoBehaviour {
 		_oldTriggerHeld = snap;
     }
 
-    void Throw(float power)
+	void Throw(float power)
     {
         if (!currentBall) return;
 
@@ -212,6 +224,13 @@ public class PlayerActions : MonoBehaviour {
         willIgnoreSnap = false;
 
         currentBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+	
+		GetComponent<Movement> ()._lastDirectionAlt = _shootDirection;
+		GetComponent<Movement> ()._directionAlt = _shootDirection;
+
+		transform.rotation = Quaternion.LookRotation (_shootDirection);
+		_mesh.transform.rotation = Quaternion.LookRotation (_shootDirection);
 
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
         
@@ -255,6 +274,8 @@ public class PlayerActions : MonoBehaviour {
         GetComponent<Rigidbody>().mass = b ? 1 : 70;
         //GetComponent<Rigidbody>().freezeRotation = !b;
         
+		gameObject.layer = b ? 8 : 10;
+
         _ballScript.enabled = b;
         _bounceScript.enabled = b;
 
@@ -297,10 +318,10 @@ public class PlayerActions : MonoBehaviour {
         Debug.Log(Time.deltaTime);
 
 		_lastMagnitude = GetComponent<Rigidbody> ().velocity.magnitude;
-		_dirAlt = GetComponent<Movement> ()._lastDirectionAlt;
+		_dirAlt = _shootDirection;
         //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
 		GetComponent<Rigidbody>().velocity = Vector3.zero;
-		GetComponent<Rigidbody>().AddForce(GetComponent<Movement>()._lastDirectionAlt * _dashPower, ForceMode.Impulse);
+		GetComponent<Rigidbody>().AddForce(_shootDirection * _dashPower, ForceMode.Impulse);
 
         _lastDash = Time.time;
 

@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour {
     [HideInInspector]
 	public Vector3 _velocity;
 	Quaternion _rotation; 
-	Vector3 _directionAlt;
+	public Vector3 _directionAlt;
 	public Vector3 _lastDirectionAlt;
     
 	public GameObject mesh;
@@ -48,8 +48,8 @@ public class Movement : MonoBehaviour {
 		
         _velocity = Vector3.zero;
 
-		float _altHorizontal = Input.GetAxis("R_XAxis_"+id);
-		float _altVertical = Input.GetAxis("R_YAxis_"+id);
+		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
+		float _altVertical = Input.GetAxis("L_YAxis_"+id);
 
 		_directionAlt = new Vector3 (_altHorizontal, 0f, _altVertical);
 		_directionAlt.Normalize ();
@@ -132,7 +132,7 @@ public class Movement : MonoBehaviour {
 
 	void PerformRotation()
 	{
-		mesh.transform.localRotation = _rotation;
+		mesh.transform.localRotation = Quaternion.Lerp(mesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
 	}
 
 	void Feedback()
