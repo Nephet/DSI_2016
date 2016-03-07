@@ -132,7 +132,6 @@ public class PinataManager : MonoBehaviour {
 
         int randomNumber = ((int)(Random.Range(0, 10000) * Time.time))%101;
 
-        Debug.Log(Time.time);
 
         if(randomNumber < prcFaible)
         {

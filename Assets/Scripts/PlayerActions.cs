@@ -135,6 +135,7 @@ public class PlayerActions : MonoBehaviour {
 			DistanceBalls ();
 			if (_nearestBall != null) {
 				currentBall = _nearestBall;
+				BallsManager.instance.RemoveBall (currentBall);
 				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
 				//currentBall.GetComponent<SphereCollider> ().enabled = false;
 				currentBall.transform.parent = _mesh.transform;
@@ -186,6 +187,7 @@ public class PlayerActions : MonoBehaviour {
     {
         if (!currentBall) return;
 
+		BallsManager.instance.AddBall (currentBall);
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
 		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		//currentBall.GetComponent<SphereCollider> ().enabled = true;
@@ -194,7 +196,7 @@ public class PlayerActions : MonoBehaviour {
 		if (currentBall.GetComponent<Ball> ().currentPowerLevel <= 0) {
 			currentBall.GetComponent<Ball> ().currentPowerLevel = 1;
 		}
-		Debug.Log (currentBall.GetComponent<Ball>().currentPowerLevel);
+
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
         maxSpeed = false;

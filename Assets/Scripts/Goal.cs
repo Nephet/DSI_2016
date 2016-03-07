@@ -26,6 +26,7 @@ public class Goal : MonoBehaviour {
            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
 			MatchManager.Instance.RespawnPlayer (other.gameObject);
 			other.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+			ShakeManager.instance.LetsShake (10);
         }
         else if (other.tag == "Ball" && !pA && !other.GetComponent<Rigidbody>().isKinematic)
         {
@@ -35,8 +36,10 @@ public class Goal : MonoBehaviour {
 
             MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, _mM.normalBallPoints);
 			MatchManager.Instance.Respawn (teamId);
+			ShakeManager.instance.LetsShake (10);
 
 
         }
+
     }
 }
