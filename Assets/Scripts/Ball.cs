@@ -66,6 +66,7 @@ public class Ball : MonoBehaviour {
 
 		if (GetComponent<Rigidbody> ().velocity.magnitude <= BallsManager.instance.throwMinVelocity) {
 
+			GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;
 		}
 

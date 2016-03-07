@@ -321,6 +321,7 @@ public class PlayerActions : MonoBehaviour {
 
         tag = b ? "Ball" : "Player";
 
+
         GetComponent<Rigidbody>().mass = b ? 1 : 70;
         //GetComponent<Rigidbody>().freezeRotation = !b;
         
@@ -340,6 +341,11 @@ public class PlayerActions : MonoBehaviour {
             BallsManager.instance.AddBall(gameObject);
 
             _ballScript.idTeam = teamId;
+			if (GetComponent<Movement> ()._velocity != Vector3.zero) {
+
+				state = State.THROWBALL;
+			}
+			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
 
             Throw(0);
         }

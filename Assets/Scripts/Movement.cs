@@ -48,6 +48,11 @@ public class Movement : MonoBehaviour {
 		
         _velocity = Vector3.zero;
 
+		if (!gameObject.GetComponent<Ball> ().enabled) {
+			_rigidB.velocity = Vector3.zero;
+
+		}
+
 		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
 		float _altVertical = Input.GetAxis("L_YAxis_"+id);
 
@@ -111,7 +116,8 @@ public class Movement : MonoBehaviour {
 	{
 		if (MatchManager.Instance.pause)
 			return;
-		
+
+		Debug.Log (_velocity);
 		if (_velocity != Vector3.zero) 
 		{
 			smoothMove = Mathf.Clamp01(smoothMove+(2f * Time.deltaTime));
