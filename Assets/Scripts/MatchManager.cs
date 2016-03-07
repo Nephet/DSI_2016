@@ -143,7 +143,7 @@ public class MatchManager : MonoBehaviour {
 
                 GameObject go = null;
 
-                foreach (GameObject ball in BallsManager.instance.balls)
+				foreach (GameObject ball in GameObject.FindGameObjectsWithTag("Ball"))
                 {
                     if (!ball.GetComponent<PlayerActions>())
                     {

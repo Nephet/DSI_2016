@@ -144,7 +144,7 @@ public class PlayerActions : MonoBehaviour {
         {
             Throw(_throwPower);
         }
-        else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f))
+		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN)
         {
             DistanceBalls();
 
@@ -299,7 +299,7 @@ public class PlayerActions : MonoBehaviour {
 		for (int i = 0; i < BallsManager.instance.balls.Count; i++) 
 		{
 			float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
-			if (distance < _nearestdistance && distance <= rangeSnap) {
+			if (distance < _nearestdistance && distance <= rangeSnap && BallsManager.instance.balls[i] != gameObject) {
                 if (!BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap)
                 {
                     _nearestBall = BallsManager.instance.balls[i].gameObject;
