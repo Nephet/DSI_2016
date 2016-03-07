@@ -48,6 +48,14 @@ public class PinataManager : MonoBehaviour {
     public int strong1PercentageMax = 45;
     public int strong2PercentageMax = 50;
 
+    public int destroyBallDelay = 20;
+
+    public float speedMultiplicator = 1.15f;
+    public float speedUpDelay = 10f;
+
+    public float timeBeforeDestroy = 10f;
+
+    public AnimationCurve snakeBallDirection;
 
     // Use this for initialization
     void Start () {
@@ -117,6 +125,29 @@ public class PinataManager : MonoBehaviour {
         {
             BonusTeam2 = bonus.GetComponent<Bonus>();
         }
+
+        StartCoroutine(PrepareDelete(currentTeam));
+    }
+
+    IEnumerator PrepareDelete(int id)
+    {
+        yield return new WaitForSeconds(timeBeforeDestroy);
+
+        DeleteBonus(id);
+    }
+
+    void DeleteBonus(int id)
+    {
+        if (id == 1 && BonusTeam1)
+        {
+            Destroy(BonusTeam1.gameObject);
+            BonusTeam1 = null;
+        }
+        else if(BonusTeam2)
+        {
+            Destroy(BonusTeam2.gameObject);
+            BonusTeam2 = null;
+        }
     }
 
     GameObject GetBonus(int idTeam)
@@ -136,17 +167,17 @@ public class PinataManager : MonoBehaviour {
 
         if(randomNumber < prcFaible)
         {
-            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + prcFaible+prcFort1 + " |Fort2 : " + prcFaible+ prcFort1+prcFort2 + " |Random : " + randomNumber + " -> faible");
+            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + (prcFaible+prcFort1) + " |Fort2 : " + (prcFaible+ prcFort1+prcFort2) + " |Random : " + randomNumber + " -> faible");
             bonus = bonusListWeak[Random.Range(0, bonusListWeak.Count)];
         }
         else if(randomNumber < prcFaible + prcFort1)
         {
-            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + prcFaible + prcFort1 + " |Fort2 : " + prcFaible + prcFort1 + prcFort2 + " |Random : " + randomNumber + " -> fort1");
+            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + (prcFaible + prcFort1) + " |Fort2 : " + (prcFaible + prcFort1 + prcFort2) + " |Random : " + randomNumber + " -> fort1");
             bonus = bonusListStrong1[Random.Range(0, bonusListWeak.Count)];
         }
         else
         {
-            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + prcFaible + prcFort1 + " |Fort2 : " + prcFaible + prcFort1 + prcFort2 + " |Random : " + randomNumber + " -> fort2");
+            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + (prcFaible + prcFort1) + " |Fort2 : " + (prcFaible + prcFort1 + prcFort2) + " |Random : " + randomNumber + " -> fort2");
             bonus = bonusListStrong2[Random.Range(0, bonusListWeak.Count)];
         }
 
@@ -160,12 +191,16 @@ public class PinataManager : MonoBehaviour {
         if(id == 1 && BonusTeam1)
         {
             BonusTeam1.Execute(pA);
+            Destroy(BonusTeam1.gameObject);
             BonusTeam1 = null;
         }
         else if(id == 2 && BonusTeam2)
         {
             BonusTeam2.Execute(pA);
+            Destroy(BonusTeam2.gameObject);
             BonusTeam2 = null;
         }
     }
+
+
 }

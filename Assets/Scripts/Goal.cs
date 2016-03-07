@@ -34,7 +34,7 @@ public class Goal : MonoBehaviour {
 			Destroy (other.gameObject);
 
             MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, _mM.normalBallPoints);
-			MatchManager.Instance.Respawn (teamId);
+			MatchManager.Instance.Respawn (teamId,false);
 
 
         }
