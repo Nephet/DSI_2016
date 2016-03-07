@@ -48,8 +48,8 @@ public class Movement : MonoBehaviour {
 		
         _velocity = Vector3.zero;
 
-		float _altHorizontal = Input.GetAxis("L_XAxis_"+id);
-		float _altVertical = Input.GetAxis("L_YAxis_"+id);
+		float _altHorizontal = Input.GetAxis("R_XAxis_"+id);
+		float _altVertical = Input.GetAxis("R_YAxis_"+id);
 
 		_directionAlt = new Vector3 (_altHorizontal, 0f, _altVertical);
 		_directionAlt.Normalize ();
