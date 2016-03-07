@@ -19,27 +19,54 @@ public class Ball : MonoBehaviour {
 	public GameObject parentMeshBall;
 	public GameObject meshBall;
 
+    public bool snakeBool = false;
+    int _right = 1;
+
+    Rigidbody _rigidB;
+
+    AnimationCurve _snakeCurve;
+
+    float _timer;
+
     void Start()
     {
+        _timer = 0;
+
         ignoreSnap = false;
 
         currentPowerLevel = 0;
 
         _speedMaxByPowerLevel = BallsManager.instance.speedMaxByPowerLevel;
+
+        _snakeCurve = PinataManager.instance.snakeBallDirection;
+
+        _rigidB = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-		
-		RotateMesh ();
+        _timer += Time.deltaTime;
+        if (_timer > 1.0f) { _timer = 0; }
+
+        RotateMesh ();
         PlayerActions pA = GetComponent<PlayerActions>();
+        
+        /*Debug.Log(transform.GetChild(0).name);
+        Debug.DrawLine(transform.GetChild(0).position, transform.GetChild(0).position + transform.GetChild(0).up,Color.red,1000);*/
+
+        if (snakeBool && GetComponent<Rigidbody>().velocity.magnitude > BallsManager.instance.throwMinVelocity && !respawning)
+        {
+            //_rigidB.AddForce(transform.GetChild(0).up * ( _snakeCurve.Evaluate(_timer)) * 100, ForceMode.Force);
+            transform.Translate(transform.GetChild(0).up * (_snakeCurve.Evaluate(_timer)) * 100);
+            
+        }
 
         if (!pA || pA.state != PlayerActions.State.THROWBALL || GetComponent<Rigidbody>().velocity.magnitude == 0) return;
 
 		if (GetComponent<Rigidbody> ().velocity.magnitude <= BallsManager.instance.throwMinVelocity) {
 
 			pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;
-		} 
+		}
 
     }
 
@@ -65,6 +92,19 @@ public class Ball : MonoBehaviour {
 		}
 
 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!enabled) return;
+        
+        if (gameObject.GetComponent<PlayerActions>() && gameObject.GetComponent<PlayerActions>().dashing)
+        {
+            if (other.gameObject.GetComponent<PlayerActions>() && other.gameObject.GetComponent<PlayerActions>().teamId != gameObject.GetComponent<PlayerActions>().teamId)
+            {
+                other.gameObject.GetComponent<PlayerActions>().Stun();
+            }
+        }
     }
 
     public void StartPowerDrop()

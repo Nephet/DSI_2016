@@ -23,6 +23,8 @@ public class Movement : MonoBehaviour {
 
     int id;
 
+    bool _speedUp = false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -91,6 +93,18 @@ public class Movement : MonoBehaviour {
 
 	}
 
+    public void SetSpeedUp()
+    {
+        _speedUp = true;
+
+        Invoke("StopSpeedUp", PinataManager.instance.speedUpDelay);
+    }
+
+    void StopSpeedUp()
+    {
+        _speedUp = false;
+    }
+
 	void PerformMovement()
 	{
 		if (MatchManager.Instance.pause)
@@ -98,7 +112,15 @@ public class Movement : MonoBehaviour {
 		
 		if (_velocity != Vector3.zero) 
 		{
-			_rigidB.MovePosition (_rigidB.position + _velocity * Time.fixedDeltaTime);
+            if (_speedUp)
+            {
+                _rigidB.MovePosition(_rigidB.position + _velocity * Time.fixedDeltaTime * PinataManager.instance.speedMultiplicator);
+            }
+            else
+            {
+                _rigidB.MovePosition(_rigidB.position + _velocity * Time.fixedDeltaTime);
+            }
+			
 		}
 	}
 
