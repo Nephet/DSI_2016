@@ -78,6 +78,9 @@ public class MatchManager : MonoBehaviour {
     public float slowMoDuration = 0.9f;
     public float slowMoPower = 0.1f;
 
+    [HideInInspector]
+    public bool prolongation = false;
+
     public static MatchManager Instance
     {
         get
@@ -118,8 +121,7 @@ public class MatchManager : MonoBehaviour {
 			panelPause.SetActive (false);
 			Time.timeScale = 1f;
 		}
-
-
+        
 		if (pause || endGame)
 			return;
 		
@@ -127,16 +129,39 @@ public class MatchManager : MonoBehaviour {
 
 		UpdateUI ();
 
-        if(timer < 0)
+        if(timer <= 0 && teamOneScore != teamTwoScore)
         {
 			EndGame ();
+        }
+        else if(timer <= 0 && teamOneScore == teamTwoScore)
+        {
+            timer = 0;
+            
+            if (!prolongation)
+            {
+                prolongation = true;
+
+                GameObject go = null;
+
+                foreach (GameObject ball in BallsManager.instance.balls)
+                {
+                    if (!ball.GetComponent<PlayerActions>())
+                    {
+                        go = ball;
+                    }
+                }
+
+                BallsManager.instance.RemoveBall(go);
+                Destroy(go);
+            }
+            
         }
     }
 
 	void UpdateUI()
 	{
-		int _tempMin = (int)timer / 60;
-		int _tempSec = ((int)timer % 60);
+		int _tempMin = prolongation ? 0 : (int)timer / 60;
+		int _tempSec = prolongation ? 0 : ((int)timer % 60);
 
 
 		timerUI.GetComponent<Text>().text = _tempMin+":"+_tempSec;
@@ -171,6 +196,7 @@ public class MatchManager : MonoBehaviour {
 
 	void Spawn()
 	{
+
 		panelVictory.SetActive (false);
 		panelPause.SetActive (false);
 
@@ -218,8 +244,10 @@ public class MatchManager : MonoBehaviour {
 	}
 
 	public void Respawn(int _id, bool b)
-	{
-		StartCoroutine (CountDownRespawnBall (_id,b));
+    {
+        if (prolongation) return;
+
+        StartCoroutine (CountDownRespawnBall (_id,b));
 	}
 
 	public void RespawnPlayer(GameObject _player)
