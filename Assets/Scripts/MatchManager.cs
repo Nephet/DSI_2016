@@ -71,6 +71,8 @@ public class MatchManager : MonoBehaviour {
 	float height = 3f;
 	float respawnSpeed = 3f;
 
+    public float timeBeforeBooing = 5f;
+
     public static MatchManager Instance
     {
         get
