@@ -37,7 +37,7 @@ public class PenaltyZone : MonoBehaviour {
 
         if(timeInGoal > MatchManager.Instance.timeBeforeBooing)
         {
-            Debug.Log("Boooo");
+
         }
     }
 

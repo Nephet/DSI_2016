@@ -34,6 +34,8 @@ public class MatchManager : MonoBehaviour {
 
 	public float slow;
 
+    public bool slowmo = false;
+
     //[HideInInspector]
     public GameObject player1;
 	//[HideInInspector]
@@ -73,6 +75,9 @@ public class MatchManager : MonoBehaviour {
 
     public float timeBeforeBooing = 5f;
 
+    public float slowMoDuration = 0.9f;
+    public float slowMoPower = 0.1f;
+
     public static MatchManager Instance
     {
         get
@@ -107,7 +112,9 @@ public class MatchManager : MonoBehaviour {
 			Time.timeScale = 0f;
 			panelPause.SetActive (true);
 
-		} else {
+		}
+        else if(!slowmo)
+        {
 			panelPause.SetActive (false);
 			Time.timeScale = 1f;
 		}

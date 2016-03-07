@@ -140,61 +140,106 @@ public class PlayerActions : MonoBehaviour {
 
 		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
 
-		if ((Mathf.Abs(_altHorizontal)+Mathf.Abs(_altVertical) >0.8f) && currentBall != null && state == State.HUMAN) {
-			Throw (_throwPower);
+        if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && currentBall != null && state == State.HUMAN)
+        {
+            Throw(_throwPower);
 
-		} else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null &&  state == State.HUMAN) {
-			_currentSnapDelay = 0f;
-			Debug.Log (_currentSnapDelay + "snap");
-			DistanceBalls ();
-			if (_nearestBall != null) {
-				currentBall = _nearestBall;
-				BallsManager.instance.RemoveBall (currentBall);
-				currentBall.GetComponent<Rigidbody> ().isKinematic = true;
-				//currentBall.GetComponent<SphereCollider> ().enabled = false;
-				currentBall.transform.parent = _mesh.transform;
-				currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
+        }
+        else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f))
+        {
+            DistanceBalls();
 
+            if(_nearestBall && _nearestBall.GetComponent<Ball>().idTeam == teamId && _nearestBall.GetComponent<Ball>().idPlayer != id)
+            {
 
-				currentBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(currentBall.GetComponent<Ball>().currentPowerLevel+1, 1, 5);
+                _nearestBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(_nearestBall.GetComponent<Ball>().currentPowerLevel + 2, 1, 5);
                 
-				currentBall.GetComponent<Ball>().idTeam = teamId;
+                MatchManager.Instance.slowmo = true;
 
-                currentBall.GetComponent<Ball>().StopSpeedDrop();
+                Time.timeScale *= MatchManager.Instance.slowMoPower;
+                Time.fixedDeltaTime *= MatchManager.Instance.slowMoPower;
 
-                currentBall.GetComponent<Ball>().StartPowerDrop();
+                Snap();
+                
+                Throw(_throwPower);
 
-                if (currentBall.GetComponent<PlayerActions> ()) {
-					currentBall.GetComponent<PlayerActions> ().state = State.TAKENBALL;
-				}
-			}
-		} else if (_transfo && (state == State.HUMAN || state == State.FREEBALL)) {
-			SetToBall (state == State.HUMAN);
-		} else if ((Mathf.Abs(_altHorizontal)+Mathf.Abs(_altVertical) >0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId) {
-			StartDash ();
-		} else if (_suicide && state == PlayerActions.State.TAKENBALL) 
-		{
-			if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f) 
-			{
-				_currentTimerSmashButton -= Time.deltaTime;
-				SmashButton ();
-			} 
-			else if(_currentTimerSmashButton <= 0f) 
-			{
-				//_smashButtonCount -=0.5f;
-				SmashButton ();
-			}
-		}
+                Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration*MatchManager.Instance.slowMoPower);
+            }
+        }
+        else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
+        {
+            _currentSnapDelay = 0f;
+            Debug.Log(_currentSnapDelay + "snap");
+            DistanceBalls();
+            if (_nearestBall != null)
+            {
+                Snap();
+            }
+        }
+        else if (_transfo && (state == State.HUMAN || state == State.FREEBALL))
+        {
+            SetToBall(state == State.HUMAN);
+        }
+        else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId)
+        {
+            StartDash();
+        }
+        else if (_suicide && state == PlayerActions.State.TAKENBALL)
+        {
+            if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f)
+            {
+                _currentTimerSmashButton -= Time.deltaTime;
+                SmashButton();
+            }
+            else if (_currentTimerSmashButton <= 0f)
+            {
+                //_smashButtonCount -=0.5f;
+                SmashButton();
+            }
+        }
         else if (_bonus)
         {
             PinataManager.instance.ApplyBonus(this);
         }
-        else if(_dance && state == State.HUMAN && GetComponent<Movement>()._velocity == Vector3.zero)
+        else if (_dance && state == State.HUMAN && GetComponent<Movement>()._velocity == Vector3.zero)
         {
             Dance();
         }
 
 		_oldTriggerHeld = snap;
+    }
+
+    void StopSlowMo()
+    {
+        MatchManager.Instance.slowmo = false;
+
+        Time.timeScale /= MatchManager.Instance.slowMoPower;
+        Time.fixedDeltaTime /= MatchManager.Instance.slowMoPower;
+    }
+
+    void Snap()
+    {
+
+        currentBall = _nearestBall;
+        BallsManager.instance.RemoveBall(currentBall);
+        currentBall.GetComponent<Rigidbody>().isKinematic = true;
+        //currentBall.GetComponent<SphereCollider> ().enabled = false;
+        currentBall.transform.parent = _mesh.transform;
+        currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
+
+        currentBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(currentBall.GetComponent<Ball>().currentPowerLevel + 1, 1, 5);
+
+        currentBall.GetComponent<Ball>().idTeam = teamId;
+        currentBall.GetComponent<Ball>().idPlayer = id;
+
+        currentBall.GetComponent<Ball>().StopSpeedDrop();
+
+        currentBall.GetComponent<Ball>().StartPowerDrop();
+
+        if (currentBall.GetComponent<PlayerActions>())
+        {
+            currentBall.GetComponent<PlayerActions>().state = State.TAKENBALL;
+        }
     }
 
 	void Throw(float power)
@@ -224,8 +269,7 @@ public class PlayerActions : MonoBehaviour {
         willIgnoreSnap = false;
 
         currentBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-	
+        
 		GetComponent<Movement> ()._lastDirectionAlt = _shootDirection;
 		GetComponent<Movement> ()._directionAlt = _shootDirection;
 

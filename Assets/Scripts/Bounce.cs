@@ -33,6 +33,11 @@ public class Bounce : MonoBehaviour {
             if (other.gameObject.GetComponent<Ball>())
             {
                 other.gameObject.GetComponent<Rigidbody>().AddForce(_oldVelocity - _rigidBody.velocity, ForceMode.Impulse);
+
+                if (other.gameObject.GetComponent<PlayerActions>())
+                {
+                    other.gameObject.GetComponent<PlayerActions>().state = PlayerActions.State.THROWBALL;
+                }
             }
 
 		} 

@@ -13,6 +13,7 @@ public class Ball : MonoBehaviour {
     public int currentSpeed;
 
     public int idTeam;
+    public int idPlayer;
 
     public bool ignoreSnap;
 
