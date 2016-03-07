@@ -21,6 +21,8 @@ public class Movement : MonoBehaviour {
     public GameObject ballMesh;
 	public GameObject arrowDirection;
 
+	public float smoothMove = 0;
+
     int id;
 
     bool _speedUp = false;
@@ -112,15 +114,19 @@ public class Movement : MonoBehaviour {
 		
 		if (_velocity != Vector3.zero) 
 		{
-            if (_speedUp)
-            {
-                _rigidB.MovePosition(_rigidB.position + _velocity * Time.fixedDeltaTime * PinataManager.instance.speedMultiplicator);
-            }
-            else
-            {
-                _rigidB.MovePosition(_rigidB.position + _velocity * Time.fixedDeltaTime);
-            }
+			smoothMove = Mathf.Clamp01(smoothMove+(2f * Time.deltaTime));
+			if (_speedUp) 
+			{
+				_rigidB.MovePosition (_rigidB.position + _velocity * smoothMove * Time.fixedDeltaTime * PinataManager.instance.speedMultiplicator);
+			} 
+			else 
+			{
+				_rigidB.MovePosition (_rigidB.position + _velocity* smoothMove * Time.fixedDeltaTime);
+			}
 			
+		} else 
+		{
+			smoothMove = 0;
 		}
 	}
 
