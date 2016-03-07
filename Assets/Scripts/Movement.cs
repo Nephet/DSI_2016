@@ -117,7 +117,6 @@ public class Movement : MonoBehaviour {
 		if (MatchManager.Instance.pause)
 			return;
 
-		Debug.Log (_velocity);
 		if (_velocity != Vector3.zero) 
 		{
 			smoothMove = Mathf.Clamp01(smoothMove+(2f * Time.deltaTime));

@@ -298,17 +298,20 @@ public class PlayerActions : MonoBehaviour {
 	{
 		for (int i = 0; i < BallsManager.instance.balls.Count; i++) 
 		{
-			float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
-			if (distance < _nearestdistance && distance <= rangeSnap && BallsManager.instance.balls[i] != gameObject) {
-                if (!BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap)
-                {
-                    _nearestBall = BallsManager.instance.balls[i].gameObject;
-                }
-                else
-                {
-                    BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
-                }
+			if (BallsManager.instance.balls [i] != null) {
+				float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
+				if (distance < _nearestdistance && distance <= rangeSnap && BallsManager.instance.balls[i] != gameObject) {
+					if (!BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap)
+					{
+						_nearestBall = BallsManager.instance.balls[i].gameObject;
+					}
+					else
+					{
+						BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
+					}
+				}
 			}
+
 		}
 	}
 
