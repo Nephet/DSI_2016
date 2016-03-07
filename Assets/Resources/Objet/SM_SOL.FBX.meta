@@ -1,38 +1,15 @@
 fileFormatVersion: 2
-guid: 571a0da85142a0e44b22a63eb0101c8f
-timeCreated: 1457010924
+guid: 83f91dfba224dfe4db7111d66cfc0dcb
+timeCreated: 1457361945
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: poteau1
-    100002: poteau2
-    100004: poteau3
-    100006: poteau4
-    100008: poteau5
-    100010: //RootNode
-    400000: poteau1
-    400002: poteau2
-    400004: poteau3
-    400006: poteau4
-    400008: poteau5
-    400010: //RootNode
-    2300000: poteau1
-    2300002: poteau2
-    2300004: poteau3
-    2300006: poteau4
-    2300008: poteau5
-    3300000: poteau1
-    3300002: poteau2
-    3300004: poteau3
-    3300006: poteau4
-    3300008: poteau5
-    4300000: poteau2
-    4300002: poteau3
-    4300004: poteau1
-    4300006: poteau4
-    4300008: poteau5
-    9500000: //RootNode
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Static_Field
   materials:
     importMaterials: 1
     materialName: 0
@@ -91,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
