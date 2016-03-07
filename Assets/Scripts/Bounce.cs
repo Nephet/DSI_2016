@@ -23,7 +23,7 @@ public class Bounce : MonoBehaviour {
 	{
 		if (!enabled) return;
 
-		if (!GetComponent<Ball> ().respawning) {
+		if (!GetComponent<Ball> ().respawning && rigidBody.velocity!=Vector3.zero) {
 			if (other.contacts.Length == 0)
 				return;
 			rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
