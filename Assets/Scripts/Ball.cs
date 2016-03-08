@@ -66,7 +66,7 @@ public class Ball : MonoBehaviour {
         _timer += Time.deltaTime;
         if (_timer > 1.0f) { _timer = 0; }
 
-        RotateMesh ();
+        
         PlayerActions pA = GetComponent<PlayerActions>();
         
         /*Debug.Log(transform.GetChild(0).name);
@@ -89,6 +89,12 @@ public class Ball : MonoBehaviour {
 
 
     }
+
+	void FixedUpdate()
+	{
+
+		RotateMesh ();
+	}
 
     void OnCollisionEnter(Collision other)
     {
@@ -201,10 +207,16 @@ public class Ball : MonoBehaviour {
 	void RotateMesh()
 	{
 		
+
 		if (GetComponent<PlayerActions> ()) {
-			Debug.Log ("test");
-			Debug.Log (Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity));
-			meshBall.transform.Rotate (meshBall.transform.right*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*100f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+			//parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.up);
+			Debug.Log(_rigidB.velocity);
+			if (!GetComponent<Movement> ().moving) {
+				parentMeshBall.transform.rotation = Quaternion.LookRotation (_rigidB.velocity, Vector3.up);
+			}
+
+			meshBall.transform.Rotate (Vector3.right*100f* GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+			//meshBall.transform.Rotate (meshBall.transform.right*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*100f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 
 		} else {
 			parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);

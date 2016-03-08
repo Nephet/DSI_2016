@@ -20,9 +20,11 @@ public class Movement : MonoBehaviour {
 	public GameObject mesh;
     public GameObject ballMesh;
 	public GameObject meshBall;
+
 	public GameObject arrowDirection;
 
 	public float smoothMove = 0;
+	public bool moving = false;
 
     int id;
 
@@ -44,6 +46,7 @@ public class Movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 		
@@ -138,9 +141,17 @@ public class Movement : MonoBehaviour {
 
 	void PerformRotation()
 	{
+		
 		mesh.transform.localRotation = Quaternion.Lerp(mesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
-		//ballMesh.transform.localRotation = Quaternion.Lerp(ballMesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
-		//meshBall.transform.localRotation = new Quaternion(meshBall.transform.localRotation.x, _rotation.y,meshBall.transform.localRotation.z, _rotation.w);
+		if (_velocity != Vector3.zero) {
+			moving = true;
+			ballMesh.transform.rotation = _rotation;
+		} else {
+
+			moving = false;
+		}
+
+		meshBall.transform.Rotate (Vector3.right*100f * _velocity.magnitude * Time.deltaTime);
 	}
 
 	void Feedback()
