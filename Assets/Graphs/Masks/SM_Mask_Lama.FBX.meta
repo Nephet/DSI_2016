@@ -1,15 +1,17 @@
 fileFormatVersion: 2
-guid: 0f9747ff4dd73e54aaf4720e528597f4
-timeCreated: 1457106288
+guid: d30403bf66a34cf46a91c97cd8dcdd90
+timeCreated: 1457449793
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Box001
+    100000: LAMA
+    100002: //RootNode
+    400000: LAMA
+    400002: //RootNode
+    2300000: LAMA
+    3300000: LAMA
+    4300000: LAMA
     7400000: Take 001
     9500000: //RootNode
   materials:

@@ -19,12 +19,14 @@ public class Movement : MonoBehaviour {
     
 	public GameObject mesh;
     public GameObject ballMesh;
-	public GameObject meshBall;
 
-	public GameObject arrowDirection;
+	public GameObject meshBall;
 
 	public float smoothMove = 0;
 	public bool moving = false;
+
+    public GameObject body;
+    public GameObject head;
 
     int id;
 
@@ -41,7 +43,6 @@ public class Movement : MonoBehaviour {
 		_speedInBall = PlayerManager.instance.speedInBall;
 		_rotationSpeed = PlayerManager.instance.rotationSpeed;
 		mesh.transform.localPosition = new Vector3 (0f, -1.0f, 0f);
-		arrowDirection.transform.parent = mesh.transform;
 	}
 	
 	// Update is called once per frame
@@ -87,9 +88,6 @@ public class Movement : MonoBehaviour {
 		if (GetComponent<PlayerActions> ().currentBall != null) {
 			Feedback ();
 		} 
-		else {
-			arrowDirection.SetActive (false);
-		}
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
 		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
@@ -156,14 +154,10 @@ public class Movement : MonoBehaviour {
 
 	void Feedback()
 	{
-		arrowDirection.SetActive (true);
-		arrowDirection.transform.localPosition = Vector3.zero;
 		Vector3 _targetPoint = transform.position + _lastDirectionAlt;
 
 		Vector3 _midPoint = transform.position + (_targetPoint - transform.position) / 2.0f;
 		_midPoint = new Vector3 (_midPoint.x, 2.5f, _midPoint.z);
-		arrowDirection.transform.position = _midPoint;
-		arrowDirection.transform.localRotation = Quaternion.Euler (new Vector3 (90f,0f,0f));
 
 	}
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: dc7a9a5436ce84e4fa0fdc5657da6f72
-timeCreated: 1457106288
+guid: 867507936d816b54a9b412128a0ce25a
+timeCreated: 1457449793
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Object008
+    4300000: TOUCAN
     7400000: Take 001
     9500000: //RootNode
   materials:
