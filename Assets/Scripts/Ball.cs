@@ -46,6 +46,20 @@ public class Ball : MonoBehaviour {
 
     void Update()
     {
+
+        Debug.DrawLine(parentMeshBall.transform.position, parentMeshBall.transform.position + parentMeshBall.transform.forward, Color.red, 100);
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(parentMeshBall.transform.position, parentMeshBall.transform.forward,out hit, 1f))
+        {
+            if (hit.transform.tag == "But")
+            {
+                MatchManager.Instance.StartSlowMo(.5f);
+            }
+
+        }
+
         _timer += Time.deltaTime;
         if (_timer > 1.0f) { _timer = 0; }
 
@@ -69,6 +83,7 @@ public class Ball : MonoBehaviour {
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;
 		}
+
 
     }
 

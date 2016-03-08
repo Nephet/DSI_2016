@@ -158,7 +158,26 @@ public class MatchManager : MonoBehaviour {
         }
     }
 
-	void UpdateUI()
+    public void StartSlowMo(float duration)
+    {
+        if (!MatchManager.Instance.slowmo)
+        {
+            slowmo = true;
+            Time.timeScale *= slowMoPower;
+            Time.fixedDeltaTime *= slowMoPower;
+            Invoke("StopSlowMo", duration * slowMoPower);
+        }
+    }
+
+    public void StopSlowMo()
+    {
+        slowmo = false;
+
+        Time.timeScale /= slowMoPower;
+        Time.fixedDeltaTime /= slowMoPower;
+    }
+
+    void UpdateUI()
 	{
 		int _tempMin = prolongation ? 0 : (int)timer / 60;
 		int _tempSec = prolongation ? 0 : ((int)timer % 60);
