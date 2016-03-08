@@ -45,6 +45,8 @@ public class PlayerActions : MonoBehaviour {
     bool _bonus;
     bool _dance;
 
+    Animator _anim;
+
     float _smashButtonCount;
 	public float _maxTimerSmashButton = 0.5f;
 	float _currentTimerSmashButton;
@@ -104,7 +106,9 @@ public class PlayerActions : MonoBehaviour {
         _mesh = GetComponent<Movement>().mesh;
         _ballMesh = GetComponent<Movement>().ballMesh;
 
-		_throwPower = PlayerManager.instance.throwPower;
+        _anim = transform.Find("Body").gameObject.GetComponent<Animator>();
+
+        _throwPower = PlayerManager.instance.throwPower;
 		_dashPower = PlayerManager.instance.dashPower;
 		_dashDuration = PlayerManager.instance.dashDuration;
 		_dashCooldown = PlayerManager.instance.dashCooldown;
@@ -220,6 +224,7 @@ public class PlayerActions : MonoBehaviour {
     void Snap()
     {
 
+        _anim.SetTrigger("snap");
         currentBall = _nearestBall;
         BallsManager.instance.RemoveBall(currentBall);
         currentBall.GetComponent<Rigidbody>().isKinematic = true;
@@ -245,6 +250,8 @@ public class PlayerActions : MonoBehaviour {
 	void Throw(float power)
     {
         if (!currentBall) return;
+
+        _anim.SetTrigger("shoot");
 
 		BallsManager.instance.AddBall (currentBall);
         currentBall.GetComponent<Rigidbody>().isKinematic = false;

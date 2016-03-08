@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour {
 	float _speed;
     float _speedInBall;
 	float _rotationSpeed;
+    Animator _anim;
 
     [HideInInspector]
 	public Vector3 _velocity;
@@ -34,6 +35,8 @@ public class Movement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        _anim = transform.Find("Body").gameObject.GetComponent<Animator>();
 
 		_rigidB = GetComponent<Rigidbody> ();
 
@@ -84,10 +87,18 @@ public class Movement : MonoBehaviour {
 
 		_velocity = (_movHorizontal + _movVertical).normalized * modifier;
 
-		/*************/
-		if (GetComponent<PlayerActions> ().currentBall != null) {
+
+        // set des variables d'animation
+        if (_horizontal != 0 || _vertical != 0)
+            _anim.SetBool("isRunning", true);
+        else
+            _anim.SetBool("isRunning", false);
+
+
+        /*************/
+        if (GetComponent<PlayerActions> ().currentBall != null) {
 			Feedback ();
-		} 
+        } 
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
 		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
