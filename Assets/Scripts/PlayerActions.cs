@@ -81,6 +81,8 @@ public class PlayerActions : MonoBehaviour {
     public bool instantExplosion = false;
     [HideInInspector]
     public bool snakeBall = false;
+    [HideInInspector]
+    public bool frenzy = false;
 
     void Awake()
     {
@@ -136,7 +138,7 @@ public class PlayerActions : MonoBehaviour {
 
         _bonus = Input.GetButtonDown("X_Button_" + id);
 
-        _dance = Input.GetButton("A_Button_" + id);
+        _dance = Input.GetButton("Y_Button_" + id);
 
 		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
         
@@ -151,19 +153,14 @@ public class PlayerActions : MonoBehaviour {
             if(_nearestBall && _nearestBall.GetComponent<Ball>().idTeam == teamId && _nearestBall.GetComponent<Ball>().idPlayer != id)
             {
                 _nearestBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(_nearestBall.GetComponent<Ball>().currentPowerLevel + 2, 1, 5);
-                
-                if (!MatchManager.Instance.slowmo)
-                {
-                    MatchManager.Instance.slowmo = true;
-                    Time.timeScale *= MatchManager.Instance.slowMoPower;
-                    Time.fixedDeltaTime *= MatchManager.Instance.slowMoPower;
-                }
+
+                MatchManager.Instance.StartSlowMo(MatchManager.Instance.slowMoDuration);
 
                 Snap();
 
                 Throw(_throwPower);
-
-                Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
+                
+                //Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
             }
             else
             {
@@ -217,10 +214,7 @@ public class PlayerActions : MonoBehaviour {
 
     void StopSlowMo()
     {
-        MatchManager.Instance.slowmo = false;
-
-        Time.timeScale /= MatchManager.Instance.slowMoPower;
-        Time.fixedDeltaTime /= MatchManager.Instance.slowMoPower;
+        MatchManager.Instance.StopSlowMo();
     }
 
     void Snap()
@@ -264,6 +258,11 @@ public class PlayerActions : MonoBehaviour {
 
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
+        if (frenzy)
+        {
+            speedModifier *= 1.15f;
+        }
+
         maxSpeed = false;
 
 		currentBall.GetComponent<Ball>().StopPowerDrop();
@@ -306,13 +305,8 @@ public class PlayerActions : MonoBehaviour {
 					{
 						_nearestBall = BallsManager.instance.balls[i].gameObject;
 					}
-					else
-					{
-						BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
-					}
 				}
 			}
-
 		}
 	}
 
@@ -324,8 +318,7 @@ public class PlayerActions : MonoBehaviour {
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
-
-
+        
         GetComponent<Rigidbody>().mass = b ? 1 : 70;
         //GetComponent<Rigidbody>().freezeRotation = !b;
         

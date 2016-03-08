@@ -27,7 +27,7 @@ public class SelectionManager : MonoBehaviour {
 
 	public List<GameObject> listMaskPlayers;
 
-    public List<GameObject> listMaskedPlayers;
+    public GameObject PlayerBody;
 
     public GameObject[] tabPlayers;
 	public GameObject[] currentMask;

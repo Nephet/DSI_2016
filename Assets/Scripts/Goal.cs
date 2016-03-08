@@ -34,7 +34,19 @@ public class Goal : MonoBehaviour {
 			BallsManager.instance.RemoveBall (other.gameObject);
 			Destroy (other.gameObject);
 
-            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, _mM.normalBallPoints);
+            if (other.GetComponent<Ball>().ignoreSnap)
+            {
+                int nbPoint = other.GetComponent<Ball>().idTeam == 1 ? (_mM.teamTwoScore - _mM.teamOneScore)/2 : (_mM.teamOneScore - _mM.teamTwoScore) /2;
+
+                nbPoint = Mathf.Clamp(nbPoint, 1, 50);
+
+                MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, nbPoint);
+            }
+            else
+            {
+                MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, _mM.normalBallPoints);
+            }
+
 			MatchManager.Instance.Respawn (teamId,false);
 			ShakeManager.instance.LetsShake (3);
 

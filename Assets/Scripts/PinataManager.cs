@@ -23,9 +23,7 @@ public class PinataManager : MonoBehaviour {
 
     #endregion
 
-    public List<GameObject> bonusListWeak;
-    public List<GameObject> bonusListStrong1;
-    public List<GameObject> bonusListStrong2;
+    public List<GameObject> bonusList;
 
     public float reinitDelay = 5f;
 
@@ -154,31 +152,7 @@ public class PinataManager : MonoBehaviour {
     {
         GameObject bonus = null;
         
-        int score = idTeam == 1 ? MatchManager.Instance.teamOneScore : MatchManager.Instance.teamTwoScore;
-        int scoreEnemy = idTeam == 2 ? MatchManager.Instance.teamOneScore : MatchManager.Instance.teamTwoScore;
-
-        int prcFaible = Mathf.Clamp(weakPercentageEgality + (scoreEnemy - score) * weakPercentageIncrease, weakPercentageMax,weakPercentageEgality);
-        int prcFort1 = Mathf.Clamp(strong1PercentageEgality + (scoreEnemy - score) * strong1PercentageIncrease, strong1PercentageEgality, strong1PercentageMax);
-        int prcFort2 = Mathf.Clamp(strong2PercentageEgality + (scoreEnemy - score) * strong2PercentageIncrease, strong2PercentageEgality, strong2PercentageMax);
-
-        int randomNumber = ((int)(Random.Range(0, 10000) * Time.time))%101;
-
-
-        if(randomNumber < prcFaible)
-        {
-            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + (prcFaible+prcFort1) + " |Fort2 : " + (prcFaible+ prcFort1+prcFort2) + " |Random : " + randomNumber + " -> faible");
-            bonus = bonusListWeak[Random.Range(0, bonusListWeak.Count)];
-        }
-        else if(randomNumber < prcFaible + prcFort1)
-        {
-            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + (prcFaible + prcFort1) + " |Fort2 : " + (prcFaible + prcFort1 + prcFort2) + " |Random : " + randomNumber + " -> fort1");
-            bonus = bonusListStrong1[Random.Range(0, bonusListWeak.Count)];
-        }
-        else
-        {
-            Debug.Log("Faible : " + prcFaible + " |Fort1 : " + (prcFaible + prcFort1) + " |Fort2 : " + (prcFaible + prcFort1 + prcFort2) + " |Random : " + randomNumber + " -> fort2");
-            bonus = bonusListStrong2[Random.Range(0, bonusListWeak.Count)];
-        }
+        bonus = bonusList[Random.Range(0, bonusList.Count)];
 
         return bonus;
     }
