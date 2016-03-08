@@ -211,8 +211,9 @@ public class Ball : MonoBehaviour {
 		
 
 		if (GetComponent<PlayerActions> ()) {
-			
-			if (!GetComponent<Movement> ().moving) {
+			//parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.up);
+			if (!GetComponent<Movement> ().moving && _rigidB.velocity!=Vector3.zero) {
+				
 				parentMeshBall.transform.rotation = Quaternion.LookRotation (_rigidB.velocity, Vector3.up);
 			}
 
@@ -220,7 +221,10 @@ public class Ball : MonoBehaviour {
 			//meshBall.transform.Rotate (meshBall.transform.right*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*100f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 
 		} else {
-			parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
+            if(GetComponent<Rigidbody>().velocity != Vector3.zero)
+            {
+                parentMeshBall.transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity, Vector3.forward);
+            }
 			meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 		}
 

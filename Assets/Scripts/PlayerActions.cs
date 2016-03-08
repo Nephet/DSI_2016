@@ -177,7 +177,7 @@ public class PlayerActions : MonoBehaviour {
 		else if (snap && (_oldTriggerHeldRight != snap)  && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
         {
             _currentSnapDelay = 0f;
-            Debug.Log(_currentSnapDelay + "snap");
+
             DistanceBalls();
             if (_nearestBall != null)
             {

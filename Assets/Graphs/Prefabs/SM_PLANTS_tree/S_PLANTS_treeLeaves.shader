@@ -1,7 +1,7 @@
 // Shader created with Shader Forge v1.26 
 // Shader Forge (c) Neat Corporation / Joachim Holmer - http://www.acegikmo.com/shaderforge/
 // Note: Manually altering this data may prevent you from opening it in Shader Forge
-/*SF_DATA;ver:1.26;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:False,hqlp:False,rprd:False,enco:False,rmgx:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:0,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,rfrpo:True,rfrpn:Refraction,coma:15,ufog:True,aust:True,igpj:False,qofs:0,qpre:2,rntp:3,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False;n:type:ShaderForge.SFN_Final,id:4013,x:32933,y:32609,varname:node_4013,prsc:2|diff-7145-RGB,lwrap-9774-XYZ,clip-7145-A,voffset-3447-OUT;n:type:ShaderForge.SFN_Tex2d,id:7145,x:31981,y:32281,ptovrint:False,ptlb:diffuse,ptin:_diffuse,varname:node_7145,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:c727699ad189e0f4989af0245eb619e9,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Add,id:9937,x:32234,y:32806,varname:node_9937,prsc:2|A-1413-XYZ,B-2404-OUT;n:type:ShaderForge.SFN_NormalVector,id:2404,x:31982,y:32897,prsc:2,pt:True;n:type:ShaderForge.SFN_Vector4Property,id:1413,x:31982,y:32761,ptovrint:False,ptlb:wind dir,ptin:_winddir,varname:node_1413,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,v1:1,v2:0.5,v3:0.5,v4:0.01;n:type:ShaderForge.SFN_Normalize,id:927,x:32451,y:32839,varname:node_927,prsc:2|IN-9937-OUT;n:type:ShaderForge.SFN_Multiply,id:3447,x:32732,y:32952,varname:node_3447,prsc:2|A-927-OUT,B-1950-R,C-3498-OUT,D-1413-W;n:type:ShaderForge.SFN_VertexColor,id:1950,x:31982,y:33048,varname:node_1950,prsc:2;n:type:ShaderForge.SFN_Multiply,id:2537,x:32231,y:33115,varname:node_2537,prsc:2|A-1950-G,B-5946-OUT;n:type:ShaderForge.SFN_Pi,id:5946,x:31982,y:33166,varname:node_5946,prsc:2;n:type:ShaderForge.SFN_Sin,id:3498,x:32564,y:33050,varname:node_3498,prsc:2|IN-1664-OUT;n:type:ShaderForge.SFN_Time,id:7524,x:31982,y:33268,varname:node_7524,prsc:2;n:type:ShaderForge.SFN_Vector1,id:8513,x:32008,y:33432,varname:node_8513,prsc:2,v1:1.5;n:type:ShaderForge.SFN_Add,id:1664,x:32388,y:33115,varname:node_1664,prsc:2|A-2537-OUT,B-9450-OUT;n:type:ShaderForge.SFN_Multiply,id:9450,x:32206,y:33291,varname:node_9450,prsc:2|A-7524-T,B-8513-OUT;n:type:ShaderForge.SFN_Vector4Property,id:9774,x:31971,y:32601,ptovrint:False,ptlb:color,ptin:_color,varname:node_9774,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,v1:1,v2:1,v3:1,v4:0;proporder:7145-1413-9774;pass:END;sub:END;*/
+/*SF_DATA;ver:1.26;sub:START;pass:START;ps:flbk:,iptp:0,cusa:False,bamd:0,lico:1,lgpr:1,limd:1,spmd:1,trmd:0,grmd:0,uamb:True,mssp:True,bkdf:False,hqlp:False,rprd:False,enco:False,rmgx:True,rpth:0,vtps:0,hqsc:True,nrmq:1,nrsp:0,vomd:0,spxs:False,tesm:0,olmd:1,culm:2,bsrc:0,bdst:1,dpts:2,wrdp:True,dith:0,rfrpo:True,rfrpn:Refraction,coma:15,ufog:True,aust:True,igpj:False,qofs:0,qpre:2,rntp:3,fgom:False,fgoc:False,fgod:False,fgor:False,fgmd:0,fgcr:0.5,fgcg:0.5,fgcb:0.5,fgca:1,fgde:0.01,fgrn:0,fgrf:300,stcl:False,stva:128,stmr:255,stmw:255,stcp:6,stps:0,stfa:0,stfz:0,ofsf:0,ofsu:0,f2p0:False,fnsp:False,fnfb:False;n:type:ShaderForge.SFN_Final,id:4013,x:32933,y:32609,varname:node_4013,prsc:2|diff-7145-RGB,lwrap-9774-XYZ,clip-7145-A,voffset-3447-OUT;n:type:ShaderForge.SFN_Tex2d,id:7145,x:31981,y:32281,ptovrint:False,ptlb:diffuse,ptin:_diffuse,varname:node_7145,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,tex:b975ee4e495c9b4498d4444ee9638d67,ntxv:0,isnm:False;n:type:ShaderForge.SFN_Add,id:9937,x:32234,y:32806,varname:node_9937,prsc:2|A-1413-XYZ,B-2404-OUT;n:type:ShaderForge.SFN_NormalVector,id:2404,x:31982,y:32897,prsc:2,pt:True;n:type:ShaderForge.SFN_Vector4Property,id:1413,x:31982,y:32761,ptovrint:False,ptlb:wind dir,ptin:_winddir,varname:node_1413,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,v1:1,v2:0.5,v3:0.5,v4:0.01;n:type:ShaderForge.SFN_Normalize,id:927,x:32451,y:32839,varname:node_927,prsc:2|IN-9937-OUT;n:type:ShaderForge.SFN_Multiply,id:3447,x:32732,y:32952,varname:node_3447,prsc:2|A-927-OUT,B-1950-R,C-3498-OUT,D-1413-W;n:type:ShaderForge.SFN_VertexColor,id:1950,x:31982,y:33048,varname:node_1950,prsc:2;n:type:ShaderForge.SFN_Multiply,id:2537,x:32231,y:33115,varname:node_2537,prsc:2|A-1950-G,B-5946-OUT;n:type:ShaderForge.SFN_Pi,id:5946,x:31982,y:33166,varname:node_5946,prsc:2;n:type:ShaderForge.SFN_Sin,id:3498,x:32564,y:33050,varname:node_3498,prsc:2|IN-1664-OUT;n:type:ShaderForge.SFN_Time,id:7524,x:31982,y:33268,varname:node_7524,prsc:2;n:type:ShaderForge.SFN_Vector1,id:8513,x:32008,y:33432,varname:node_8513,prsc:2,v1:1;n:type:ShaderForge.SFN_Add,id:1664,x:32388,y:33115,varname:node_1664,prsc:2|A-2537-OUT,B-9450-OUT;n:type:ShaderForge.SFN_Multiply,id:9450,x:32206,y:33291,varname:node_9450,prsc:2|A-7524-T,B-8513-OUT;n:type:ShaderForge.SFN_Vector4Property,id:9774,x:31971,y:32601,ptovrint:False,ptlb:color,ptin:_color,varname:node_9774,prsc:2,glob:False,taghide:False,taghdr:False,tagprd:False,tagnsco:False,tagnrm:False,v1:1,v2:1,v3:1,v4:0;proporder:7145-1413-9774;pass:END;sub:END;*/
 
 Shader "Shader Forge/ZAC_vegetation" {
     Properties {
@@ -20,6 +20,7 @@ Shader "Shader Forge/ZAC_vegetation" {
             Tags {
                 "LightMode"="ForwardBase"
             }
+            Cull Off
             
             
             CGPROGRAM
@@ -58,7 +59,7 @@ Shader "Shader Forge/ZAC_vegetation" {
                 o.vertexColor = v.vertexColor;
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
                 float4 node_7524 = _Time + _TimeEditor;
-                v.vertex.xyz += (normalize((_winddir.rgb+v.normal))*o.vertexColor.r*sin(((o.vertexColor.g*3.141592654)+(node_7524.g*1.5)))*_winddir.a);
+                v.vertex.xyz += (normalize((_winddir.rgb+v.normal))*o.vertexColor.r*sin(((o.vertexColor.g*3.141592654)+(node_7524.g*1.0)))*_winddir.a);
                 o.posWorld = mul(_Object2World, v.vertex);
                 float3 lightColor = _LightColor0.rgb;
                 o.pos = mul(UNITY_MATRIX_MVP, v.vertex );
@@ -66,8 +67,12 @@ Shader "Shader Forge/ZAC_vegetation" {
                 TRANSFER_VERTEX_TO_FRAGMENT(o)
                 return o;
             }
-            float4 frag(VertexOutput i) : COLOR {
+            float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
+                float isFrontFace = ( facing >= 0 ? 1 : 0 );
+                float faceSign = ( facing >= 0 ? 1 : -1 );
                 i.normalDir = normalize(i.normalDir);
+                i.normalDir *= faceSign;
+                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld.xyz);
                 float3 normalDirection = i.normalDir;
                 float4 _diffuse_var = tex2D(_diffuse,TRANSFORM_TEX(i.uv0, _diffuse));
                 clip(_diffuse_var.a - 0.5);
@@ -101,6 +106,7 @@ Shader "Shader Forge/ZAC_vegetation" {
                 "LightMode"="ForwardAdd"
             }
             Blend One One
+            Cull Off
             
             
             CGPROGRAM
@@ -139,7 +145,7 @@ Shader "Shader Forge/ZAC_vegetation" {
                 o.vertexColor = v.vertexColor;
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
                 float4 node_7524 = _Time + _TimeEditor;
-                v.vertex.xyz += (normalize((_winddir.rgb+v.normal))*o.vertexColor.r*sin(((o.vertexColor.g*3.141592654)+(node_7524.g*1.5)))*_winddir.a);
+                v.vertex.xyz += (normalize((_winddir.rgb+v.normal))*o.vertexColor.r*sin(((o.vertexColor.g*3.141592654)+(node_7524.g*1.0)))*_winddir.a);
                 o.posWorld = mul(_Object2World, v.vertex);
                 float3 lightColor = _LightColor0.rgb;
                 o.pos = mul(UNITY_MATRIX_MVP, v.vertex );
@@ -147,8 +153,12 @@ Shader "Shader Forge/ZAC_vegetation" {
                 TRANSFER_VERTEX_TO_FRAGMENT(o)
                 return o;
             }
-            float4 frag(VertexOutput i) : COLOR {
+            float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
+                float isFrontFace = ( facing >= 0 ? 1 : 0 );
+                float faceSign = ( facing >= 0 ? 1 : -1 );
                 i.normalDir = normalize(i.normalDir);
+                i.normalDir *= faceSign;
+                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld.xyz);
                 float3 normalDirection = i.normalDir;
                 float4 _diffuse_var = tex2D(_diffuse,TRANSFORM_TEX(i.uv0, _diffuse));
                 clip(_diffuse_var.a - 0.5);
@@ -204,7 +214,8 @@ Shader "Shader Forge/ZAC_vegetation" {
             struct VertexOutput {
                 V2F_SHADOW_CASTER;
                 float2 uv0 : TEXCOORD1;
-                float3 normalDir : TEXCOORD2;
+                float4 posWorld : TEXCOORD2;
+                float3 normalDir : TEXCOORD3;
                 float4 vertexColor : COLOR;
             };
             VertexOutput vert (VertexInput v) {
@@ -213,13 +224,18 @@ Shader "Shader Forge/ZAC_vegetation" {
                 o.vertexColor = v.vertexColor;
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
                 float4 node_7524 = _Time + _TimeEditor;
-                v.vertex.xyz += (normalize((_winddir.rgb+v.normal))*o.vertexColor.r*sin(((o.vertexColor.g*3.141592654)+(node_7524.g*1.5)))*_winddir.a);
+                v.vertex.xyz += (normalize((_winddir.rgb+v.normal))*o.vertexColor.r*sin(((o.vertexColor.g*3.141592654)+(node_7524.g*1.0)))*_winddir.a);
+                o.posWorld = mul(_Object2World, v.vertex);
                 o.pos = mul(UNITY_MATRIX_MVP, v.vertex );
                 TRANSFER_SHADOW_CASTER(o)
                 return o;
             }
-            float4 frag(VertexOutput i) : COLOR {
+            float4 frag(VertexOutput i, float facing : VFACE) : COLOR {
+                float isFrontFace = ( facing >= 0 ? 1 : 0 );
+                float faceSign = ( facing >= 0 ? 1 : -1 );
                 i.normalDir = normalize(i.normalDir);
+                i.normalDir *= faceSign;
+                float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - i.posWorld.xyz);
                 float3 normalDirection = i.normalDir;
                 float4 _diffuse_var = tex2D(_diffuse,TRANSFORM_TEX(i.uv0, _diffuse));
                 clip(_diffuse_var.a - 0.5);

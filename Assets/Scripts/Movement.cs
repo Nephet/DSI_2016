@@ -90,7 +90,11 @@ public class Movement : MonoBehaviour {
 		} 
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
-		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
+
+        if (_lastDirectionAlt != Vector3.zero)
+        {
+            _rotation = Quaternion.LookRotation(_lastDirectionAlt, transform.up);
+        }
 	}
     
 	void FixedUpdate()
