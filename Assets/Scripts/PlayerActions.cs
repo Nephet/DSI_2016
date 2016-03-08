@@ -144,7 +144,7 @@ public class PlayerActions : MonoBehaviour {
         {
             Throw(_throwPower);
         }
-        else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f))
+		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN)
         {
             DistanceBalls();
 
@@ -298,17 +298,20 @@ public class PlayerActions : MonoBehaviour {
 	{
 		for (int i = 0; i < BallsManager.instance.balls.Count; i++) 
 		{
-			float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
-			if (distance < _nearestdistance && distance <= rangeSnap) {
-                if (!BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap)
-                {
-                    _nearestBall = BallsManager.instance.balls[i].gameObject;
-                }
-                else
-                {
-                    BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
-                }
+			if (BallsManager.instance.balls [i] != null) {
+				float distance = Vector3.Distance (transform.position, BallsManager.instance.balls [i].transform.position);
+				if (distance < _nearestdistance && distance <= rangeSnap && BallsManager.instance.balls[i] != gameObject) {
+					if (!BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap)
+					{
+						_nearestBall = BallsManager.instance.balls[i].gameObject;
+					}
+					else
+					{
+						BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
+					}
+				}
 			}
+
 		}
 	}
 
@@ -320,6 +323,7 @@ public class PlayerActions : MonoBehaviour {
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
+
 
         GetComponent<Rigidbody>().mass = b ? 1 : 70;
         //GetComponent<Rigidbody>().freezeRotation = !b;
@@ -340,6 +344,11 @@ public class PlayerActions : MonoBehaviour {
             BallsManager.instance.AddBall(gameObject);
 
             _ballScript.idTeam = teamId;
+			if (GetComponent<Movement> ()._velocity != Vector3.zero) {
+
+				state = State.THROWBALL;
+			}
+			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
 
             Throw(0);
         }

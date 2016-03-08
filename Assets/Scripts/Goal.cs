@@ -21,7 +21,7 @@ public class Goal : MonoBehaviour {
     {
         PlayerActions pA = other.GetComponent<PlayerActions>();
         
-        if(pA && pA.state == PlayerActions.State.THROWBALL)
+		if(pA && (pA.state == PlayerActions.State.THROWBALL || pA.state == PlayerActions.State.PRISONNERBALL || pA.state == PlayerActions.State.FREEBALL))
         {
            MatchManager.Instance.AddPoint(teamId == 1 ? 2 : 1, pA.teamId == teamId ? _mM.ennemyBallPoints : _mM.playerBallPoints);
 			MatchManager.Instance.RespawnPlayer (other.gameObject);
