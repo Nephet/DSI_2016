@@ -25,6 +25,8 @@ public class PlayerActions : MonoBehaviour {
 
     GameObject _ballMesh;
 
+    public GameObject _partSuicide;
+
     float _throwPower;
 
     float _dashPower;
@@ -432,6 +434,11 @@ public class PlayerActions : MonoBehaviour {
 		_listPlayers = PlayerManager.instance.listPlayers;
 		transform.parent.parent.GetComponent<PlayerActions> ().currentBall = null;
 		transform.parent.parent.GetComponent<PlayerActions> ()._nearestBall = null;
+
+        GameObject _part = Instantiate(_partSuicide, this.transform.position, Quaternion.identity) as GameObject;
+        Destroy(_part, 5.0f);
+
+
 		//transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
 		for (int i = 0; i < _listPlayers.Count; i++) 
 		{

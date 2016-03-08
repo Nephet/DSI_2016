@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7d126ac9fab837b4d8face5cf5132e21
-timeCreated: 1457361945
+guid: 6e5187693520c0d41b92d797131ed3ac
+timeCreated: 1457434034
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,9 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Mouvable_Field
+    4300000: Movable_Field
+    7400000: Take 001
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -68,7 +70,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
