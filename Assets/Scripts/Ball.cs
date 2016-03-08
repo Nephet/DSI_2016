@@ -47,18 +47,21 @@ public class Ball : MonoBehaviour {
     void Update()
     {
 
-        Debug.DrawLine(parentMeshBall.transform.position, parentMeshBall.transform.position + parentMeshBall.transform.forward, Color.red, 100);
+        //Debug.DrawLine(parentMeshBall.transform.position, parentMeshBall.transform.position + parentMeshBall.transform.forward, Color.red, 100);
 
-        RaycastHit hit;
+        /*RaycastHit hit;
 
         if(Physics.Raycast(parentMeshBall.transform.position, parentMeshBall.transform.forward,out hit, 1f))
         {
-            if (hit.transform.tag == "But")
+
+            PlayerActions pAc = GetComponent<PlayerActions>();
+
+            if (hit.transform.tag == "But" && pAc && pAc.state == PlayerActions.State.THROWBALL)
             {
                 MatchManager.Instance.StartSlowMo(.5f);
             }
-
-        }
+            
+        }*/
 
         _timer += Time.deltaTime;
         if (_timer > 1.0f) { _timer = 0; }
@@ -78,7 +81,7 @@ public class Ball : MonoBehaviour {
 
         if (!pA || pA.state != PlayerActions.State.THROWBALL || GetComponent<Rigidbody>().velocity.magnitude == 0) return;
 
-		if (GetComponent<Rigidbody> ().velocity.magnitude <= BallsManager.instance.throwMinVelocity) {
+		if (GetComponent<Rigidbody> ().velocity.magnitude <= BallsManager.instance.throwMinVelocity && (Mathf.Abs(Input.GetAxis("L_XAxis_" + pA.id)) + Mathf.Abs(Input.GetAxis("L_YAxis_" + pA.id))) > .1f) {
 
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			pA.state = pA.currentZone == pA.teamId ? PlayerActions.State.FREEBALL : PlayerActions.State.PRISONNERBALL;

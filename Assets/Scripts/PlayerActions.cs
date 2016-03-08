@@ -81,6 +81,8 @@ public class PlayerActions : MonoBehaviour {
     public bool instantExplosion = false;
     [HideInInspector]
     public bool snakeBall = false;
+    [HideInInspector]
+    public bool frenzy = false;
 
     void Awake()
     {
@@ -256,6 +258,11 @@ public class PlayerActions : MonoBehaviour {
 
         float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
 
+        if (frenzy)
+        {
+            speedModifier *= 1.15f;
+        }
+
         maxSpeed = false;
 
 		currentBall.GetComponent<Ball>().StopPowerDrop();
@@ -297,13 +304,8 @@ public class PlayerActions : MonoBehaviour {
 					{
 						_nearestBall = BallsManager.instance.balls[i].gameObject;
 					}
-					else
-					{
-						BallsManager.instance.balls[i].GetComponent<Ball>().ignoreSnap = false;
-					}
 				}
 			}
-
 		}
 	}
 
@@ -315,8 +317,7 @@ public class PlayerActions : MonoBehaviour {
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
-
-
+        
         GetComponent<Rigidbody>().mass = b ? 1 : 70;
         //GetComponent<Rigidbody>().freezeRotation = !b;
         
