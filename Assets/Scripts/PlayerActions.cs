@@ -138,7 +138,7 @@ public class PlayerActions : MonoBehaviour {
 
         _bonus = Input.GetButtonDown("X_Button_" + id);
 
-        _dance = Input.GetButton("A_Button_" + id);
+        _dance = Input.GetButton("Y_Button_" + id);
 
 		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
         
