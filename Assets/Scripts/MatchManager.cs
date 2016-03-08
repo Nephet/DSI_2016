@@ -240,7 +240,7 @@ public class MatchManager : MonoBehaviour {
             _player.GetComponent<PlayerActions> ().id = i;
 			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
 
-            _player.GetComponent<Movement>().ballMesh.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureBallTeam1 : SelectionManager.instance.textureBallTeam2;
+			_player.GetComponent<Movement>().meshBall.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureBallTeam1 : SelectionManager.instance.textureBallTeam2;
 
             _player.GetComponent<Movement>().body.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureTeam1 : SelectionManager.instance.textureTeam2;
 
