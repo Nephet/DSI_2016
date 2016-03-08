@@ -33,6 +33,8 @@ public class PlayerActions : MonoBehaviour {
     float _lastDash;
 	float _suicideRange;
 
+	float _throwTimer = Mathf.Infinity;
+
     public static int nbPlayers;
     public int id;
     
@@ -44,6 +46,8 @@ public class PlayerActions : MonoBehaviour {
 	bool _suicide;
     bool _bonus;
     bool _dance;
+
+	bool _soloThrow = false;
 
     float _smashButtonCount;
 	public float _maxTimerSmashButton = 0.5f;
@@ -69,7 +73,8 @@ public class PlayerActions : MonoBehaviour {
 	public float snapDelay = 0.5f;
 	float _currentSnapDelay = Mathf.Infinity;
     
-	bool _oldTriggerHeld;
+	bool _oldTriggerHeldRight;
+	bool _oldTriggerHeldLeft;
 
     [HideInInspector]
     public bool willIgnoreSnap = false;
@@ -123,42 +128,44 @@ public class PlayerActions : MonoBehaviour {
 		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 
+		_throwTimer += Time.deltaTime;
 		_currentSnapDelay += Time.deltaTime;
 		float _altHorizontal = Input.GetAxis("R_XAxis_"+id);
 		float _altVertical = Input.GetAxis("R_YAxis_"+id);
 
 		transform.rotation = Quaternion.Euler (Vector3.zero);
-		snap = Input.GetButtonDown ("A_Button_"+id);
+		snap = Input.GetButtonDown ("A_Button_"+id) || Input.GetAxis ("Fire_"+id) > 0.0f;
 
-        _transfo = Input.GetButtonDown("B_Button_" + id);
+		_transfo = Input.GetButtonDown("B_Button_" + id) || Input.GetAxis ("Fire_"+id) < 0.0f;
 
-		_dash = Input.GetAxis("Fire_" + id) < 0.0f;
+		//_dash = Input.GetAxis("Fire_" + id) < 0.0f;
 
 		_suicide = Input.GetButtonDown ("A_Button_"+id);
 
         _bonus = Input.GetButtonDown("X_Button_" + id);
 
-        _dance = Input.GetButton("Y_Button_" + id);
+		_dance = Input.GetButton("Y_Button_" + id) || Input.GetButton("Bump_Left_" + id) || Input.GetButton("Bump_Right_" + id);
 
 		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
         
         if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && currentBall != null && state == State.HUMAN)
         {
-            Throw(_throwPower);
+			Throw(_throwPower,false);
         }
-		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN)
+		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN && _throwTimer >= 0.5f)
         {
             DistanceBalls();
 
-            if(_nearestBall && _nearestBall.GetComponent<Ball>().idTeam == teamId && _nearestBall.GetComponent<Ball>().idPlayer != id)
+			if(_nearestBall && _nearestBall.GetComponent<Ball>().idTeam == teamId && !_nearestBall.GetComponent<Ball>().bounce/* && _nearestBall.GetComponent<Ball>().idPlayer != id*/)
             {
-                _nearestBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(_nearestBall.GetComponent<Ball>().currentPowerLevel + 2, 1, 5);
+				
+                _nearestBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(_nearestBall.GetComponent<Ball>().currentPowerLevel + 2, 1, 2);
 
                 MatchManager.Instance.StartSlowMo(MatchManager.Instance.slowMoDuration);
 
                 Snap();
 
-                Throw(_throwPower);
+				Throw(_throwPower,true);
                 
                 //Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
             }
@@ -167,7 +174,7 @@ public class PlayerActions : MonoBehaviour {
                 _nearestBall = null;
             }
         }
-        else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
+		else if (snap && (_oldTriggerHeldRight != snap)  && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
         {
             _currentSnapDelay = 0f;
             Debug.Log(_currentSnapDelay + "snap");
@@ -177,11 +184,11 @@ public class PlayerActions : MonoBehaviour {
                 Snap();
             }
         }
-        else if (_transfo && (state == State.HUMAN || state == State.FREEBALL))
+		else if (_transfo && (_oldTriggerHeldLeft != _transfo) && (state == State.HUMAN || state == State.FREEBALL))
         {
             SetToBall(state == State.HUMAN);
         }
-        else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId)
+		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId && !_soloThrow)
         {
             StartDash();
         }
@@ -209,7 +216,8 @@ public class PlayerActions : MonoBehaviour {
             Dance();
         }
 
-		_oldTriggerHeld = snap;
+		_oldTriggerHeldRight = snap;
+		_oldTriggerHeldLeft = _transfo;
     }
 
     void StopSlowMo()
@@ -227,7 +235,7 @@ public class PlayerActions : MonoBehaviour {
         currentBall.transform.parent = _mesh.transform;
         currentBall.transform.position = transform.position + _mesh.transform.forward / 2;
 
-        currentBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(currentBall.GetComponent<Ball>().currentPowerLevel + 1, 1, 5);
+        currentBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(currentBall.GetComponent<Ball>().currentPowerLevel + 1, 1, 2);
 
         currentBall.GetComponent<Ball>().idTeam = teamId;
         currentBall.GetComponent<Ball>().idPlayer = id;
@@ -242,11 +250,14 @@ public class PlayerActions : MonoBehaviour {
         }
     }
 
-	void Throw(float power)
+	void Throw(float power, bool volley)
     {
         if (!currentBall) return;
 
+		_throwTimer = 0;
+		_soloThrow = false;
 		BallsManager.instance.AddBall (currentBall);
+		currentBall.GetComponent<Ball> ().bounce = false;
         currentBall.GetComponent<Rigidbody>().isKinematic = false;
 		currentBall.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
 		//currentBall.GetComponent<SphereCollider> ().enabled = true;
@@ -256,7 +267,18 @@ public class PlayerActions : MonoBehaviour {
 			currentBall.GetComponent<Ball> ().currentPowerLevel = 1;
 		}
 
-        float speedModifier = BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 4 : currentBall.GetComponent<Ball>().currentPowerLevel-1] / BallsManager.instance.speedMaxByPowerLevel[0];
+		float speedModifier;
+
+		if (volley) 
+		{
+			speedModifier = (BallsManager.instance.speedVolley)*1.0f / 199*1.0f;
+		} 
+		else 
+		{
+			speedModifier = (BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 1 : currentBall.GetComponent<Ball>().currentPowerLevel-1])*1.0f / 199 *1.0f;
+		}
+				
+		Debug.Log (speedModifier);
 
         if (frenzy)
         {
@@ -339,12 +361,12 @@ public class PlayerActions : MonoBehaviour {
 
             _ballScript.idTeam = teamId;
 			if (GetComponent<Movement> ()._velocity != Vector3.zero) {
-
+				//_soloThrow = true;
 				state = State.THROWBALL;
 			}
 			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
 
-            Throw(0);
+			Throw(0,false);
         }
         else
         {
@@ -398,7 +420,7 @@ public class PlayerActions : MonoBehaviour {
 	{
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
-		Throw (0);
+		Throw (0,false);
 		Invoke ("DisableStun", 2.0f);
 	}
 
@@ -443,6 +465,7 @@ public class PlayerActions : MonoBehaviour {
 
     void Dance()
     {
+		Debug.Log ("test");
         MatchManager.Instance.IncreaseFever(teamId);
     }
 

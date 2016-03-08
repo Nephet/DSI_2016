@@ -23,6 +23,8 @@ public class Ball : MonoBehaviour {
     public bool snakeBool = false;
     int _right = 1;
 
+	public bool bounce = false;
+
     Rigidbody _rigidB;
 
     AnimationCurve _snakeCurve;
@@ -178,7 +180,7 @@ public class Ball : MonoBehaviour {
 
             currentSpeed -= BallsManager.instance.speedDropAmount;
 
-            UpdatePowerLevel();
+            //UpdatePowerLevel();
         }
 
         yield return null;
@@ -209,8 +211,7 @@ public class Ball : MonoBehaviour {
 		
 
 		if (GetComponent<PlayerActions> ()) {
-			//parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.up);
-			Debug.Log(_rigidB.velocity);
+			
 			if (!GetComponent<Movement> ().moving) {
 				parentMeshBall.transform.rotation = Quaternion.LookRotation (_rigidB.velocity, Vector3.up);
 			}
