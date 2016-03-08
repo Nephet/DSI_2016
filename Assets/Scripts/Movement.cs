@@ -19,6 +19,7 @@ public class Movement : MonoBehaviour {
     
 	public GameObject mesh;
     public GameObject ballMesh;
+	public GameObject meshBall;
 	public GameObject arrowDirection;
 
 	public float smoothMove = 0;
@@ -138,6 +139,8 @@ public class Movement : MonoBehaviour {
 	void PerformRotation()
 	{
 		mesh.transform.localRotation = Quaternion.Lerp(mesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
+		//ballMesh.transform.localRotation = Quaternion.Lerp(ballMesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
+		//meshBall.transform.localRotation = new Quaternion(meshBall.transform.localRotation.x, _rotation.y,meshBall.transform.localRotation.z, _rotation.w);
 	}
 
 	void Feedback()

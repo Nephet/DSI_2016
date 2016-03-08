@@ -17,6 +17,6 @@ public class SpeedUp : Bonus {
     {
         Debug.Log("Execute SpeedUp");
 
-        pA.GetComponent<Movement>().SetSpeedUp();
+        pA.frenzy = true;
     }
 }
