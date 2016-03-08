@@ -26,6 +26,7 @@ public class SelectionManager : MonoBehaviour {
 	#endregion
 
 	public List<GameObject> listMaskPlayers;
+	public List<GameObject> listMaskedPlayers;
 
     public GameObject PlayerBody;
 
