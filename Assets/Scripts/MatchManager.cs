@@ -109,6 +109,7 @@ public class MatchManager : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			pause = !pause;
+			SoundManagerEvent.emit (SoundManagerType.DRINK);
 		}
 
 		if (pause) {

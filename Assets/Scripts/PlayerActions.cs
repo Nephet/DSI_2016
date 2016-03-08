@@ -281,6 +281,7 @@ public class PlayerActions : MonoBehaviour {
 
 		transform.rotation = Quaternion.LookRotation (_shootDirection);
 		_mesh.transform.rotation = Quaternion.LookRotation (_shootDirection);
+		_ballMesh.transform.rotation = Quaternion.LookRotation (_shootDirection);
 
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
         
