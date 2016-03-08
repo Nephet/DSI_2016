@@ -200,8 +200,18 @@ public class Ball : MonoBehaviour {
 
 	void RotateMesh()
 	{
-		parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
-		meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+		
+		if (GetComponent<PlayerActions> ()) {
+			Debug.Log ("test");
+			Debug.Log (Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity));
+			meshBall.transform.Rotate (meshBall.transform.right*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*100f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+
+		} else {
+			parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
+			meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+		}
+
+
 
 	}
 }

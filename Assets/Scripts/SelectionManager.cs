@@ -26,6 +26,7 @@ public class SelectionManager : MonoBehaviour {
 	#endregion
 
 	public List<GameObject> listMaskPlayers;
+	public List<GameObject> listMaskedPlayers;
 
     public Texture textureTeam1;
     public Texture textureTeam2;
