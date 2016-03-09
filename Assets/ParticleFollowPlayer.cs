@@ -8,6 +8,9 @@ public class ParticleFollowPlayer : MonoBehaviour
 
 	void Update () 
 	{
-		if (target != null) this.transform.position = target.transform.position + Vector3.up;
+        if (target != null)
+        {
+            this.transform.position = target.transform.position + Vector3.up;
+        }
 	}
 }

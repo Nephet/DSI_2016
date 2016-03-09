@@ -112,11 +112,11 @@ public class PlayerActions : MonoBehaviour {
 
 	public GameObject partMovement;
 
+    /*
 	public GameObject partPossession;
-
     public GameObject partCurrentPossession;
-
 	bool _partPossession;
+    */
 
     void Awake()
     {
@@ -134,7 +134,7 @@ public class PlayerActions : MonoBehaviour {
 
 		// Particles
 		_isMoving = false;
-		_partPossession = false;
+		//_partPossession = false;
     }
 
     void Start()
@@ -292,23 +292,26 @@ public class PlayerActions : MonoBehaviour {
 		}
 
 		// Possession
-        
+        /*
 		if (currentBall != null && state == State.HUMAN)
 		{
 			if (_partPossession == false) 
 			{
-				StartCoroutine (ParticlePossession ());
+                _partPossession = true;
+                partCurrentPossession = ParticlePossession();
 			}
 		} 
 
-		else if (currentBall != null)
+		else if (currentBall == null)
 		{
-            print("possessionOFF");
-            partCurrentPossession = null;
+            // print("possessionOFF");
             Destroy(partCurrentPossession, 0.1f);
+
+            partCurrentPossession = null;
+            
 			_partPossession = false;
 		}
-        
+        */
     }
 			
     void StopSlowMo()
@@ -430,8 +433,6 @@ public class PlayerActions : MonoBehaviour {
 		if (!_mesh)
 			return;
 
-		StartParticles (partTransfoBall, 2f, Vector3.up);
-
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -452,10 +453,13 @@ public class PlayerActions : MonoBehaviour {
 
         if (b)
         {
+            StartParticles(partTransfoBall, 2f, Vector3.up);
+
             BallsManager.instance.AddBall(gameObject);
 
             _ballScript.idTeam = teamId;
-			if (GetComponent<Movement> ()._velocity != Vector3.zero) {
+			if (GetComponent<Movement> ()._velocity != Vector3.zero)
+            {
 				//_soloThrow = true;
 				state = State.THROWBALL;
 			}
@@ -463,8 +467,10 @@ public class PlayerActions : MonoBehaviour {
 
 			Throw(0,false);
         }
+
         else
         {
+            //StartParticles(partTransfoBall, 2f, Vector3.up);
             transform.transform.localEulerAngles = Vector3.zero;
             BallsManager.instance.RemoveBall(gameObject);
         }
@@ -560,8 +566,7 @@ public class PlayerActions : MonoBehaviour {
 
     void Dance()
     {
-	StartParticles (partDance, 1.5f, Vector3.zero);
-
+	    StartParticles (partDance, 1.5f, Vector3.zero);
         MatchManager.Instance.IncreaseFever(teamId);
     }
 
@@ -569,19 +574,14 @@ public class PlayerActions : MonoBehaviour {
 	// PARTICLES
 	// ****
 
-	IEnumerator ParticlePossession()
-	{
-		_partPossession = true;
-        StartParticles(partPossession, 180, Vector3.zero);
-
-        while (state == State.HUMAN && currentBall != null && _partPossession == true) 
-		{
-			yield return new WaitForSeconds(0.33f);
-		}
-
-        print("jnsp");
-		//_partPossession = false;
-	}
+    /*
+    GameObject ParticlePossession()
+    {
+        GameObject _partClone = Instantiate(partPossession, transform.position, Quaternion.identity) as GameObject;
+        _partClone.transform.parent = this.transform;
+        return _partClone;
+    }
+    */
 
 	IEnumerator ParticleIsMoving()
 	{
@@ -602,8 +602,8 @@ public class PlayerActions : MonoBehaviour {
 
 		if (_partClone.GetComponent<ParticleFollowPlayer>()) 
 		{
-            partCurrentPossession = _partClone;
             _partClone.GetComponent<ParticleFollowPlayer>().target = this.gameObject;
+            _partClone.transform.parent = this.transform;
         }
 
 		Destroy (_partClone, _deathTimer);
