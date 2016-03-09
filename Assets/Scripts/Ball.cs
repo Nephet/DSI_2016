@@ -242,13 +242,13 @@ public class Ball : MonoBehaviour {
 
 	void ChangeTrail()
 	{
-		if (currentPowerLevel >= maxPowerLevel) 
+		if (currentSpeed < 250) 
 		{
 			transform.GetChild (1).gameObject.SetActive (false);
 			transform.GetChild (2).gameObject.SetActive (true);
 		} 
 
-		else if (currentPowerLevel >= 0 && currentPowerLevel < maxPowerLevel)
+		else if (currentSpeed >= 250)
 		{
 			transform.GetChild (1).gameObject.SetActive (true);
 			transform.GetChild (2).gameObject.SetActive (false);

@@ -114,6 +114,8 @@ public class PlayerActions : MonoBehaviour {
 
 	public GameObject partPossession;
 
+    public GameObject partCurrentPossession;
+
 	bool _partPossession;
 
     void Awake()
@@ -290,6 +292,7 @@ public class PlayerActions : MonoBehaviour {
 		}
 
 		// Possession
+        
 		if (currentBall != null && state == State.HUMAN)
 		{
 			if (_partPossession == false) 
@@ -298,10 +301,14 @@ public class PlayerActions : MonoBehaviour {
 			}
 		} 
 
-		else if (!currentBall)
+		else if (currentBall != null)
 		{
+            print("possessionOFF");
+            partCurrentPossession = null;
+            Destroy(partCurrentPossession, 0.1f);
 			_partPossession = false;
 		}
+        
     }
 			
     void StopSlowMo()
@@ -565,24 +572,25 @@ public class PlayerActions : MonoBehaviour {
 	IEnumerator ParticlePossession()
 	{
 		_partPossession = true;
+        StartParticles(partPossession, 180, Vector3.zero);
 
-		while (state == State.HUMAN && currentBall != null && _partPossession == true) 
+        while (state == State.HUMAN && currentBall != null && _partPossession == true) 
 		{
 			yield return new WaitForSeconds(0.33f);
-			StartParticles (partPossession, 0.5f, Vector3.zero);
 		}
 
-		_partPossession = false;
+        print("jnsp");
+		//_partPossession = false;
 	}
 
 	IEnumerator ParticleIsMoving()
 	{
 		_isMoving = true;
 
-		while (_isMoving == true && state == State.HUMAN) 
+        while (_isMoving == true && state == State.HUMAN) 
 		{
-			yield return new WaitForSeconds(0.1f);
-			StartParticles (partMovement, 0.25f, Vector3.zero);
+            StartParticles(partMovement, 0.25f, Vector3.zero);
+            yield return new WaitForSeconds(0.1f);	
 		}
 
 		_isMoving = false;
@@ -592,10 +600,11 @@ public class PlayerActions : MonoBehaviour {
 	{
 		GameObject _partClone = Instantiate (_part, this.transform.position + _position, Quaternion.identity) as GameObject;
 
-		if (_partClone.GetComponent<ParticleFollowPlayer> ()) 
+		if (_partClone.GetComponent<ParticleFollowPlayer>()) 
 		{
-			_partClone.GetComponent<ParticleFollowPlayer> ().target = this.gameObject;
-		}
+            partCurrentPossession = _partClone;
+            _partClone.GetComponent<ParticleFollowPlayer>().target = this.gameObject;
+        }
 
 		Destroy (_partClone, _deathTimer);
 	}
