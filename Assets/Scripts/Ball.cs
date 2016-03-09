@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ParticlePlayground;
 
 public class Ball : MonoBehaviour {
     
@@ -22,6 +23,10 @@ public class Ball : MonoBehaviour {
 	public GameObject parentMeshBall;
 	public GameObject meshBall;
 
+    public GameObject trailLvl1;
+    public GameObject trailLvl2;
+    public PlaygroundParticlesC volleyParticles;
+
     public bool snakeBool = false;
     int _right = 1;
 
@@ -35,7 +40,7 @@ public class Ball : MonoBehaviour {
 
 	// **** PARTICLES ****
 	public GameObject partBallDust;
-
+    
     void Start()
     {
         _timer = 0;
@@ -50,6 +55,7 @@ public class Ball : MonoBehaviour {
 
         _rigidB = GetComponent<Rigidbody>();
 
+        volleyParticles.emit = false;
         // Change color of trail
         
 
@@ -58,7 +64,7 @@ public class Ball : MonoBehaviour {
 
     void Update()
     {
-
+        ChangeTrail();
         //Debug.DrawLine(parentMeshBall.transform.position, parentMeshBall.transform.position + parentMeshBall.transform.forward, Color.red, 100);
 
         /*RaycastHit hit;
@@ -247,16 +253,25 @@ public class Ball : MonoBehaviour {
 
 	void ChangeTrail()
 	{
-		if (currentSpeed < 250) 
+        if (currentPowerLevel == 0)
+        {
+            trailLvl1.SetActive(false);
+            trailLvl2.SetActive(false);
+            meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 0f);
+        }
+
+        if (currentPowerLevel == 1) 
 		{
-			transform.GetChild (1).gameObject.SetActive (false);
-			transform.GetChild (2).gameObject.SetActive (true);
+            trailLvl1.SetActive (true);
+            trailLvl2.SetActive (false);
+            meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 0.8f);
 		} 
 
-		else if (currentSpeed >= 250)
+		else if (currentPowerLevel == 2)
 		{
-			transform.GetChild (1).gameObject.SetActive (true);
-			transform.GetChild (2).gameObject.SetActive (false);
-		}
-	}
+            trailLvl1.SetActive (false);
+            trailLvl2.SetActive (true);
+            meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 2f);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ParticlePlayground;
 
 public class PlayerActions : MonoBehaviour {
 
@@ -355,7 +356,7 @@ public class PlayerActions : MonoBehaviour {
 
         currentBall.GetComponent<Ball>().StartPowerDrop();
 
-        ChangeTrailColor(currentBall);
+        ChangeTrailColor();
 
         if (currentBall.GetComponent<PlayerActions>())
         {
@@ -388,8 +389,21 @@ public class PlayerActions : MonoBehaviour {
 		if (volley) 
 		{
 			speedModifier = (BallsManager.instance.speedVolley)*1.0f / 199*1.0f;
-		} 
-		else 
+            currentBall.GetComponent<Ball>().volleyParticles.emit = true;
+            if (teamId == 1)
+            {
+                print("Volley_1");
+                currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            }
+                
+            else if (teamId == 2)
+            {
+                print("Volley_2");
+                currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            }
+                
+        }
+        else 
 		{
 			speedModifier = (BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 1 : currentBall.GetComponent<Ball>().currentPowerLevel-1])*1.0f / 199 *1.0f;
 		}
@@ -627,18 +641,20 @@ public class PlayerActions : MonoBehaviour {
 		Destroy (_partClone, _deathTimer);
 	}
 
-    void ChangeTrailColor(GameObject trailColor)
+    void ChangeTrailColor()
     {
         if (teamId == 1)
         {
-            trailColor.transform.GetChild(1).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
-            trailColor.transform.GetChild(2).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            currentBall.GetComponent<Ball>().trailLvl1.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            currentBall.GetComponent<Ball>().trailLvl2.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            currentBall.GetComponent<Ball>().meshBall.GetComponent<Renderer>().material.SetColor("_teamColor", PlayerManager.instance.colorTeam1);
         }
         
         else if (teamId == 2)
         {
-            trailColor.transform.GetChild(1).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
-            trailColor.transform.GetChild(2).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            currentBall.GetComponent<Ball>().trailLvl1.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            currentBall.GetComponent<Ball>().trailLvl2.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            currentBall.GetComponent<Ball>().meshBall.GetComponent<Renderer>().material.SetColor("_teamColor", PlayerManager.instance.colorTeam2);
         }
     }
 }
