@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour {
 	float _speed;
     float _speedInBall;
 	float _rotationSpeed;
+    Animator _anim;
 
     [HideInInspector]
 	public Vector3 _velocity;
@@ -18,10 +19,14 @@ public class Movement : MonoBehaviour {
     
 	public GameObject mesh;
     public GameObject ballMesh;
+
 	public GameObject meshBall;
-	public GameObject arrowDirection;
 
 	public float smoothMove = 0;
+	public bool moving = false;
+
+    public GameObject body;
+    public GameObject head;
 
     int id;
 
@@ -29,6 +34,8 @@ public class Movement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        _anim = transform.Find("Body").gameObject.GetComponent<Animator>();
 
 		_rigidB = GetComponent<Rigidbody> ();
 
@@ -38,10 +45,10 @@ public class Movement : MonoBehaviour {
 		_speedInBall = PlayerManager.instance.speedInBall;
 		_rotationSpeed = PlayerManager.instance.rotationSpeed;
 		mesh.transform.localPosition = new Vector3 (0f, -1.0f, 0f);
-		arrowDirection.transform.parent = mesh.transform;
 	}
 	
 	// Update is called once per frame
+
 	void Update () 
 	{
 		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
@@ -80,16 +87,25 @@ public class Movement : MonoBehaviour {
 
 		_velocity = (_movHorizontal + _movVertical).normalized * modifier;
 
-		/*************/
-		if (GetComponent<PlayerActions> ().currentBall != null) {
+
+        // set des variables d'animation
+        if (_horizontal != 0 || _vertical != 0)
+            _anim.SetBool("isRunning", true);
+        else
+            _anim.SetBool("isRunning", false);
+
+
+        /*************/
+        if (GetComponent<PlayerActions> ().currentBall != null) {
 			Feedback ();
-		} 
-		else {
-			arrowDirection.SetActive (false);
-		}
+        } 
 
 		Debug.DrawRay (transform.position, _directionAlt, Color.red);
-		_rotation = Quaternion.LookRotation (_lastDirectionAlt, transform.up);
+
+        if (_lastDirectionAlt != Vector3.zero)
+        {
+            _rotation = Quaternion.LookRotation(_lastDirectionAlt, transform.up);
+        }
 	}
     
 	void FixedUpdate()
@@ -138,21 +154,25 @@ public class Movement : MonoBehaviour {
 
 	void PerformRotation()
 	{
+		
 		mesh.transform.localRotation = Quaternion.Lerp(mesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
-		//ballMesh.transform.localRotation = Quaternion.Lerp(ballMesh.transform.localRotation, _rotation, 10f * Time.fixedDeltaTime);
-		//meshBall.transform.localRotation = new Quaternion(meshBall.transform.localRotation.x, _rotation.y,meshBall.transform.localRotation.z, _rotation.w);
+		if (_velocity != Vector3.zero) {
+			moving = true;
+			ballMesh.transform.rotation = _rotation;
+		} else {
+
+			moving = false;
+		}
+
+		meshBall.transform.Rotate (Vector3.right*100f * _velocity.magnitude * Time.deltaTime);
 	}
 
 	void Feedback()
 	{
-		arrowDirection.SetActive (true);
-		arrowDirection.transform.localPosition = Vector3.zero;
 		Vector3 _targetPoint = transform.position + _lastDirectionAlt;
 
 		Vector3 _midPoint = transform.position + (_targetPoint - transform.position) / 2.0f;
 		_midPoint = new Vector3 (_midPoint.x, 2.5f, _midPoint.z);
-		arrowDirection.transform.position = _midPoint;
-		arrowDirection.transform.localRotation = Quaternion.Euler (new Vector3 (90f,0f,0f));
 
 	}
 }

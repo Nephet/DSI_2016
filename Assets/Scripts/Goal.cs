@@ -35,9 +35,9 @@ public class Goal : MonoBehaviour
 
         else if (other.tag == "Ball" && !pA && !other.GetComponent<Rigidbody>().isKinematic)
         {
-            Debug.Log("buuuuut");
 			// particles
 			StartParticles ();
+
 			BallsManager.instance.RemoveBall (other.gameObject);
 			Destroy (other.gameObject);
 

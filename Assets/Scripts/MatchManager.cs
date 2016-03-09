@@ -229,15 +229,24 @@ public class MatchManager : MonoBehaviour {
 		{
 			GameObject _player = Instantiate (prefabPlayer) as GameObject;
 			GameObject _mask = Instantiate (SelectionManager.instance.currentMask [i]) as GameObject;
-			_mask.transform.localScale *= 0.3f;
-			_mask.transform.parent = _player.transform;
-			_mask.transform.localPosition = Vector3.zero - (Vector3.up * 0.71f);
+			_player.transform.localScale *= 0.3f;
 
-            _player.GetComponent<Movement>().mesh = _mask;
+			_mask.transform.parent = _player.GetComponent<Movement>().head.transform;
 
-			_player.GetComponent<PlayerActions> ().id = i;
+			_mask.transform.localPosition = Vector3.zero;
+            _mask.transform.localEulerAngles = Vector3.zero;
+            _mask.transform.localScale = Vector3.one;
+
+            _mask.GetComponentInChildren<Renderer>().material.mainTexture = SelectionManager.instance.currentTexture[i];
+
+            _player.GetComponent<PlayerActions> ().id = i;
 			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
-			PlayerManager.instance.AddPlayer(_player);
+			_player.GetComponent<Movement>().meshBall.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureBallTeam1 : SelectionManager.instance.textureBallTeam2;
+
+            _player.GetComponent<Movement>().body.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureTeam1 : SelectionManager.instance.textureTeam2;
+
+            PlayerManager.instance.AddPlayer(_player);
+
 		}
 
 		int nbSpawn1 = 0;

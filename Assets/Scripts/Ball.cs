@@ -25,6 +25,8 @@ public class Ball : MonoBehaviour {
     public bool snakeBool = false;
     int _right = 1;
 
+	public bool bounce = false;
+
     Rigidbody _rigidB;
 
     AnimationCurve _snakeCurve;
@@ -71,7 +73,7 @@ public class Ball : MonoBehaviour {
         _timer += Time.deltaTime;
         if (_timer > 1.0f) { _timer = 0; }
 
-        RotateMesh ();
+        
         PlayerActions pA = GetComponent<PlayerActions>();
         
         /*Debug.Log(transform.GetChild(0).name);
@@ -94,6 +96,12 @@ public class Ball : MonoBehaviour {
 
 
     }
+
+	void FixedUpdate()
+	{
+
+		RotateMesh ();
+	}
 
     void OnCollisionEnter(Collision other)
     {
@@ -181,7 +189,7 @@ public class Ball : MonoBehaviour {
 
             currentSpeed -= BallsManager.instance.speedDropAmount;
 
-            UpdatePowerLevel();
+            //UpdatePowerLevel();
         }
 
         yield return null;
@@ -212,13 +220,22 @@ public class Ball : MonoBehaviour {
 	void RotateMesh()
 	{
 		
+
 		if (GetComponent<PlayerActions> ()) {
-			Debug.Log ("test");
-			Debug.Log (Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity));
-			meshBall.transform.Rotate (meshBall.transform.right*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*100f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+			//parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.up);
+			if (!GetComponent<Movement> ().moving && _rigidB.velocity!=Vector3.zero) {
+				
+				parentMeshBall.transform.rotation = Quaternion.LookRotation (_rigidB.velocity, Vector3.up);
+			}
+
+			meshBall.transform.Rotate (Vector3.right*100f* GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
+			//meshBall.transform.Rotate (meshBall.transform.right*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*100f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 
 		} else {
-			parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
+            if(GetComponent<Rigidbody>().velocity != Vector3.zero)
+            {
+                parentMeshBall.transform.rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity, Vector3.forward);
+            }
 			meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 		}
 	}
