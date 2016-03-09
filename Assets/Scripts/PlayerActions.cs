@@ -41,7 +41,9 @@ public class PlayerActions : MonoBehaviour {
     public int teamId;
 
 	bool snap;
+    bool snapAlt;
     bool _transfo;
+    bool _transfoAlt;
     bool _dash;
 	bool _suicide;
     bool _bonus;
@@ -125,6 +127,7 @@ public class PlayerActions : MonoBehaviour {
             currentBall.transform.parent = _mesh.transform;
             currentBall.transform.position = transform.position + _mesh.transform.forward/2;
         }
+        
     }
 
     void Update()
@@ -138,9 +141,11 @@ public class PlayerActions : MonoBehaviour {
 		float _altVertical = Input.GetAxis("R_YAxis_"+id);
 
 		transform.rotation = Quaternion.Euler (Vector3.zero);
-		snap = Input.GetButtonDown ("A_Button_"+id) || Input.GetAxis ("Fire_"+id) > 0.0f;
-
-		_transfo = Input.GetButtonDown("B_Button_" + id) || Input.GetAxis ("Fire_"+id) < 0.0f;
+        snap = Input.GetButtonDown("A_Button_" + id);
+        snapAlt = Input.GetAxis ("Fire_"+id) < -0.1f;
+        
+        _transfo = Input.GetButtonDown("B_Button_" + id);
+        _transfoAlt = Input.GetAxis ("Fire_"+id) > 0.1f;
 
 		//_dash = Input.GetAxis("Fire_" + id) < 0.0f;
 
@@ -178,7 +183,7 @@ public class PlayerActions : MonoBehaviour {
                 _nearestBall = null;
             }
         }
-		else if (snap && (_oldTriggerHeldRight != snap)  && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
+		else if ((snap || (snapAlt && (_oldTriggerHeldRight != snapAlt)))  && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
         {
             _currentSnapDelay = 0f;
 
@@ -188,7 +193,7 @@ public class PlayerActions : MonoBehaviour {
                 Snap();
             }
         }
-		else if (_transfo && (_oldTriggerHeldLeft != _transfo) && (state == State.HUMAN || state == State.FREEBALL))
+		else if ((_transfo || (_transfoAlt && (_oldTriggerHeldLeft != _transfoAlt))) && (state == State.HUMAN || state == State.FREEBALL))
         {
             SetToBall(state == State.HUMAN);
         }
@@ -220,8 +225,8 @@ public class PlayerActions : MonoBehaviour {
             Dance();
         }
 
-		_oldTriggerHeldRight = snap;
-		_oldTriggerHeldLeft = _transfo;
+		_oldTriggerHeldRight = snapAlt;
+		_oldTriggerHeldLeft = _transfoAlt;
     }
 
     void StopSlowMo()
