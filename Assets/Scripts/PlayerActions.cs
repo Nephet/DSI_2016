@@ -269,7 +269,7 @@ public class PlayerActions : MonoBehaviour {
 
 		_oldTriggerHeldRight = snapAlt;
 		_oldTriggerHeldLeft = _transfoAlt;
-    }
+    
 
 		// ****
 		// PARTICLES
