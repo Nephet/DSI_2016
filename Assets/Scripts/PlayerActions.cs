@@ -70,6 +70,7 @@ public class PlayerActions : MonoBehaviour {
 	float _currentSnapDelay = Mathf.Infinity;
     
 	bool _oldTriggerHeld;
+	bool _isMoving;
 
     [HideInInspector]
     public bool willIgnoreSnap = false;
@@ -84,6 +85,28 @@ public class PlayerActions : MonoBehaviour {
     [HideInInspector]
     public bool frenzy = false;
 
+	//****
+	//PARTICLES
+	//****
+
+	[Header("Particles")]
+
+	public GameObject partSuicideTeam_1;
+	public GameObject partSuicideTeam_2;
+	GameObject partSuicide;
+
+	public GameObject partDance;
+
+	public GameObject partStun;
+
+	public GameObject partTransfoBall;
+
+	public GameObject partMovement;
+
+	public GameObject partPossession;
+
+	bool _partPossession;
+
     void Awake()
     {
         dashing = false;
@@ -97,10 +120,25 @@ public class PlayerActions : MonoBehaviour {
 
         _bounceScript = GetComponent<Bounce>();
         _bounceScript.enabled = false;
+
+		// Particles
+		_isMoving = false;
+		_partPossession = false;
     }
 
     void Start()
     {
+		// Particles
+		if (teamId == 1) 
+		{
+			partSuicide = partSuicideTeam_1;
+		} 
+
+		else 
+		{
+			partSuicide = partSuicideTeam_2;
+		}
+
         _mesh = GetComponent<Movement>().mesh;
         _ballMesh = GetComponent<Movement>().ballMesh;
 
@@ -146,6 +184,7 @@ public class PlayerActions : MonoBehaviour {
         {
             Throw(_throwPower);
         }
+
 		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN)
         {
             DistanceBalls();
@@ -162,11 +201,13 @@ public class PlayerActions : MonoBehaviour {
                 
                 //Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
             }
+
             else
             {
                 _nearestBall = null;
             }
         }
+
         else if (snap && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
         {
             _currentSnapDelay = 0f;
@@ -177,14 +218,17 @@ public class PlayerActions : MonoBehaviour {
                 Snap();
             }
         }
+
         else if (_transfo && (state == State.HUMAN || state == State.FREEBALL))
         {
             SetToBall(state == State.HUMAN);
         }
+
         else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId)
         {
             StartDash();
         }
+
         else if (_suicide && state == PlayerActions.State.TAKENBALL)
         {
             Debug.Log(_smashButtonCount);
@@ -200,18 +244,52 @@ public class PlayerActions : MonoBehaviour {
                 SmashButton();
             }
         }
+
         else if (_bonus)
         {
             PinataManager.instance.ApplyBonus(this);
         }
+
         else if (_dance && state == State.HUMAN && GetComponent<Movement>()._velocity == Vector3.zero)
         {
             Dance();
         }
 
 		_oldTriggerHeld = snap;
-    }
 
+		// ****
+		// PARTICLES
+		// ****
+
+		// Movement
+		if (GetComponent<Movement> ()._velocity != Vector3.zero) 
+		{
+			if (_isMoving == false) 
+			{
+				StartCoroutine (ParticleIsMoving ());
+			}
+		} 
+
+		else 
+		{
+			_isMoving = false;
+		}
+
+		// Possession
+		if (currentBall != null && state == State.HUMAN)
+		{
+			if (_partPossession == false) 
+			{
+				StartCoroutine (ParticlePossession ());
+			}
+		} 
+
+		else if (!currentBall)
+		{
+			_partPossession = false;
+		}
+    }
+			
     void StopSlowMo()
     {
         MatchManager.Instance.StopSlowMo();
@@ -314,7 +392,9 @@ public class PlayerActions : MonoBehaviour {
     {
 		if (!_mesh)
 			return;
-		
+
+		StartParticles (partTransfoBall, 2f, Vector3.up);
+
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -396,6 +476,8 @@ public class PlayerActions : MonoBehaviour {
 
 	void ActiveStun ()
 	{
+		StartParticles (partStun, 2.0f, Vector3.up);
+
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
 		Throw (0);
@@ -421,6 +503,9 @@ public class PlayerActions : MonoBehaviour {
 
 	void Suicide()
 	{
+		// Particles
+		StartParticles(partSuicide, 1.5f, Vector3.zero);
+
 		_smashButtonCount = 0;
 		_currentTimerSmashButton = 0;
 		_listPlayers = PlayerManager.instance.listPlayers;
@@ -443,7 +528,50 @@ public class PlayerActions : MonoBehaviour {
 
     void Dance()
     {
+		StartParticles (partDance, 1.5f, Vector3.zero);
+
         MatchManager.Instance.IncreaseFever(teamId);
     }
 
+	// **** 
+	// PARTICLES
+	// ****
+
+	IEnumerator ParticlePossession()
+	{
+		_partPossession = true;
+
+		while (state == State.HUMAN && currentBall != null && _partPossession == true) 
+		{
+			yield return new WaitForSeconds(0.33f);
+			StartParticles (partPossession, 0.5f, Vector3.zero);
+		}
+
+		_partPossession = false;
+	}
+
+	IEnumerator ParticleIsMoving()
+	{
+		_isMoving = true;
+
+		while (_isMoving == true && state == State.HUMAN) 
+		{
+			yield return new WaitForSeconds(0.1f);
+			StartParticles (partMovement, 0.25f, Vector3.zero);
+		}
+
+		_isMoving = false;
+	}
+
+	void StartParticles(GameObject _part, float _deathTimer, Vector3 _position)
+	{
+		GameObject _partClone = Instantiate (_part, this.transform.position + _position, Quaternion.identity) as GameObject;
+
+		if (_partClone.GetComponent<ParticleFollowPlayer> ()) 
+		{
+			_partClone.GetComponent<ParticleFollowPlayer> ().target = this.gameObject;
+		}
+
+		Destroy (_partClone, _deathTimer);
+	}
 }

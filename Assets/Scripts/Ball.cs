@@ -10,6 +10,8 @@ public class Ball : MonoBehaviour {
     
     public int currentPowerLevel;
 
+	public int maxPowerLevel;
+
     public int currentSpeed;
 
     public int idTeam;
@@ -28,6 +30,9 @@ public class Ball : MonoBehaviour {
     AnimationCurve _snakeCurve;
 
     float _timer;
+
+	// **** PARTICLES ****
+	public GameObject partBallDust;
 
     void Start()
     {
@@ -111,7 +116,11 @@ public class Ball : MonoBehaviour {
 			}
 		}
 
-
+		if (other.gameObject.tag == "Wall") 
+		{
+			GameObject _partClone = Instantiate (partBallDust, this.transform.position, Quaternion.identity) as GameObject;
+			Destroy (_partClone, 5.0f);
+		}
     }
 
     void OnTriggerEnter(Collider other)
@@ -196,6 +205,8 @@ public class Ball : MonoBehaviour {
                 break;
             }
         }
+
+		ChangeTrail ();
     }
 
 	void RotateMesh()
@@ -210,8 +221,20 @@ public class Ball : MonoBehaviour {
 			parentMeshBall.transform.rotation = Quaternion.LookRotation (GetComponent<Rigidbody> ().velocity, Vector3.forward);
 			meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 		}
+	}
 
+	void ChangeTrail()
+	{
+		if (currentPowerLevel >= maxPowerLevel) 
+		{
+			transform.GetChild (1).gameObject.SetActive (false);
+			transform.GetChild (2).gameObject.SetActive (true);
+		} 
 
-
+		else if (currentPowerLevel >= 0 && currentPowerLevel < maxPowerLevel)
+		{
+			transform.GetChild (1).gameObject.SetActive (true);
+			transform.GetChild (2).gameObject.SetActive (false);
+		}
 	}
 }

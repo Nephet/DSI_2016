@@ -81,6 +81,9 @@ public class MatchManager : MonoBehaviour {
     [HideInInspector]
     public bool prolongation = false;
 
+	[Header("Particles")]
+	public GameObject partRespawn;
+
     public static MatchManager Instance
     {
         get
@@ -216,7 +219,6 @@ public class MatchManager : MonoBehaviour {
 
 	void Spawn()
 	{
-
 		panelVictory.SetActive (false);
 		panelPause.SetActive (false);
 
@@ -236,7 +238,6 @@ public class MatchManager : MonoBehaviour {
 			_player.GetComponent<PlayerActions> ().id = i;
 			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
 			PlayerManager.instance.AddPlayer(_player);
-
 		}
 
 		int nbSpawn1 = 0;
@@ -296,6 +297,9 @@ public class MatchManager : MonoBehaviour {
 			}
 
 		}
+
+
+
 		_player.GetComponent<PlayerActions> ().SetToBall (false);
 		StartCoroutine (CountDownRespawnPlayer (_player));
 
@@ -329,6 +333,11 @@ public class MatchManager : MonoBehaviour {
 	IEnumerator CountDownRespawnPlayer(GameObject _player)
 	{
 		yield return new WaitForSeconds (2.0f);
+
+		// Particles
+		GameObject _partClone = Instantiate(partRespawn, _player.transform.position, Quaternion.identity) as GameObject;
+		Destroy (_partClone, 5f);
+
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		_player.GetComponent<Ball> ().currentPowerLevel = 0;
 		_player.GetComponent<PlayerActions> ().state = PlayerActions.State.HUMAN;
@@ -371,6 +380,4 @@ public class MatchManager : MonoBehaviour {
             lastTeamDecrease = Time.time;
         }
     }
-    
-
 }
