@@ -268,6 +268,7 @@ public class PlayerActions : MonoBehaviour {
 		_soloThrow = false;
 
         _anim.SetTrigger("shoot");
+		SoundManagerEvent.emit (SoundManagerType.KICK);
         
 		BallsManager.instance.AddBall (currentBall);
 		currentBall.GetComponent<Ball> ().bounce = false;
@@ -369,7 +370,7 @@ public class PlayerActions : MonoBehaviour {
         if (b)
         {
             BallsManager.instance.AddBall(gameObject);
-
+			SoundManagerEvent.emit (SoundManagerType.TRANSFO);
             _ballScript.idTeam = teamId;
 			if (GetComponent<Movement> ()._velocity != Vector3.zero) {
 				//_soloThrow = true;
@@ -398,6 +399,7 @@ public class PlayerActions : MonoBehaviour {
         
 		dashing = true;
         
+		SoundManagerEvent.emit (SoundManagerType.DASH);
 		_lastMagnitude = GetComponent<Rigidbody> ().velocity.magnitude;
 		_dirAlt = _shootDirection;
         //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
@@ -427,6 +429,8 @@ public class PlayerActions : MonoBehaviour {
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
 		Throw (0,false);
+		SoundManagerEvent.emit (SoundManagerType.CHARGESMASH);
+		SoundManagerEvent.emit (SoundManagerType.STUN);
 		Invoke ("DisableStun", 2.0f);
 	}
 
@@ -440,6 +444,7 @@ public class PlayerActions : MonoBehaviour {
 	{
 		_currentTimerSmashButton = _maxTimerSmashButton;
 		_smashButtonCount++;
+		SoundManagerEvent.emit (SoundManagerType.CHARGEEXP);
 		if (_smashButtonCount >= nbSuicideInput || instantExplosion) 
 		{
 			Suicide ();
@@ -451,6 +456,7 @@ public class PlayerActions : MonoBehaviour {
 	{
 		_smashButtonCount = 0;
 		_currentTimerSmashButton = 0;
+		SoundManagerEvent.emit (SoundManagerType.VANISH);
 		_listPlayers = PlayerManager.instance.listPlayers;
 		transform.parent.parent.GetComponent<PlayerActions> ().currentBall = null;
 		transform.parent.parent.GetComponent<PlayerActions> ()._nearestBall = null;

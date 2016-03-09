@@ -26,7 +26,8 @@ public class Bounce : MonoBehaviour {
 		if (!GetComponent<Ball> ().respawning && _rigidBody.velocity!=Vector3.zero) {
 			if (other.contacts.Length == 0)
 				return;
-
+			
+			SoundManagerEvent.emit (SoundManagerType.BOUNCE);
 			gameObject.GetComponent<Ball> ().currentPowerLevel = 0;
 			gameObject.GetComponent<Ball> ().bounce = true;
 			_rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
@@ -35,6 +36,7 @@ public class Bounce : MonoBehaviour {
 
             if (other.gameObject.GetComponent<Ball>())
             {
+				
                 other.gameObject.GetComponent<Rigidbody>().AddForce(_oldVelocity - _rigidBody.velocity, ForceMode.Impulse);
 
                 if (other.gameObject.GetComponent<PlayerActions>())

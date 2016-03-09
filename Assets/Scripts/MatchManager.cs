@@ -109,7 +109,7 @@ public class MatchManager : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			pause = !pause;
-			SoundManagerEvent.emit (SoundManagerType.DRINK);
+			//SoundManagerEvent.emit (SoundManagerType.DRINK);
 		}
 
 		if (pause) {
@@ -192,6 +192,8 @@ public class MatchManager : MonoBehaviour {
 	void EndGame()
 	{
 		panelVictory.SetActive (true);
+		SoundManagerEvent.emit (SoundManagerType.WHISTLEEND);
+		SoundManagerEvent.emit (SoundManagerType.BASSEND);
 		//pause = true;
 		endGame = true;
 		CheckTeamVictory ();
@@ -226,7 +228,7 @@ public class MatchManager : MonoBehaviour {
 		for (int i = 1; i < 5; i++) 
 		{
 			GameObject _player = Instantiate (prefabPlayer) as GameObject;
-			GameObject _mask = Instantiate (SelectionManager.instance.currentMask [i]) as GameObject;
+			GameObject _mask = Instantiate (SelectionManager.instance.chooseMask [i]) as GameObject;
 			_player.transform.localScale *= 0.3f;
 
 			_mask.transform.parent = _player.GetComponent<Movement>().head.transform;

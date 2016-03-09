@@ -30,7 +30,27 @@ using System.Collections;
 //Liste des effets
 public enum SoundManagerType
 {
-    DRINK,
+    MENU,
+	GAMEMUSIC,
+	OVERTIME,
+	ENDGAME,
+	CROWDMUSIC,
+	KICK,
+	GOAL,
+	VANISH,
+	TRANSFO,
+	DASH,
+	CHARGEEXP,
+	CHARGESMASH,
+	STUN,
+	BOUNCE,
+	WHISTLSTART,
+	AREYOUREADY,
+	WHISTLEEND,
+	BASSEND,
+	BACK,
+	OK,
+	MOVE,
 
 }
 
