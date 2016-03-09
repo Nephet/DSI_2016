@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ParticlePlayground;
 
 public class PlayerActions : MonoBehaviour {
 
@@ -77,6 +78,7 @@ public class PlayerActions : MonoBehaviour {
 	public float snapDelay = 0.5f;
 	float _currentSnapDelay = Mathf.Infinity;
     
+	bool _isMoving;
 	bool _oldTriggerHeldRight;
 	bool _oldTriggerHeldLeft;
 
@@ -93,6 +95,32 @@ public class PlayerActions : MonoBehaviour {
     [HideInInspector]
     public bool frenzy = false;
 
+	//****
+	//PARTICLES
+	//****
+
+	[Header("Particles")]
+
+	public GameObject partSuicideTeam_1;
+	public GameObject partSuicideTeam_2;
+	GameObject partSuicide;
+
+	public GameObject partDance;
+
+	public GameObject partStun;
+
+	public GameObject partTransfoBall;
+
+	public GameObject partMovement;
+
+    public GameObject trailColor;
+
+    /*
+	public GameObject partPossession;
+    public GameObject partCurrentPossession;
+	bool _partPossession;
+    */
+
     void Awake()
     {
         dashing = false;
@@ -106,10 +134,26 @@ public class PlayerActions : MonoBehaviour {
 
         _bounceScript = GetComponent<Bounce>();
         _bounceScript.enabled = false;
-    }
+
+		// Particles
+		_isMoving = false;
+        //_partPossession = false;
+
+     }
 
     void Start()
     {
+		// Particles
+		if (teamId == 1) 
+		{
+			partSuicide = partSuicideTeam_1;
+		} 
+
+		else 
+		{
+			partSuicide = partSuicideTeam_2;
+		}
+
         _mesh = GetComponent<Movement>().mesh;
         _ballMesh = GetComponent<Movement>().ballMesh;
 
@@ -126,6 +170,17 @@ public class PlayerActions : MonoBehaviour {
             currentBall.GetComponent<Rigidbody>().isKinematic = true;
             currentBall.transform.parent = _mesh.transform;
             currentBall.transform.position = transform.position + _mesh.transform.forward/2;
+        }
+
+        // Change trail color
+        if (teamId == 1)
+        {
+            trailColor.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+        }
+
+        else if (teamId == 2)
+        {
+            trailColor.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
         }
         
     }
@@ -161,7 +216,8 @@ public class PlayerActions : MonoBehaviour {
         {
 			Throw(_throwPower,false);
         }
-		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN && _throwTimer >= 0.5f)
+
+	    else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN && _throwTimer >= 0.5f)
         {
             DistanceBalls();
 
@@ -178,12 +234,13 @@ public class PlayerActions : MonoBehaviour {
                 
                 //Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
             }
+
             else
             {
                 _nearestBall = null;
             }
         }
-		else if ((snap || (snapAlt && (_oldTriggerHeldRight != snapAlt)))  && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
+	else if ((snap || (snapAlt && (_oldTriggerHeldRight != snapAlt)))  && (_currentSnapDelay >= snapDelay) && currentBall == null && state == State.HUMAN)
         {
             _currentSnapDelay = 0f;
 
@@ -197,10 +254,11 @@ public class PlayerActions : MonoBehaviour {
         {
             SetToBall(state == State.HUMAN);
         }
-		else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId && !_soloThrow)
+	else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId && !_soloThrow)
         {
             StartDash();
         }
+
         else if (_suicide && state == PlayerActions.State.TAKENBALL)
         {
             Debug.Log(_smashButtonCount);
@@ -216,10 +274,12 @@ public class PlayerActions : MonoBehaviour {
                 SmashButton();
             }
         }
+
         else if (_bonus)
         {
             PinataManager.instance.ApplyBonus(this);
         }
+
         else if (_dance && state == State.HUMAN && GetComponent<Movement>()._velocity == Vector3.zero)
         {
             Dance();
@@ -227,8 +287,49 @@ public class PlayerActions : MonoBehaviour {
 
 		_oldTriggerHeldRight = snapAlt;
 		_oldTriggerHeldLeft = _transfoAlt;
-    }
+    
 
+		// ****
+		// PARTICLES
+		// ****
+
+		// Movement
+		if (GetComponent<Movement> ()._velocity != Vector3.zero) 
+		{
+			if (_isMoving == false) 
+			{
+				StartCoroutine (ParticleIsMoving ());
+			}
+		} 
+
+		else 
+		{
+			_isMoving = false;
+		}
+
+		// Possession
+        /*
+		if (currentBall != null && state == State.HUMAN)
+		{
+			if (_partPossession == false) 
+			{
+                _partPossession = true;
+                partCurrentPossession = ParticlePossession();
+			}
+		} 
+
+		else if (currentBall == null)
+		{
+            // print("possessionOFF");
+            Destroy(partCurrentPossession, 0.1f);
+
+            partCurrentPossession = null;
+            
+			_partPossession = false;
+		}
+        */
+    }
+			
     void StopSlowMo()
     {
         MatchManager.Instance.StopSlowMo();
@@ -236,6 +337,7 @@ public class PlayerActions : MonoBehaviour {
 
     void Snap()
     {
+        
 
         _anim.SetTrigger("snap");
         currentBall = _nearestBall;
@@ -253,6 +355,8 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Ball>().StopSpeedDrop();
 
         currentBall.GetComponent<Ball>().StartPowerDrop();
+
+        ChangeTrailColor();
 
         if (currentBall.GetComponent<PlayerActions>())
         {
@@ -286,8 +390,21 @@ public class PlayerActions : MonoBehaviour {
 		if (volley) 
 		{
 			speedModifier = (BallsManager.instance.speedVolley)*1.0f / 199*1.0f;
-		} 
-		else 
+            currentBall.GetComponent<Ball>().volleyParticles.emit = true;
+            if (teamId == 1)
+            {
+                print("Volley_1");
+                currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            }
+                
+            else if (teamId == 2)
+            {
+                print("Volley_2");
+                currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            }
+                
+        }
+        else 
 		{
 			speedModifier = (BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 1 : currentBall.GetComponent<Ball>().currentPowerLevel-1])*1.0f / 199 *1.0f;
 		}
@@ -348,7 +465,7 @@ public class PlayerActions : MonoBehaviour {
     {
 		if (!_mesh)
 			return;
-		
+
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -369,10 +486,13 @@ public class PlayerActions : MonoBehaviour {
 
         if (b)
         {
+            StartParticles(partTransfoBall, 2f, Vector3.up);
+
             BallsManager.instance.AddBall(gameObject);
 			SoundManagerEvent.emit (SoundManagerType.TRANSFO);
             _ballScript.idTeam = teamId;
-			if (GetComponent<Movement> ()._velocity != Vector3.zero) {
+			if (GetComponent<Movement> ()._velocity != Vector3.zero)
+            {
 				//_soloThrow = true;
 				state = State.THROWBALL;
 			}
@@ -380,8 +500,10 @@ public class PlayerActions : MonoBehaviour {
 
 			Throw(0,false);
         }
+
         else
         {
+            StartParticles(partTransfoBall, 2f, Vector3.up);
             transform.transform.localEulerAngles = Vector3.zero;
             BallsManager.instance.RemoveBall(gameObject);
         }
@@ -426,6 +548,8 @@ public class PlayerActions : MonoBehaviour {
 
 	void ActiveStun ()
 	{
+		StartParticles (partStun, 2.0f, Vector3.up);
+
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
 		Throw (0,false);
@@ -454,6 +578,9 @@ public class PlayerActions : MonoBehaviour {
 
 	void Suicide()
 	{
+		// Particles
+		StartParticles(partSuicide, 1.5f, Vector3.zero);
+
 		_smashButtonCount = 0;
 		_currentTimerSmashButton = 0;
 		SoundManagerEvent.emit (SoundManagerType.VANISH);
@@ -477,8 +604,63 @@ public class PlayerActions : MonoBehaviour {
 
     void Dance()
     {
-		Debug.Log ("test");
+	    StartParticles (partDance, 1.5f, Vector3.zero);
         MatchManager.Instance.IncreaseFever(teamId);
     }
 
+	// **** 
+	// PARTICLES
+	// ****
+
+    /*
+    GameObject ParticlePossession()
+    {
+        GameObject _partClone = Instantiate(partPossession, transform.position, Quaternion.identity) as GameObject;
+        _partClone.transform.parent = this.transform;
+        return _partClone;
+    }
+    */
+
+	IEnumerator ParticleIsMoving()
+	{
+		_isMoving = true;
+
+        while (_isMoving == true && state == State.HUMAN) 
+		{
+            StartParticles(partMovement, 0.25f, Vector3.zero);
+            yield return new WaitForSeconds(0.1f);	
+		}
+
+		_isMoving = false;
+	}
+
+	void StartParticles(GameObject _part, float _deathTimer, Vector3 _position)
+	{
+		GameObject _partClone = Instantiate (_part, this.transform.position + _position, Quaternion.identity) as GameObject;
+
+		if (_partClone.GetComponent<ParticleFollowPlayer>()) 
+		{
+            _partClone.GetComponent<ParticleFollowPlayer>().target = this.gameObject;
+            _partClone.transform.parent = this.transform;
+        }
+
+		Destroy (_partClone, _deathTimer);
+	}
+
+    void ChangeTrailColor()
+    {
+        if (teamId == 1)
+        {
+            currentBall.GetComponent<Ball>().trailLvl1.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            currentBall.GetComponent<Ball>().trailLvl2.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            currentBall.GetComponent<Ball>().meshBall.GetComponent<Renderer>().material.SetColor("_teamColor", PlayerManager.instance.colorTeam1);
+        }
+        
+        else if (teamId == 2)
+        {
+            currentBall.GetComponent<Ball>().trailLvl1.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            currentBall.GetComponent<Ball>().trailLvl2.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            currentBall.GetComponent<Ball>().meshBall.GetComponent<Renderer>().material.SetColor("_teamColor", PlayerManager.instance.colorTeam2);
+        }
+    }
 }

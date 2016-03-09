@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ParticlePlayground;
 
 public class Ball : MonoBehaviour {
     
@@ -10,6 +11,8 @@ public class Ball : MonoBehaviour {
     
     public int currentPowerLevel;
 
+	public int maxPowerLevel;
+
     public int currentSpeed;
 
     public int idTeam;
@@ -19,6 +22,10 @@ public class Ball : MonoBehaviour {
 
 	public GameObject parentMeshBall;
 	public GameObject meshBall;
+
+    public GameObject trailLvl1;
+    public GameObject trailLvl2;
+    public PlaygroundParticlesC volleyParticles;
 
     public bool snakeBool = false;
     int _right = 1;
@@ -31,6 +38,9 @@ public class Ball : MonoBehaviour {
 
     float _timer;
 
+	// **** PARTICLES ****
+	public GameObject partBallDust;
+    
     void Start()
     {
         _timer = 0;
@@ -44,11 +54,17 @@ public class Ball : MonoBehaviour {
         _snakeCurve = PinataManager.instance.snakeBallDirection;
 
         _rigidB = GetComponent<Rigidbody>();
+
+        volleyParticles.emit = false;
+        // Change color of trail
+        
+
+        
     }
 
     void Update()
     {
-
+        ChangeTrail();
         //Debug.DrawLine(parentMeshBall.transform.position, parentMeshBall.transform.position + parentMeshBall.transform.forward, Color.red, 100);
 
         /*RaycastHit hit;
@@ -119,7 +135,11 @@ public class Ball : MonoBehaviour {
 			}
 		}
 
-
+		if (other.gameObject.tag == "Wall") 
+		{
+			GameObject _partClone = Instantiate (partBallDust, this.transform.position, Quaternion.identity) as GameObject;
+			Destroy (_partClone, 5.0f);
+		}
     }
 
     void OnTriggerEnter(Collider other)
@@ -204,6 +224,8 @@ public class Ball : MonoBehaviour {
                 break;
             }
         }
+
+		ChangeTrail ();
     }
 
 	void RotateMesh()
@@ -227,8 +249,29 @@ public class Ball : MonoBehaviour {
             }
 			meshBall.transform.Rotate (Vector3.forward*Mathf.Sign(Vector3.Dot(transform.position, transform.position + GetComponent<Rigidbody> ().velocity))*500f * GetComponent<Rigidbody> ().velocity.magnitude * Time.deltaTime);
 		}
-
-
-
 	}
+
+	void ChangeTrail()
+	{
+        if (currentPowerLevel == 0)
+        {
+            trailLvl1.SetActive(false);
+            trailLvl2.SetActive(false);
+            meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 0f);
+        }
+
+        if (currentPowerLevel == 1) 
+		{
+            trailLvl1.SetActive (true);
+            trailLvl2.SetActive (false);
+            meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 0.8f);
+		} 
+
+		else if (currentPowerLevel == 2)
+		{
+            trailLvl1.SetActive (false);
+            trailLvl2.SetActive (true);
+            meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 2f);
+        }
+    }
 }

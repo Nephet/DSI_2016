@@ -6,7 +6,6 @@ public class Movement : MonoBehaviour {
 
 	Rigidbody _rigidB;
 
-
 	float _speed;
     float _speedInBall;
 	float _rotationSpeed;
@@ -49,8 +48,9 @@ public class Movement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
 
+	void Update () 
+	{
 		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 		

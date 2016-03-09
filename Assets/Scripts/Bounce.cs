@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ParticlePlayground;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bounce : MonoBehaviour {
@@ -33,6 +34,8 @@ public class Bounce : MonoBehaviour {
 			_rigidBody.velocity = Vector3.Reflect (_oldVelocity, other.contacts [0].normal);
 			_rigidBody.velocity *= _friction;
 			_rigidBody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+
+            GetComponent<Ball>().volleyParticles.emit = false;
 
             if (other.gameObject.GetComponent<Ball>())
             {
