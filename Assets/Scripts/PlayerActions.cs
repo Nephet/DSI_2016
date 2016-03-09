@@ -112,6 +112,8 @@ public class PlayerActions : MonoBehaviour {
 
 	public GameObject partMovement;
 
+    public GameObject trailColor;
+
     /*
 	public GameObject partPossession;
     public GameObject partCurrentPossession;
@@ -134,8 +136,9 @@ public class PlayerActions : MonoBehaviour {
 
 		// Particles
 		_isMoving = false;
-		//_partPossession = false;
-    }
+        //_partPossession = false;
+
+     }
 
     void Start()
     {
@@ -166,6 +169,17 @@ public class PlayerActions : MonoBehaviour {
             currentBall.GetComponent<Rigidbody>().isKinematic = true;
             currentBall.transform.parent = _mesh.transform;
             currentBall.transform.position = transform.position + _mesh.transform.forward/2;
+        }
+
+        // Change trail color
+        if (teamId == 1)
+        {
+            trailColor.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+        }
+
+        else if (teamId == 2)
+        {
+            trailColor.GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
         }
         
     }
@@ -201,7 +215,8 @@ public class PlayerActions : MonoBehaviour {
         {
 			Throw(_throwPower,false);
         }
-	else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN && _throwTimer >= 0.5f)
+
+	    else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN && _throwTimer >= 0.5f)
         {
             DistanceBalls();
 
@@ -321,6 +336,7 @@ public class PlayerActions : MonoBehaviour {
 
     void Snap()
     {
+        
 
         _anim.SetTrigger("snap");
         currentBall = _nearestBall;
@@ -338,6 +354,8 @@ public class PlayerActions : MonoBehaviour {
         currentBall.GetComponent<Ball>().StopSpeedDrop();
 
         currentBall.GetComponent<Ball>().StartPowerDrop();
+
+        ChangeTrailColor(currentBall);
 
         if (currentBall.GetComponent<PlayerActions>())
         {
@@ -470,7 +488,7 @@ public class PlayerActions : MonoBehaviour {
 
         else
         {
-            //StartParticles(partTransfoBall, 2f, Vector3.up);
+            StartParticles(partTransfoBall, 2f, Vector3.up);
             transform.transform.localEulerAngles = Vector3.zero;
             BallsManager.instance.RemoveBall(gameObject);
         }
@@ -608,4 +626,19 @@ public class PlayerActions : MonoBehaviour {
 
 		Destroy (_partClone, _deathTimer);
 	}
+
+    void ChangeTrailColor(GameObject trailColor)
+    {
+        if (teamId == 1)
+        {
+            trailColor.transform.GetChild(1).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+            trailColor.transform.GetChild(2).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
+        }
+        
+        else if (teamId == 2)
+        {
+            trailColor.transform.GetChild(1).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+            trailColor.transform.GetChild(2).GetComponent<Renderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
+        }
+    }
 }

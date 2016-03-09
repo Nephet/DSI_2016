@@ -49,6 +49,11 @@ public class Ball : MonoBehaviour {
         _snakeCurve = PinataManager.instance.snakeBallDirection;
 
         _rigidB = GetComponent<Rigidbody>();
+
+        // Change color of trail
+        
+
+        
     }
 
     void Update()
