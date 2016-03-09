@@ -286,8 +286,6 @@ public class PlayerActions : MonoBehaviour {
 			speedModifier = (BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 1 : currentBall.GetComponent<Ball>().currentPowerLevel-1])*1.0f / 199 *1.0f;
 		}
 				
-		Debug.Log (speedModifier);
-
         if (frenzy)
         {
             speedModifier *= 1.15f;
@@ -393,13 +391,8 @@ public class PlayerActions : MonoBehaviour {
 
         if (Time.time - _lastDash < _dashCooldown) return;
         
-        Debug.Log("Start Dash !");
-
 		dashing = true;
-
-
-        Debug.Log(Time.deltaTime);
-
+        
 		_lastMagnitude = GetComponent<Rigidbody> ().velocity.magnitude;
 		_dirAlt = _shootDirection;
         //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
