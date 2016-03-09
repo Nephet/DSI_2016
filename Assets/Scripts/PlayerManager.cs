@@ -36,6 +36,9 @@ public class PlayerManager : MonoBehaviour {
 
 	public float suicideRange = 2;
 
+    public Color colorTeam1;
+    public Color colorTeam2;
+
 	public List<GameObject> listPlayers;
 
 	public void AddPlayer(GameObject _player)
