@@ -8,16 +8,22 @@ using UnityEngine.SceneManagement;
 public class ButtonManager : MonoBehaviour {
 
 
-	public Image circleMenu;
+	public GameObject circleMenu;
 
 	public int index = 0;
 
 	public List<float> buttonAngles = new List<float>();
-	public List<Button> buttonList = new List<Button>();
+	public List<GameObject> buttonList = new List<GameObject>();
 
 	//inputs
 	public float joyX;
 	public float joyY;
+
+	bool axisXRight;
+	bool axisXLeft;
+	bool _oldTriggerHeldRight;
+	bool _oldTriggerHeldLeft;
+	bool _oldTrigerTuto;
 
 	public bool isTurning;
 
@@ -25,63 +31,104 @@ public class ButtonManager : MonoBehaviour {
 	public Image credits;
 	public Image quitConf;
 
+	public Sprite[] slidesTuto;
+	public GameObject currentSlide;
+	public int currentSlideCount;
+
     public bool isOnMainMenu = true;
 	public bool isTrans = false;
+	public bool tuto = false;
       
 	void Start()
     {
         //TODO: verifier que l'angle et le currbutt sont synchro
+		circleMenu.transform.eulerAngles = new Vector3(353, 90, 269);
     }
 
 	void Update ()
     {
+
+		axisXLeft = Input.GetAxis ("L_XAxis_0") < 0.0f;
+		axisXRight = Input.GetAxis ("L_XAxis_0") > 0.0f;
         
 		joyX = Input.GetAxis("L_XAxis_0");
 		joyY = Input.GetAxis("L_YAxis_0");
 
+		//(snapAlt && (_oldTriggerHeldRight != snapAlt))
         if (isOnMainMenu)
         {
 
 			index = (int)modulo((index), buttonAngles.Count);
 
 			if (Input.GetKeyDown(KeyCode.A)){
-				circleMenu.transform.eulerAngles = new Vector3(0, 0, -200);
+				circleMenu.transform.eulerAngles = new Vector3(353, 90, -200);
 			}
 
 			if (!isTurning){
-				if (joyX < 0){
+				if (axisXLeft && (_oldTriggerHeldLeft != axisXLeft)){
 					float tempRot = circleMenu.transform.eulerAngles.z;
-					if (index == 0){
-						tempRot = circleMenu.transform.eulerAngles.z + 360;
-						Debug.Log("yo");
-					}
-					Debug.Log(circleMenu.transform.eulerAngles.z);
-					StartCoroutine(Turn(tempRot, (float)buttonAngles[(int)modulo((index-1), buttonAngles.Count)]));
+					//if (buttonAngles [index] > buttonAngles [(int)modulo ((index - 1), buttonAngles.Count)] /*index == 0*/) {
+						//tempRot =buttonAngles [(int)modulo ((index - 1), buttonAngles.Count)] + ((360 - circleMenu.transform.eulerAngles.z)+buttonAngles [(int)modulo ((index - 1), buttonAngles.Count)]);
+						//Debug.Log (tempRot +" "+ (float)buttonAngles[(int)modulo((index-1), buttonAngles.Count)] );
+						//StartCoroutine (Turn ((float)buttonAngles [(int)modulo ((index - 1), buttonAngles.Count)], tempRot));
+						//tempRot = /*circleMenu.transform.eulerAngles.z + */(circleMenu.transform.eulerAngles.z - buttonAngles[(int)modulo((index+1), buttonAngles.Count)]);
+
+					//} else {
+						//Debug.Log (tempRot +" "+ (float)buttonAngles[(int)modulo((index-1), buttonAngles.Count)] );
+						StartCoroutine(Turn(tempRot, (float)buttonAngles[(int)modulo((index-1), buttonAngles.Count)]));
+					//}
+
 					index--;
 					isTurning = true;
 				}
-				if (joyX > 0){
+				if (axisXRight && (_oldTriggerHeldRight != axisXRight)){
 
 					float tempRot = circleMenu.transform.eulerAngles.z;
-					if (index == buttonAngles.Count-1){
-						tempRot = circleMenu.transform.eulerAngles.z - 360;
-						Debug.Log("yo-");
+					if (buttonAngles[index] < buttonAngles[(int)modulo((index+1), buttonAngles.Count)]/*index == buttonAngles.Count-1*/){
+						tempRot = -1f*(360 - buttonAngles [(int)modulo ((index + 1), buttonAngles.Count)]);
+						//tempRot = 360 - circleMenu.transform.eulerAngles.z;
+						StartCoroutine(Turn(circleMenu.transform.eulerAngles.z, tempRot));
+					}else{
+						StartCoroutine(Turn(tempRot, (float)buttonAngles[(int)modulo((index+1), buttonAngles.Count)]));
+
 					}
-					Debug.Log(circleMenu.transform.eulerAngles.z);
-					StartCoroutine(Turn(tempRot, (float)buttonAngles[(int)modulo((index+1), buttonAngles.Count)]));
+					
 					index++;
 					isTurning = true;
 				}
 			}
-            
-        }
+			isTrans = false;
+			_oldTriggerHeldLeft = axisXLeft;
+			_oldTriggerHeldRight = axisXRight;
+		}else if(tuto)
+		{
+			if(axisXLeft && (_oldTrigerTuto != axisXLeft))
+			{
+				currentSlideCount--;
+				if (currentSlideCount <= -1) {
+					currentSlideCount = slidesTuto.Length - 1;
+				}
+
+
+			}else if(axisXRight && (_oldTrigerTuto != axisXRight))
+			{
+				currentSlideCount++;
+				if (currentSlideCount >= slidesTuto.Length) {
+					currentSlideCount = 0;
+				}
+
+			}
+			currentSlide.GetComponent<Image> ().sprite = slidesTuto [currentSlideCount];
+			_oldTrigerTuto = axisXRight || axisXLeft;
+			isTrans = false;
+		}
         
 
         //A Button Action in Menus
         if (Input.GetButtonDown("A_Button_1"))
         {
 
-
+			Debug.Log (index);
             //A button action on Main Menu
 			if (isOnMainMenu && ! isTurning && !isTrans){
                 switch (index)
@@ -92,20 +139,22 @@ public class ButtonManager : MonoBehaviour {
 					SceneManager.LoadSceneAsync("TeamSelection");
                         break;
                     case 1:
-                        
                         //Sandbox
+						
+						SlideTuto();
                         break;
                     case 2:
-                        
-                       //Settings
+						//Credits
+                       
+						ToggleCredits();
                        break;
                     case 3:
                        //Quit
 						ToggleQuit();
                         break;
 					case 4:
-						//Credits
-						ToggleCredits();
+						//Settings
+						//ToggleCredits();
 						break;
                     default:
                         break;
@@ -167,21 +216,21 @@ public class ButtonManager : MonoBehaviour {
 						//Play
 						break;
 					case 1:
-
 						//Sandbox
+						SlideTuto();
 						break;
 					case 2:
 
-						//Settings
-						
+						//Credits
+						ToggleCredits();
 						break;
 					case 3:
 						//Quit
 						ToggleQuit();
 						break;
 					case 4:
-						//Credits
-						ToggleCredits();
+						
+						//Settings
 						break;
 					default:
 						break;
@@ -200,27 +249,39 @@ public class ButtonManager : MonoBehaviour {
 	public IEnumerator Turn(float start, float end){
 
 		float temp = 0;
-		while (!((int) modulo(circleMenu.transform.eulerAngles.z, 360) <= (int) modulo(end, 360) +1 
-			&& (int) modulo(circleMenu.transform.eulerAngles.z, 360) >= (int) modulo(end, 360) -1 )){
+		while (!((int) modulo(circleMenu.transform.eulerAngles.z, 360) <= (int) modulo(end, 360) +1 && (int) modulo(circleMenu.transform.eulerAngles.z, 360) >= (int) modulo(end, 360) -1 )){
 
 
 			temp += Time.deltaTime * 250 / (modulo(Mathf.Abs(end-start), 360));
-			circleMenu.transform.eulerAngles = new Vector3(0, 0, Mathf.Lerp(start, end, temp));
+			Debug.Log (start+","+ end);
+			Debug.Log (new Quaternion(353, 90, end, transform.rotation.w));
+			//circleMenu.transform.localRotation = Quaternion.RotateTowards (transform.localRotation, new Quaternion(transform.localRotation.x, 90, end, transform.localRotation.w), temp);
+			circleMenu.transform.eulerAngles = new Vector3(353, 90, Mathf.Lerp(start, end, temp));
 			yield return null;
 		}
-		circleMenu.transform.eulerAngles = new Vector3(0, 0, end);
+		circleMenu.transform.eulerAngles = new Vector3(353, 90, end);
 		isTurning = false;
 	}
 
+	void SlideTuto()
+	{
+		Debug.Log ("test");
+		tuto = !tuto;
+		currentSlide.SetActive (tuto);
+		if (currentSlide != null) {
+			currentSlide.GetComponent<Image> ().sprite = slidesTuto [0];
+			currentSlideCount = 0;
+		}
 
+	}
         
-    public IEnumerator SlideInCredits()
+    /*public IEnumerator SlideInCredits()
     {
 		float temp = 0;
 		while (credits.transform.localPosition.x > 1)
 		{
 			temp += Time.deltaTime *1;
-			credits.transform.localPosition = new Vector3(Mathf.Lerp(600, 0, temp), 0, 0);
+			credits.transform.localPosition = new Vector3(Mathf.Lerp(1200, 0, temp), 0, 0);
 			yield return null;
         }
 		isTrans = false;
@@ -229,14 +290,14 @@ public class ButtonManager : MonoBehaviour {
 	public IEnumerator SlideOutCredits()
     {
 		float temp = 0;
-		while (credits.transform.localPosition.x <555)
+		while (credits.transform.localPosition.x <1200)
 		{
 			temp += Time.deltaTime *1;
-			credits.transform.localPosition = new Vector3(Mathf.Lerp(0, 600, temp), 0, 0);
+			credits.transform.localPosition = new Vector3(Mathf.Lerp(0, 1200, temp), 0, 0);
 			yield return null;
 		}
 		isTrans = false;
-    }
+    }*/
 
 	public IEnumerator SlideInQuit()
 	{
@@ -254,7 +315,7 @@ public class ButtonManager : MonoBehaviour {
 	{
 		Debug.Log("cya?");
 		float temp = 0;
-		while (quitConf.transform.localScale.x > 0.05)
+		while (quitConf.transform.localScale.x > 0.0f)
 		{
 			temp += Time.deltaTime * 10;
 			quitConf.transform.localScale = new Vector3(Mathf.Lerp(1, 0, temp), Mathf.Lerp(1, 0, temp), 1);
@@ -284,10 +345,10 @@ public class ButtonManager : MonoBehaviour {
         ToggleMainMenu();
         //use right coroutine depending on credit screen location
         if (!isOnMainMenu){
-            StartCoroutine(SlideInCredits());
+            //StartCoroutine(SlideInCredits());
         }
         else{
-            StartCoroutine(SlideOutCredits());
+            //StartCoroutine(SlideOutCredits());
         }
 
     }

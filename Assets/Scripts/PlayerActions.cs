@@ -416,8 +416,14 @@ public class PlayerActions : MonoBehaviour {
         _throwTimer = 0;
 		_soloThrow = false;
 
+
         if (_anim != null && gameObject.tag == "Player")
-            _anim.SetTrigger("shoot");
+		{
+			_anim.SetTrigger("shoot");
+			SoundManagerEvent.emit (SoundManagerType.KICK);
+		}
+            
+			
         
 		BallsManager.instance.AddBall (currentBall);
 		currentBall.GetComponent<Ball> ().bounce = false;
@@ -642,7 +648,7 @@ public class PlayerActions : MonoBehaviour {
             StartParticles(partTransfoBall, 2f, Vector3.up);
 
             BallsManager.instance.AddBall(gameObject);
-
+			SoundManagerEvent.emit (SoundManagerType.TRANSFO);
             _ballScript.idTeam = teamId;
 			if (GetComponent<Movement> ()._velocity != Vector3.zero)
             {
@@ -699,6 +705,7 @@ public class PlayerActions : MonoBehaviour {
         
 		dashing = true;
         
+		SoundManagerEvent.emit (SoundManagerType.DASH);
 		_lastMagnitude = GetComponent<Rigidbody> ().velocity.magnitude;
 		_dirAlt = _shootDirection;
         //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
@@ -730,6 +737,8 @@ public class PlayerActions : MonoBehaviour {
 
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
+		SoundManagerEvent.emit (SoundManagerType.CHARGESMASH);
+		SoundManagerEvent.emit (SoundManagerType.STUN);
 		Throw (0,false, false);
 		Invoke ("DisableStun", 2.0f);
         _anim.SetBool("stun", true);
@@ -746,6 +755,7 @@ public class PlayerActions : MonoBehaviour {
 	{
 		_currentTimerSmashButton = _maxTimerSmashButton;
 		_smashButtonCount++;
+		SoundManagerEvent.emit (SoundManagerType.CHARGEEXP);
 		if (_smashButtonCount >= nbSuicideInput || instantExplosion) 
 		{
 			Suicide ();
@@ -760,6 +770,7 @@ public class PlayerActions : MonoBehaviour {
 
 		_smashButtonCount = 0;
 		_currentTimerSmashButton = 0;
+		SoundManagerEvent.emit (SoundManagerType.VANISH);
 		_listPlayers = PlayerManager.instance.listPlayers;
         if (transform.parent != null)
         {

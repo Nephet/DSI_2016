@@ -20,8 +20,8 @@ public class MatchManager : MonoBehaviour {
 	public bool respawning;
 	public int direction = 1;
 
-    public float publicFeverTeam1 = 0f;
-    public float publicFeverTeam2 = 0f;
+    public float publicFeverTeam1 = 50f;
+    public float publicFeverTeam2 = 50f;
     public float feverMax = 100f;
     public float feverIncreaseDelay = 0.1f;
     public float feverDecreaseDelay = 0.1f;
@@ -101,6 +101,9 @@ public class MatchManager : MonoBehaviour {
         timer = timerDuration;
 
         _timerStart = Time.time;
+
+		publicFeverTeam1 = 50;
+		publicFeverTeam2 = 50;
     }
 
 	void Start()
@@ -110,11 +113,9 @@ public class MatchManager : MonoBehaviour {
 
     void Update()
     {
-        DecreaseFever();
-
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			pause = !pause;
-			SoundManagerEvent.emit (SoundManagerType.DRINK);
+			//SoundManagerEvent.emit (SoundManagerType.DRINK);
 		}
 
 		if (pause) {
@@ -197,6 +198,8 @@ public class MatchManager : MonoBehaviour {
 	void EndGame()
 	{
 		panelVictory.SetActive (true);
+		SoundManagerEvent.emit (SoundManagerType.WHISTLEEND);
+		SoundManagerEvent.emit (SoundManagerType.BASSEND);
 		//pause = true;
 		endGame = true;
 		CheckTeamVictory ();
@@ -230,7 +233,7 @@ public class MatchManager : MonoBehaviour {
 		for (int i = 1; i < 5; i++) 
 		{
 			GameObject _player = Instantiate (prefabPlayer) as GameObject;
-			GameObject _mask = Instantiate (SelectionManager.instance.currentMask [i]) as GameObject;
+			GameObject _mask = Instantiate (SelectionManager.instance.chooseMask [i]) as GameObject;
 			_player.transform.localScale *= 0.3f;
 
 			_mask.transform.parent = _player.GetComponent<Movement>().head.transform;
@@ -362,35 +365,28 @@ public class MatchManager : MonoBehaviour {
         if(id == 1 && Time.time - lastTeam1Increase > feverIncreaseDelay)
         {
             publicFeverTeam1++;
+			publicFeverTeam2--;
             lastTeam1Increase = Time.time;
 
             if (publicFeverTeam1 >= feverMax)
             {
-                publicFeverTeam1 = 0;
+                publicFeverTeam1 = 50;
+				publicFeverTeam2 = 50;
                 PinataManager.instance.CheckEffect(id);
             }
         }
         else if(id == 2 && Time.time - lastTeam2Increase > feverIncreaseDelay)
         {
             publicFeverTeam2++;
+			publicFeverTeam1--;
             lastTeam2Increase = Time.time;
 
             if (publicFeverTeam2 >= feverMax)
             {
-                publicFeverTeam2 = 0;
+                publicFeverTeam2 = 50;
+				publicFeverTeam1 = 50;
                 PinataManager.instance.CheckEffect(id);
             }
-        }
-    }
-
-    public void DecreaseFever()
-    {
-        if (Time.time - lastTeamDecrease > feverDecreaseDelay)
-        {
-            publicFeverTeam1 = Mathf.Clamp(publicFeverTeam1-1,0,100);
-            publicFeverTeam2 = Mathf.Clamp(publicFeverTeam2 - 1, 0, 100);
-
-            lastTeamDecrease = Time.time;
         }
     }
 }
