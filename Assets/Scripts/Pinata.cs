@@ -52,7 +52,6 @@ public class Pinata : MonoBehaviour {
 
     void ChangeColor(Color c)
     {
-        Debug.Log(GetComponentInChildren<MeshRenderer>().material.color + " " + c);
         GetComponentInChildren<MeshRenderer>().material.color = c;
     }
 }

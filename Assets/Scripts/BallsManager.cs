@@ -27,6 +27,8 @@ public class BallsManager : MonoBehaviour {
 	public float friction = 0.8f;
 
     public int[] speedMaxByPowerLevel;
+	public int speedVolley = 450;
+    public float modifierPass;
 
     public float powerLevelDropDelay = 2f;
 
@@ -40,7 +42,10 @@ public class BallsManager : MonoBehaviour {
 		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Ball");
 		foreach (GameObject go in temp)
 		{
-			balls.Add (go); 
+            if (!balls.Contains(go))
+            {
+                balls.Add(go);
+            }
 		}
 
 	}

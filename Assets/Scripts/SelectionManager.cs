@@ -26,9 +26,21 @@ public class SelectionManager : MonoBehaviour {
 	#endregion
 
 	public List<GameObject> listMaskPlayers;
-	public GameObject[] tabPlayers;
+	public List<GameObject> listMaskedPlayers;
+
+    public Texture textureTeam1;
+    public Texture textureTeam2;
+
+    public Texture textureBallTeam1;
+    public Texture textureBallTeam2;
+
+    public List<Texture> listMaskTextureTeam1;
+    public List<Texture> listMaskTextureTeam2;
+
+    public GameObject[] tabPlayers;
 	public GameObject[] currentMask;
 	public int[] currentTeam;
+    public Texture[] currentTexture;
 
 	bool _switchTeamLeft;
 	bool _switchTeamRight;
@@ -52,6 +64,7 @@ public class SelectionManager : MonoBehaviour {
 			int id = int.Parse(player.name[player.name.Length-1]+"");
 			tabPlayers [id] = player;
 			currentMask[id] = Instantiate (listMaskPlayers [id - 1]) as GameObject;
+            
 			currentMask [id].name = currentMask [id].name.Replace ("(Clone)", "");
 			currentMask[id].transform.parent = player.transform;
 			currentMask[id].transform.localPosition = Vector3.zero;
@@ -90,7 +103,6 @@ public class SelectionManager : MonoBehaviour {
 				currentMask [i].name = currentMask [i].name.Replace ("(Clone)", "");
 				currentMask[i].transform.parent = tabPlayers [i].transform;
 				currentMask[i].transform.localPosition = Vector3.zero;
-
 			} 
 			else if (_oldTriggerHeldMask [i] != _switchMaskRight && _switchMaskRight) 
 			{
@@ -101,8 +113,8 @@ public class SelectionManager : MonoBehaviour {
 				}
 				Destroy (currentMask [i]);
 				currentMask[i] = Instantiate (listMaskPlayers [(_idMask-1)]) as GameObject;
-				currentMask [i].name = currentMask [i].name.Replace ("(Clone)", "");
-				currentMask[i].transform.parent = tabPlayers [i].transform;
+                currentMask[i].name = currentMask[i].name.Replace("(Clone)", "");
+                currentMask[i].transform.parent = tabPlayers [i].transform;
 				currentMask[i].transform.localPosition = Vector3.zero;
 			}
 
@@ -162,13 +174,19 @@ public class SelectionManager : MonoBehaviour {
 
 	void PrepareGame()
 	{
-		for (int i = 1; i < 5; i++) 
+        currentTexture = new Texture[5];
+
+        for (int i = 1; i < 5; i++) 
 		{
-			currentTeam [i] = tabPlayers [i].transform.position.x == -4.5f ? 1 : 2; 
-			currentMask [i] = listMaskPlayers [CheckMask (currentMask [i])];
-		}
+			currentTeam [i] = tabPlayers [i].transform.position.x == -4.5f ? 1 : 2;
+
+            currentTexture[i] = currentTeam[i] == 1 ? listMaskTextureTeam1[CheckMask(currentMask[i])] : listMaskTextureTeam2[CheckMask(currentMask[i])];
+
+            currentMask[i] = listMaskPlayers[CheckMask(currentMask[i])];
+
+        }
 		this.enabled = false;
-		SceneManager.LoadSceneAsync ("Benoit");
+		SceneManager.LoadSceneAsync (2);
 
 	}
 

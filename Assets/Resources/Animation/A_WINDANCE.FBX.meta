@@ -1,0 +1,321 @@
+fileFormatVersion: 2
+guid: 82deb824bd1001c44b89327c4b3cbc01
+timeCreated: 1457458997
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: B_ANKLE_D
+    100004: B_ANKLE_G
+    100006: B_ARMS_G
+    100008: B_ARMS_G001
+    100010: B_BELLY_1
+    100012: B_BELLY_2
+    100014: B_CALF_D
+    100016: B_CALF_G
+    100018: B_FINGER_end1G
+    100020: B_FINGER_end1G001
+    100022: B_FINGER_end2G
+    100024: B_FINGER_end2G001
+    100026: B_FINGER_end3G
+    100028: B_FINGER_end3G001
+    100030: B_FINGER_index1G
+    100032: B_FINGER_index1G001
+    100034: B_FINGER_index2G
+    100036: B_FINGER_index2G001
+    100038: B_FINGER_index3G
+    100040: B_FINGER_index3G001
+    100042: B_FINGER_mid1G
+    100044: B_FINGER_mid1G001
+    100046: B_FINGER_mid2G
+    100048: B_FINGER_mid2G001
+    100050: B_FINGER_mid3G
+    100052: B_FINGER_mid3G001
+    100054: B_FINGER_thum1G
+    100056: B_FINGER_thum1G001
+    100058: B_FINGER_thum2G
+    100060: B_FINGER_thum2G001
+    100062: B_FINGER_thum3G
+    100064: B_FINGER_thum3G001
+    100066: B_FOOT_D
+    100068: B_FOOT_G
+    100070: B_FOOTend_G
+    100072: B_FOOTend_G001
+    100074: B_FOREARM_G
+    100076: B_FOREARM_G001
+    100078: B_HEAD
+    100080: B_LEGS_D
+    100082: B_LEGS_G
+    100084: B_PELVIS
+    100086: B_SPINAL_1
+    100088: B_SPINAL_2
+    100090: B_SPINAL_3
+    100092: B_WRIST_G
+    100094: B_WRIST_G001
+    100096: BODY
+    100098: CTRL_MASTER
+    100100: CTRL_PELVIS
+    100102: Plane001
+    100104: Plane002
+    400000: //RootNode
+    400002: B_ANKLE_D
+    400004: B_ANKLE_G
+    400006: B_ARMS_G
+    400008: B_ARMS_G001
+    400010: B_BELLY_1
+    400012: B_BELLY_2
+    400014: B_CALF_D
+    400016: B_CALF_G
+    400018: B_FINGER_end1G
+    400020: B_FINGER_end1G001
+    400022: B_FINGER_end2G
+    400024: B_FINGER_end2G001
+    400026: B_FINGER_end3G
+    400028: B_FINGER_end3G001
+    400030: B_FINGER_index1G
+    400032: B_FINGER_index1G001
+    400034: B_FINGER_index2G
+    400036: B_FINGER_index2G001
+    400038: B_FINGER_index3G
+    400040: B_FINGER_index3G001
+    400042: B_FINGER_mid1G
+    400044: B_FINGER_mid1G001
+    400046: B_FINGER_mid2G
+    400048: B_FINGER_mid2G001
+    400050: B_FINGER_mid3G
+    400052: B_FINGER_mid3G001
+    400054: B_FINGER_thum1G
+    400056: B_FINGER_thum1G001
+    400058: B_FINGER_thum2G
+    400060: B_FINGER_thum2G001
+    400062: B_FINGER_thum3G
+    400064: B_FINGER_thum3G001
+    400066: B_FOOT_D
+    400068: B_FOOT_G
+    400070: B_FOOTend_G
+    400072: B_FOOTend_G001
+    400074: B_FOREARM_G
+    400076: B_FOREARM_G001
+    400078: B_HEAD
+    400080: B_LEGS_D
+    400082: B_LEGS_G
+    400084: B_PELVIS
+    400086: B_SPINAL_1
+    400088: B_SPINAL_2
+    400090: B_SPINAL_3
+    400092: B_WRIST_G
+    400094: B_WRIST_G001
+    400096: BODY
+    400098: CTRL_MASTER
+    400100: CTRL_PELVIS
+    400102: Plane001
+    400104: Plane002
+    2300000: Plane001
+    2300002: Plane002
+    3300000: Plane001
+    3300002: Plane002
+    4300000: BODY
+    4300002: Plane001
+    4300004: Plane002
+    7400000: windance
+    9500000: //RootNode
+    13700000: BODY
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: windance
+      takeName: Take 001
+      firstFrame: 10
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: B_ARMS_G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_end1G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_end1G/B_FINGER_end2G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_end1G/B_FINGER_end2G/B_FINGER_end3G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_index1G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_index1G/B_FINGER_index2G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_index1G/B_FINGER_index2G/B_FINGER_index3G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_mid1G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_mid1G/B_FINGER_mid2G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_mid1G/B_FINGER_mid2G/B_FINGER_mid3G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_thum1G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_thum1G/B_FINGER_thum2G
+        weight: 1
+      - path: B_ARMS_G/B_FOREARM_G/B_WRIST_G/B_FINGER_thum1G/B_FINGER_thum2G/B_FINGER_thum3G
+        weight: 1
+      - path: B_ARMS_G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_end1G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_end1G001/B_FINGER_end2G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_end1G001/B_FINGER_end2G001/B_FINGER_end3G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_index1G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_index1G001/B_FINGER_index2G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_index1G001/B_FINGER_index2G001/B_FINGER_index3G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_mid1G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_mid1G001/B_FINGER_mid2G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_mid1G001/B_FINGER_mid2G001/B_FINGER_mid3G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_thum1G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_thum1G001/B_FINGER_thum2G001
+        weight: 1
+      - path: B_ARMS_G001/B_FOREARM_G001/B_WRIST_G001/B_FINGER_thum1G001/B_FINGER_thum2G001/B_FINGER_thum3G001
+        weight: 1
+      - path: BODY
+        weight: 1
+      - path: CTRL_MASTER
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_BELLY_1
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_BELLY_1/B_BELLY_2
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_D
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_D/B_CALF_D
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_D/B_CALF_D/B_ANKLE_D
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_D/B_CALF_D/B_ANKLE_D/B_FOOT_D
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_D/B_CALF_D/B_ANKLE_D/B_FOOT_D/B_FOOTend_G001
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_G
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_G/B_CALF_G
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_G/B_CALF_G/B_ANKLE_G
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_G/B_CALF_G/B_ANKLE_G/B_FOOT_G
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_LEGS_G/B_CALF_G/B_ANKLE_G/B_FOOT_G/B_FOOTend_G
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_SPINAL_1
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_SPINAL_1/B_SPINAL_2
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_SPINAL_1/B_SPINAL_2/B_SPINAL_3
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/B_PELVIS/B_SPINAL_1/B_SPINAL_2/B_SPINAL_3/B_HEAD
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/Plane001
+        weight: 1
+      - path: CTRL_MASTER/CTRL_PELVIS/Plane002
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

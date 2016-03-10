@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class MatchManager : MonoBehaviour {
 
@@ -22,8 +23,18 @@ public class MatchManager : MonoBehaviour {
     public float publicFeverTeam2 = 0f;
     public float feverMax = 100f;
     public float feverIncreaseDelay = 0.1f;
+    public float feverDecreaseDelay = 0.1f;
     float lastTeam1Increase = 0f;
     float lastTeam2Increase = 0f;
+    float lastTeamDecrease = 0f;
+
+    public bool pause = false;
+	public bool endGame = false;
+	bool _pauseButton;
+
+	public float slow;
+
+    public bool slowmo = false;
 
     //[HideInInspector]
     public GameObject player1;
@@ -50,9 +61,28 @@ public class MatchManager : MonoBehaviour {
 
 	public GameObject prefabPlayer;
 
+	public GameObject panelVictory;
+
+	public GameObject panelPause;
+
+	public GameObject timerUI;
+	public GameObject scoreTeam1UI;
+	public GameObject scoreTeam2UI;
+
 	float width = 3f;
 	float height = 3f;
 	float respawnSpeed = 3f;
+
+    public float timeBeforeBooing = 5f;
+
+    public float slowMoDuration = 0.9f;
+    public float slowMoPower = 0.1f;
+
+    [HideInInspector]
+    public bool prolongation = false;
+
+	[Header("Particles")]
+	public GameObject partRespawn;
 
     public static MatchManager Instance
     {
@@ -78,18 +108,105 @@ public class MatchManager : MonoBehaviour {
 
     void Update()
     {
+        DecreaseFever();
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			pause = !pause;
+			SoundManagerEvent.emit (SoundManagerType.DRINK);
+		}
+
+		if (pause) {
+			Time.timeScale = 0f;
+			panelPause.SetActive (true);
+
+		}
+        else if(!slowmo)
+        {
+			panelPause.SetActive (false);
+			Time.timeScale = 1f;
+		}
+        
+		if (pause || endGame)
+			return;
+		
         timer = timerDuration - (Time.time - _timerStart);
 
-        if(timer < 0)
+		UpdateUI ();
+
+        if(timer <= 0 && teamOneScore != teamTwoScore)
         {
-			
+			EndGame ();
+        }
+        else if(timer <= 0 && teamOneScore == teamTwoScore)
+        {
+            timer = 0;
+            
+            if (!prolongation)
+            {
+                prolongation = true;
+
+                GameObject go = null;
+
+				foreach (GameObject ball in GameObject.FindGameObjectsWithTag("Ball"))
+                {
+                    if (!ball.GetComponent<PlayerActions>())
+                    {
+                        go = ball;
+                    }
+                }
+
+                BallsManager.instance.RemoveBall(go);
+                Destroy(go);
+            }
+            
         }
     }
 
+    public void StartSlowMo(float duration)
+    {
+        if (!MatchManager.Instance.slowmo)
+        {
+            slowmo = true;
+            Time.timeScale *= slowMoPower;
+            Time.fixedDeltaTime *= slowMoPower;
+            Invoke("StopSlowMo", duration * slowMoPower);
+        }
+    }
+
+    public void StopSlowMo()
+    {
+        slowmo = false;
+
+        Time.timeScale /= slowMoPower;
+        Time.fixedDeltaTime /= slowMoPower;
+    }
+
+    void UpdateUI()
+	{
+		int _tempMin = prolongation ? 0 : (int)timer / 60;
+		int _tempSec = prolongation ? 0 : ((int)timer % 60);
+
+
+		timerUI.GetComponent<Text>().text = _tempMin+":"+_tempSec;
+		scoreTeam1UI.GetComponent<Text>().text = teamOneScore+"";
+		scoreTeam2UI.GetComponent<Text> ().text = teamTwoScore+"";
+	}
+
+	void EndGame()
+	{
+		panelVictory.SetActive (true);
+		//pause = true;
+		endGame = true;
+		CheckTeamVictory ();
+	}
+
+	void CheckTeamVictory()
+	{
+		panelVictory.GetComponentInChildren<Text>().text = teamOneScore +" / "+ teamTwoScore;
+	}
+
     public void AddPoint(int id, int score)
     {
-        Debug.Log(id + " " + score);
-
         if(id == 1)
         {
             teamOneScore += score;
@@ -102,23 +219,33 @@ public class MatchManager : MonoBehaviour {
 
 	void Spawn()
 	{
+		panelVictory.SetActive (false);
+		panelPause.SetActive (false);
+
 		GameObject firstBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall1.transform.position, Quaternion.identity) as GameObject;
 		BallsManager.instance.balls.Add (firstBall);
-		GameObject secondBall = Instantiate (Resources.Load ("Prefabs/Ball"), spawnBall2.transform.position, Quaternion.identity) as GameObject;
-		BallsManager.instance.balls.Add (secondBall);
 
 		for (int i = 1; i < 5; i++) 
 		{
 			GameObject _player = Instantiate (prefabPlayer) as GameObject;
 			GameObject _mask = Instantiate (SelectionManager.instance.currentMask [i]) as GameObject;
-			_mask.transform.localScale *= 0.3f;
-			_mask.transform.parent = _player.transform;
+			_player.transform.localScale *= 0.3f;
+
+			_mask.transform.parent = _player.GetComponent<Movement>().head.transform;
+
 			_mask.transform.localPosition = Vector3.zero;
+            _mask.transform.localEulerAngles = Vector3.zero;
+            _mask.transform.localScale = Vector3.one;
 
+            _mask.GetComponentInChildren<Renderer>().material.mainTexture = SelectionManager.instance.currentTexture[i];
 
-			_player.GetComponent<PlayerActions> ().id = i;
+            _player.GetComponent<PlayerActions> ().id = i;
 			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
-			PlayerManager.instance.AddPlayer(_player);
+			_player.GetComponent<Movement>().meshBall.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureBallTeam1 : SelectionManager.instance.textureBallTeam2;
+
+            _player.GetComponent<Movement>().body.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureTeam1 : SelectionManager.instance.textureTeam2;
+
+            PlayerManager.instance.AddPlayer(_player);
 
 		}
 
@@ -146,14 +273,17 @@ public class MatchManager : MonoBehaviour {
 
 	}
 
-	public void Respawn(int _id)
-	{
-		StartCoroutine (CountDownRespawnBall (_id));
+	public void Respawn(int _id, bool b)
+    {
+        if (prolongation) return;
+
+        StartCoroutine (CountDownRespawnBall (_id,b));
 	}
 
 	public void RespawnPlayer(GameObject _player)
 	{
-		
+
+		_player.transform.parent = null;
 		_player.SetActive (false);
 		if (_player.GetComponent<PlayerActions> ().teamId == 1) {
 			if (direction > 0) {
@@ -176,12 +306,15 @@ public class MatchManager : MonoBehaviour {
 			}
 
 		}
+
+
+
 		_player.GetComponent<PlayerActions> ().SetToBall (false);
 		StartCoroutine (CountDownRespawnPlayer (_player));
 
 	}
 
-	IEnumerator CountDownRespawnBall(int _id)
+	IEnumerator CountDownRespawnBall(int _id, bool b)
 	{
 		yield return new WaitForSeconds (2.0f);
 		GameObject myGo;
@@ -199,12 +332,24 @@ public class MatchManager : MonoBehaviour {
 		myGo.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 		//myGo.GetComponent<Ball> ().LaunchCoroutine ();
 		myGo.GetComponent<Rigidbody>().AddForce(myGo.transform.right * 300f);
+
+        if (b)
+        {
+            Destroy(myGo, PinataManager.instance.destroyBallDelay);
+        }
 	}
 
 	IEnumerator CountDownRespawnPlayer(GameObject _player)
 	{
 		yield return new WaitForSeconds (2.0f);
+
+		// Particles
+		GameObject _partClone = Instantiate(partRespawn, _player.transform.position, Quaternion.identity) as GameObject;
+		Destroy (_partClone, 5f);
+
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
+		_player.GetComponent<Ball> ().currentPowerLevel = 0;
+		_player.GetComponent<PlayerActions> ().state = PlayerActions.State.HUMAN;
 		_player.SetActive (true);
 	}
 
@@ -234,4 +379,14 @@ public class MatchManager : MonoBehaviour {
         }
     }
 
+    public void DecreaseFever()
+    {
+        if (Time.time - lastTeamDecrease > feverDecreaseDelay)
+        {
+            publicFeverTeam1 = Mathf.Clamp(publicFeverTeam1-1,0,100);
+            publicFeverTeam2 = Mathf.Clamp(publicFeverTeam2 - 1, 0, 100);
+
+            lastTeamDecrease = Time.time;
+        }
+    }
 }
