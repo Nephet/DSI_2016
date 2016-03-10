@@ -51,10 +51,11 @@ public class PlayerActions : MonoBehaviour {
     bool _bonus;
     bool _dance;
     bool _shoot;
+    bool _lose;
 
     bool _soloThrow = false;
 
-    Animator _anim;
+    public Animator _anim;
 
     float _smashButtonCount;
 	public float _maxTimerSmashButton = 0.5f;
@@ -159,9 +160,6 @@ public class PlayerActions : MonoBehaviour {
 
         _mesh = GetComponent<Movement>().mesh;
         _ballMesh = GetComponent<Movement>().ballMesh;
-
-        _anim = transform.Find("Body").gameObject.GetComponent<Animator>();
-
         _throwPower = PlayerManager.instance.throwPower;
 		_dashPower = PlayerManager.instance.dashPower;
 		_dashDuration = PlayerManager.instance.dashDuration;
@@ -190,7 +188,28 @@ public class PlayerActions : MonoBehaviour {
 
     void Update()
     {
-		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
+        if (MatchManager.Instance.endGame == true)
+        {
+            if (MatchManager.Instance.teamOneScore < MatchManager.Instance.teamTwoScore)
+            {
+                if (teamId == 1 && _anim.GetBool("lose") != true)
+                {
+                    _anim.SetBool("lose", true);
+                    //_dance = true;
+                }
+                else if (teamId == 2)
+                    _anim.SetBool("win", true);
+            }
+            else if (MatchManager.Instance.teamOneScore > MatchManager.Instance.teamTwoScore)
+            {
+                if (teamId == 1)
+                    _anim.SetBool("win", true);
+                else if (teamId == 2 && _anim.GetBool("lose") != true)
+                    _anim.SetBool("lose", true);
+            }
+        }
+
+        if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 
 
@@ -215,6 +234,7 @@ public class PlayerActions : MonoBehaviour {
 
 		_dance = Input.GetButton("B_Button_" + id) || Input.GetButton("Bump_Left_" + id) || Input.GetButton("Bump_Right_" + id);
         _anim.SetBool("win", _dance);
+        //_anim.SetBool("lose", _lose);
 
         _shoot = Input.GetButton("X_Button_" + id);
         _shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
@@ -345,6 +365,7 @@ public class PlayerActions : MonoBehaviour {
 			_partPossession = false;
 		}
         */
+
     }
 			
     void StopSlowMo()

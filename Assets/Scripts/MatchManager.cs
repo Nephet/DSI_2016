@@ -135,7 +135,7 @@ public class MatchManager : MonoBehaviour {
 
         if(timer <= 0 && teamOneScore != teamTwoScore)
         {
-			EndGame ();
+			EndGame();
         }
         else if(timer <= 0 && teamOneScore == teamTwoScore)
         {
