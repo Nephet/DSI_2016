@@ -106,7 +106,7 @@ public class SelectionManager : MonoBehaviour {
 				_direction.z = 0f;
 
 				Debug.Log (cursors [i]);
-				cursors [i].transform.Translate (_direction * 500f * Time.deltaTime);
+				cursors [i].transform.Translate (_direction * 2f * Time.deltaTime);
 
 			} else {
 				xAxisAltLeft = Input.GetAxis ("R_XAxis_" + i) < 0.0f;
@@ -152,10 +152,12 @@ public class SelectionManager : MonoBehaviour {
 
 
 			if (select) {
-				Ray ray = Camera.main.ScreenPointToRay (cursors[i].transform.position);
+				Vector3 origin = Camera.main.transform.position;
+				Vector3 _dir = cursors[i].transform.position - origin;
 				RaycastHit hit;
 				if (!selecting [i]) {
-					if (Physics.Raycast (ray, out hit)) {
+					if (Physics.Raycast (origin,_dir, out hit)) {
+						Debug.DrawLine (origin, hit.point, Color.red, 5.0f);
 						selecting [i] = true;
 						cursors [i].SetActive (false);
 						characterSelected [i] = hit.collider.gameObject;
