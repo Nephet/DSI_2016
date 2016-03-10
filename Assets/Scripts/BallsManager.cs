@@ -28,6 +28,7 @@ public class BallsManager : MonoBehaviour {
 
     public int[] speedMaxByPowerLevel;
 	public int speedVolley = 450;
+	public float modifierPass;
 
     public float powerLevelDropDelay = 2f;
 

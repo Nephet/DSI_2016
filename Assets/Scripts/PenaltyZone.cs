@@ -25,7 +25,7 @@ public class PenaltyZone : MonoBehaviour {
             nbPlayerInGoal++;
         }
 
-        if(nbPlayerInGoal == 2)
+        if(nbPlayerInGoal == 1)
         {
             enterTime = Time.time;
         }
@@ -37,7 +37,7 @@ public class PenaltyZone : MonoBehaviour {
 
         if(timeInGoal > MatchManager.Instance.timeBeforeBooing)
         {
-
+			SoundManagerEvent.emit (SoundManagerType.BOO);
         }
     }
 
@@ -45,7 +45,7 @@ public class PenaltyZone : MonoBehaviour {
     {
         if (other.GetComponent<PlayerActions>())
         {
-            nbPlayerInGoal++;
+            nbPlayerInGoal--;
         }
         if (nbPlayerInGoal == 0)
         {

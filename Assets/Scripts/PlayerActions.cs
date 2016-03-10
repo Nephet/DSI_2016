@@ -288,7 +288,7 @@ public class PlayerActions : MonoBehaviour {
         else if ((snap || (snapAlt && (_oldTriggerHeldRight != snapAlt))) && currentBall != null && state == State.HUMAN)
         {
 
-            Throw(_throwPower * 0.8f, false, true);
+            Throw(_throwPower, false, true);
 
         }
         else if ((_transfo || (_transfoAlt && (_oldTriggerHeldLeft != _transfoAlt))) && (state == State.HUMAN || state == State.FREEBALL))
@@ -438,21 +438,18 @@ public class PlayerActions : MonoBehaviour {
 
 		float speedModifier;
 
-		if (volley) 
-		{
-			speedModifier = (BallsManager.instance.speedVolley)*1.0f / 199*1.0f;
-            currentBall.GetComponent<Ball>().volleyParticles.emit = true;
-            if (teamId == 1)
-            {
-                currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
-            }
+		if (volley) {
+			speedModifier = (BallsManager.instance.speedVolley) * 1.0f / 199 * 1.0f;
+			currentBall.GetComponent<Ball> ().volleyParticles.emit = true;
+			if (teamId == 1) {
+				currentBall.GetComponent<Ball> ().volleyParticles.GetComponent<ParticleSystemRenderer> ().material.SetColor ("_TintColor", PlayerManager.instance.colorTeam1);
+			} else if (teamId == 2) {
+				currentBall.GetComponent<Ball> ().volleyParticles.GetComponent<ParticleSystemRenderer> ().material.SetColor ("_TintColor", PlayerManager.instance.colorTeam2);
+			}
                 
-            else if (teamId == 2)
-            {
-                currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
-            }
-                
-        }
+		} else if (pass) {
+			speedModifier = BallsManager.instance.modifierPass;
+		}
         else 
 		{
 			speedModifier = (BallsManager.instance.speedMaxByPowerLevel[maxSpeed ? 1 : currentBall.GetComponent<Ball>().currentPowerLevel-1])*1.0f / 199 *1.0f;
@@ -494,7 +491,7 @@ public class PlayerActions : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
         _mesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
         _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
-        if (_moveDir != Vector3.zero)
+        if (_moveDir != Vector3.zero && !pass)
         {
             GetComponent<Movement>()._lastDirectionAlt = _moveDir;
             GetComponent<Movement>()._directionAlt = _moveDir;
@@ -503,10 +500,89 @@ public class PlayerActions : MonoBehaviour {
             transform.rotation = Quaternion.LookRotation(_moveDir);
             _mesh.transform.rotation = Quaternion.LookRotation(_moveDir);
             _ballMesh.transform.rotation = Quaternion.LookRotation(_moveDir);
+        } else
+        {
+            GetComponent<Movement>()._lastDirectionAlt = transform.forward;
+            GetComponent<Movement>()._directionAlt = transform.forward;
+
+
+            transform.rotation = Quaternion.LookRotation(transform.forward);
+            _mesh.transform.rotation = Quaternion.LookRotation(transform.forward);
+            _ballMesh.transform.rotation = Quaternion.LookRotation(transform.forward);
         }
-        if (pass)
+        if (teamId == 1 && !pass)
+        {
+            _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+
+            Vector3 vectGoal = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
+
+            if (_moveDir == Vector3.zero)
+            {
+                if (Vector3.Angle((vectGoal), _mesh.transform.forward) < 30)
+                {
+                    GetComponent<Movement>()._lastDirectionAlt = vectGoal;
+                    GetComponent<Movement>()._directionAlt = vectGoal;
+
+
+                    transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _mesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _ballMesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                }
+            }
+            else
+            {
+                if (Vector3.Angle((vectGoal), _moveDir) < 30)
+                {
+                    GetComponent<Movement>()._lastDirectionAlt = vectGoal;
+                    GetComponent<Movement>()._directionAlt = vectGoal;
+
+
+                    transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _mesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _ballMesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                }
+            }
+        }
+        else
         {
 
+            _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+            Vector3 vectGoal = MatchManager.Instance.respawnGoal1.transform.position - transform.position;
+
+
+            if (_moveDir == Vector3.zero)
+            {
+                if (Vector3.Angle((vectGoal), _mesh.transform.forward) < 30)
+                {
+                    GetComponent<Movement>()._lastDirectionAlt = vectGoal;
+                    GetComponent<Movement>()._directionAlt = vectGoal;
+
+
+                    transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _mesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _ballMesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                }
+            } else
+            {
+                if (Vector3.Angle((vectGoal), _moveDir) < 30)
+                {
+                    GetComponent<Movement>()._lastDirectionAlt = vectGoal;
+                    GetComponent<Movement>()._directionAlt = vectGoal;
+
+
+                    transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _mesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                    _ballMesh.transform.rotation = Quaternion.LookRotation(vectGoal);
+                }
+            }
+
+        }
+        
+
+
+
+        if (pass)
+        {
             Vector3 tempPlayer = new Vector3();
 
             _listPlayers = PlayerManager.instance.listPlayers;
@@ -528,62 +604,6 @@ public class PlayerActions : MonoBehaviour {
             _mesh.transform.rotation = Quaternion.LookRotation(tempPlayer - transform.position);
             _ballMesh.transform.rotation = Quaternion.LookRotation(tempPlayer - transform.position);
 
-        }
-        if (teamId == 1 && !pass)
-        {
-            _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
-
-            if (_moveDir == Vector3.zero)
-            {
-                if (Vector3.Angle((MatchManager.Instance.respawnGoal2.transform.position - transform.position), _mesh.transform.forward) < 30)
-                {
-                    GetComponent<Movement>()._lastDirectionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
-                    GetComponent<Movement>()._directionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
-
-
-                    transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
-                    _mesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
-                    _ballMesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
-                }
-            }
-            else
-            {
-                if (Vector3.Angle((MatchManager.Instance.respawnGoal2.transform.position - transform.position), _moveDir) < 30)
-                {
-                    GetComponent<Movement>()._lastDirectionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
-                    GetComponent<Movement>()._directionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
-
-
-                    transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
-                    _mesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
-                    _ballMesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
-                }
-            }
-        }
-        else
-        {
-            _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
-            if (Vector3.Angle((MatchManager.Instance.respawnGoal1.transform.position - transform.position), _moveDir) < 30)
-            {
-                GetComponent<Movement>()._lastDirectionAlt = MatchManager.Instance.respawnGoal1.transform.position - transform.position;
-                GetComponent<Movement>()._directionAlt = MatchManager.Instance.respawnGoal1.transform.position - transform.position;
-
-
-                transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal1.transform.position - transform.position);
-                _mesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal1.transform.position - transform.position);
-                _ballMesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal1.transform.position - transform.position);
-            }
-
-        }
-        if (_moveDir == Vector3.zero)
-        {
-            GetComponent<Movement>()._lastDirectionAlt = transform.forward;
-            GetComponent<Movement>()._directionAlt = transform.forward;
-
-
-            transform.rotation = Quaternion.LookRotation(transform.forward);
-            _mesh.transform.rotation = Quaternion.LookRotation(transform.forward);
-            _ballMesh.transform.rotation = Quaternion.LookRotation(transform.forward);
         }
 
 

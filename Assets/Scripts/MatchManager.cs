@@ -70,6 +70,8 @@ public class MatchManager : MonoBehaviour {
 	public GameObject scoreTeam1UI;
 	public GameObject scoreTeam2UI;
 
+	bool _playMusic = false;
+
 	float width = 3f;
 	float height = 3f;
 	float respawnSpeed = 3f;
@@ -104,6 +106,8 @@ public class MatchManager : MonoBehaviour {
 
 		publicFeverTeam1 = 50;
 		publicFeverTeam2 = 50;
+
+
     }
 
 	void Start()
@@ -113,9 +117,15 @@ public class MatchManager : MonoBehaviour {
 
     void Update()
     {
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (!_playMusic) {
+
+			SoundManagerEvent.emit (SoundManagerType.GAMEMUSIC);
+			SoundManagerEvent.emit (SoundManagerType.CROWDMUSIC);
+			_playMusic = true;
+		}
+		
+		if (Input.GetButtonDown ("Start_1") || Input.GetButtonDown ("Start_2") || Input.GetButtonDown ("Start_3") ||Input.GetButtonDown ("Start_4")) {
 			pause = !pause;
-			//SoundManagerEvent.emit (SoundManagerType.DRINK);
 		}
 
 		if (pause) {
@@ -198,6 +208,7 @@ public class MatchManager : MonoBehaviour {
 	void EndGame()
 	{
 		panelVictory.SetActive (true);
+		SoundManagerEvent.emit (SoundManagerType.ENDGAME);
 		SoundManagerEvent.emit (SoundManagerType.WHISTLEEND);
 		SoundManagerEvent.emit (SoundManagerType.BASSEND);
 		//pause = true;
@@ -373,6 +384,7 @@ public class MatchManager : MonoBehaviour {
                 publicFeverTeam1 = 50;
 				publicFeverTeam2 = 50;
                 PinataManager.instance.CheckEffect(id);
+				SoundManagerEvent.emit (SoundManagerType.FEVERMAX);
             }
         }
         else if(id == 2 && Time.time - lastTeam2Increase > feverIncreaseDelay)
@@ -386,6 +398,7 @@ public class MatchManager : MonoBehaviour {
                 publicFeverTeam2 = 50;
 				publicFeverTeam1 = 50;
                 PinataManager.instance.CheckEffect(id);
+				SoundManagerEvent.emit (SoundManagerType.FEVERMAX);
             }
         }
     }

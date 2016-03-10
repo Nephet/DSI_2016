@@ -71,6 +71,7 @@ public class SelectionManager : MonoBehaviour {
 	public Texture[] currentTexture;
 
 	GameObject _currentMask;
+	bool _playMusic = false;
 	// Use this for initialization
 	void Start () {
 		selecting = new bool[5];
@@ -93,6 +94,11 @@ public class SelectionManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (!_playMusic) {
+
+			SoundManagerEvent.emit (SoundManagerType.MENU);
+			_playMusic = true;
+		}
 		LaunchGame ();
 		for (int i = 1; i < 5; i++) {
 

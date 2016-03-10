@@ -51,6 +51,9 @@ public enum SoundManagerType
 	BACK,
 	OK,
 	MOVE,
+	BOO,
+	FEVERMAX,
+	BONUS,
 
 }
 

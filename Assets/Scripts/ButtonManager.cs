@@ -48,6 +48,7 @@ public class ButtonManager : MonoBehaviour {
     {
         //TODO: verifier que l'angle et le currbutt sont synchro
 		circleMenu.transform.eulerAngles = new Vector3(353, 90, 269);
+		SoundManagerEvent.emit (SoundManagerType.MENU);
     }
 
 	void Update ()
@@ -113,7 +114,7 @@ public class ButtonManager : MonoBehaviour {
 				if (currentSlideCount <= -1) {
 					currentSlideCount = slidesTuto.Length - 1;
 				}
-
+				SoundManagerEvent.emit (SoundManagerType.MOVE);
 
 			}else if(axisXRight && (_oldTrigerTuto != axisXRight))
 			{
@@ -121,6 +122,7 @@ public class ButtonManager : MonoBehaviour {
 				if (currentSlideCount >= slidesTuto.Length) {
 					currentSlideCount = 0;
 				}
+				SoundManagerEvent.emit (SoundManagerType.MOVE);
 
 			}
 			currentSlide.GetComponent<Image> ().sprite = slidesTuto [currentSlideCount];
@@ -218,6 +220,7 @@ public class ButtonManager : MonoBehaviour {
         if (Input.GetButtonDown("B_Button_1"))
         {
 			if (!isOnMainMenu){
+				SoundManagerEvent.emit (SoundManagerType.BACK);
 				switch (index){
 					case 0:
 

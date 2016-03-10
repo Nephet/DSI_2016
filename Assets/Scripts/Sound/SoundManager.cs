@@ -15,12 +15,12 @@ public class SoundManager : MonoBehaviour
 	public AudioClip Kick_FX;
 	public AudioClip Kick2_FX;
 	public AudioClip Kick3_FX;
-	public AudioClip Goal_FX;
+	public AudioClip Goal1_FX;
+	public AudioClip Goal2_FX;
 	public AudioClip Vanish_FX;
 	public AudioClip Transformation_FX;
 	public AudioClip Transformation2_FX;
 	public AudioClip Dash_FX;
-	public AudioClip Chargexplo_FX;
 	public AudioClip Chargesmash_FX;
 	public AudioClip Stun_FX;
 	public AudioClip Ballbounce_FX;
@@ -32,6 +32,9 @@ public class SoundManager : MonoBehaviour
 	public AudioClip Okbutton_FX;
 	public AudioClip Backbutton_FX;
 	public AudioClip Movebutton_Fx;
+	public AudioClip Boo_Sfx;
+	public AudioClip FeverMax_Sfx;
+	public AudioClip Bonus_Sfx;
 
 
 
@@ -40,16 +43,13 @@ public class SoundManager : MonoBehaviour
     [Space(10)]
     [Header("Source")]
     public AudioSource MenuSource;
-	public AudioSource GameMusicSource;
 	public AudioSource OvertimeSource;
-	public AudioSource EndGameSource;
 	public AudioSource CrowdSource;
 	public AudioSource KickSource;
 	public AudioSource GoalSource;
 	public AudioSource VanishSource;
 	public AudioSource TransformationSource;
 	public AudioSource DashSource;
-	public AudioSource ChargeExploSource;
 	public AudioSource ChargeSmashSource;
 	public AudioSource StunSource;
 	public AudioSource BallBounceSource;
@@ -59,6 +59,9 @@ public class SoundManager : MonoBehaviour
 	public AudioSource WhistleEndSource;
 	public AudioSource CrowdFeverSource;
 	public AudioSource ButtonSource;
+	public AudioSource BooSource;
+	public AudioSource FeverMaxSource;
+	public AudioSource BonusSource;
 
 
     /*[Space(10)]
@@ -99,21 +102,21 @@ public class SoundManager : MonoBehaviour
                 break;
 
 			case SoundManagerType.GAMEMUSIC:
-				GameMusicSource.Stop();
-			GameMusicSource.clip = Game_Music;
-				GameMusicSource.Play();
+				MenuSource.Stop();
+				MenuSource.clip = Game_Music;
+				MenuSource.Play();
 				break;
 
 			case SoundManagerType.OVERTIME:
-				OvertimeSource.Stop();
-				OvertimeSource.clip = Overtime_Music;
-				OvertimeSource.Play();
+				MenuSource.Stop();
+				MenuSource.clip = Overtime_Music;
+				MenuSource.Play();
 				break;
 
 			case SoundManagerType.ENDGAME:
-				GameMusicSource.Stop();
-				GameMusicSource.clip = Menu_Music;
-				GameMusicSource.Play();
+				MenuSource.Stop();
+				MenuSource.clip = Endgame_Music;
+				MenuSource.Play();
 				break;
 
 			case SoundManagerType.CROWDMUSIC:
@@ -141,8 +144,16 @@ public class SoundManager : MonoBehaviour
 				break;
 
 			case SoundManagerType.GOAL:
-				GoalSource.Stop();
-				GoalSource.clip = Goal_FX;
+				GoalSource.Stop ();
+				int randGoal = Random.Range (1, 3);
+				if (randGoal == 1) 
+				{
+					GoalSource.clip = Goal1_FX;
+				}
+				else if(randGoal == 2)
+				{
+					GoalSource.clip = Goal2_FX;
+				}
 				GoalSource.Play();
 				break;
 
@@ -170,12 +181,6 @@ public class SoundManager : MonoBehaviour
 				DashSource.Stop();
 				DashSource.clip = Dash_FX;
 				DashSource.Play();
-				break;
-
-			case SoundManagerType.CHARGEEXP:
-				ChargeExploSource.Stop();
-				ChargeExploSource.clip = Chargexplo_FX;
-				ChargeExploSource.Play();
 				break;
 
 			case SoundManagerType.CHARGESMASH:
@@ -236,6 +241,24 @@ public class SoundManager : MonoBehaviour
 				ButtonSource.Stop();
 				ButtonSource.clip = Movebutton_Fx;
 				ButtonSource.Play();
+				break;
+
+			case SoundManagerType.BOO:
+				BooSource.Stop();
+				BooSource.clip = Boo_Sfx;
+				BooSource.Play();
+				break;
+
+			case SoundManagerType.FEVERMAX:
+				FeverMaxSource.Stop();
+				FeverMaxSource.clip = FeverMax_Sfx;
+				FeverMaxSource.Play();
+				break;
+
+			case SoundManagerType.BONUS:
+				BonusSource.Stop();
+				BonusSource.clip = Bonus_Sfx;
+				BonusSource.Play();
 				break;
         }
 
