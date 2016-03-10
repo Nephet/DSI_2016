@@ -151,12 +151,15 @@ public class PlayerActions : MonoBehaviour {
 		if (teamId == 1) 
 		{
 			partSuicide = partSuicideTeam_1;
-		} 
+            GetComponent<Movement>().body.GetComponent<SkinnedMeshRenderer>().material.SetColor("_teamColor", PlayerManager.instance.colorTeam1);
+        }
 
-		else 
+        else 
 		{
 			partSuicide = partSuicideTeam_2;
-		}
+            GetComponent<Movement>().body.GetComponent<SkinnedMeshRenderer>().material.SetColor("_teamColor", PlayerManager.instance.colorTeam2);
+
+        }
 
         _mesh = GetComponent<Movement>().mesh;
         _ballMesh = GetComponent<Movement>().ballMesh;
@@ -190,12 +193,12 @@ public class PlayerActions : MonoBehaviour {
     {
         if (MatchManager.Instance.endGame == true)
         {
-            if (MatchManager.Instance.teamOneScore < MatchManager.Instance.teamTwoScore)
+            if (MatchManager.Instance.teamOneScore < MatchManager.Instance.teamTwoScore && gameObject.tag == "Player")
             {
                 if (teamId == 1 && _anim.GetBool("lose") != true)
                 {
                     _anim.SetBool("lose", true);
-                    //_dance = true;
+                    _dance = true;
                 }
                 else if (teamId == 2)
                     _anim.SetBool("win", true);
@@ -233,7 +236,8 @@ public class PlayerActions : MonoBehaviour {
         _bonus = Input.GetButtonDown("Y_Button_" + id);
 
 		_dance = Input.GetButton("B_Button_" + id) || Input.GetButton("Bump_Left_" + id) || Input.GetButton("Bump_Right_" + id);
-        _anim.SetBool("win", _dance);
+        if (_anim != null && gameObject.tag == "Player" )
+            _anim.SetBool("win", _dance);
         //_anim.SetBool("lose", _lose);
 
         _shoot = Input.GetButton("X_Button_" + id);
@@ -375,7 +379,8 @@ public class PlayerActions : MonoBehaviour {
 
     void Snap()
     {
-        
+
+        GetComponent<Movement>().body.GetComponent<SkinnedMeshRenderer>().material.SetFloat("_glowIntensity", 2);
 
         _anim.SetTrigger("snap");
         currentBall = _nearestBall;
@@ -405,11 +410,14 @@ public class PlayerActions : MonoBehaviour {
 	void Throw(float power, bool volley, bool pass)
     {
         if (!currentBall) return;
-        
-		_throwTimer = 0;
+
+        GetComponent<Movement>().body.GetComponent<SkinnedMeshRenderer>().material.SetFloat("_glowIntensity", 0);
+
+        _throwTimer = 0;
 		_soloThrow = false;
 
-        _anim.SetTrigger("shoot");
+        if (_anim != null && gameObject.tag == "Player")
+            _anim.SetTrigger("shoot");
         
 		BallsManager.instance.AddBall (currentBall);
 		currentBall.GetComponent<Ball> ().bounce = false;
@@ -608,6 +616,10 @@ public class PlayerActions : MonoBehaviour {
 		if (!_mesh)
 			return;
 
+
+
+
+
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -628,6 +640,13 @@ public class PlayerActions : MonoBehaviour {
 
         if (b)
         {
+            if (currentBall != null)
+            {
+                print("yolodoesnt work");
+                currentBall.GetComponent<Ball>().currentPowerLevel = 0;
+                Throw(1, false, false);
+            }
+
             StartParticles(partTransfoBall, 2f, Vector3.up);
 
             BallsManager.instance.AddBall(gameObject);
@@ -640,7 +659,7 @@ public class PlayerActions : MonoBehaviour {
 			}
 			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
 
-			//Throw(0,false, false);
+
         }
 
         else
@@ -741,13 +760,14 @@ public class PlayerActions : MonoBehaviour {
 				}
 			}
 		}
+        //state = State.HUMAN;
 		MatchManager.Instance.RespawnPlayer (this.gameObject);
 
 	}
 
     void Dance()
     {
-	    StartParticles (partDance, 1.5f, Vector3.zero);
+	    //StartParticles (partDance, 1.5f, Vector3.zero);
         MatchManager.Instance.IncreaseFever(teamId);
     }
 
