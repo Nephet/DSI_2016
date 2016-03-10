@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour {
 	float _speed;
     float _speedInBall;
 	float _rotationSpeed;
-    Animator _anim;
+    public Animator _anim;
 
     [HideInInspector]
 	public Vector3 _velocity;
@@ -34,8 +34,6 @@ public class Movement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-        _anim = transform.Find("Body").gameObject.GetComponent<Animator>();
 
 		_rigidB = GetComponent<Rigidbody> ();
 
@@ -73,7 +71,8 @@ public class Movement : MonoBehaviour {
 			_lastDirectionAlt = _directionAlt;
 		}
 
-        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL) return;
+        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL 
+            || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL || GetComponent<PlayerActions>().state == PlayerActions.State.PRISONNERBALL) return;
 
         float _horizontal = Input.GetAxis ("L_XAxis_"+id);
 		float _vertical = Input.GetAxis ("L_YAxis_"+id);
@@ -89,9 +88,9 @@ public class Movement : MonoBehaviour {
 
 
         // set des variables d'animation
-        if (_horizontal != 0 || _vertical != 0)
+        if (_horizontal != 0 && gameObject.tag == "Player" || _vertical != 0 && _anim != null && gameObject.tag == "Player")
             _anim.SetBool("isRunning", true);
-        else
+        else if (_anim != null && gameObject.tag == "Player")
             _anim.SetBool("isRunning", false);
 
 

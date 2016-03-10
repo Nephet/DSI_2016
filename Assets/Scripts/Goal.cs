@@ -62,15 +62,15 @@ public class Goal : MonoBehaviour
 
 	void StartParticles()
 	{
-		print ("anything");
+		//print ("anything");
 
 		// Fire_1
-		print(transform.GetChild(0).transform.position + " << FIRE1");
+		//print(transform.GetChild(0).transform.position + " << FIRE1");
 		GameObject _partClone1 = Instantiate (partGoalFire1, transform.GetChild(0).transform.position, Quaternion.identity) as GameObject;
 		Destroy (_partClone1, 5f);
 
 		// Fire_2
-		print(transform.GetChild(1).transform.position + " << FIRE2");
+		//print(transform.GetChild(1).transform.position + " << FIRE2");
 		GameObject _partClone2 = Instantiate (partGoalFire2, transform.GetChild(1).transform.position, Quaternion.identity) as GameObject;
 		Destroy (_partClone2, 5f);
 

@@ -29,6 +29,7 @@ public class TeamZone : MonoBehaviour {
                 pA.SetToBall(pA.teamId != id);
                 break;
             case PlayerActions.State.FREEBALL:
+                pA.SetToBall(true);
                 pA.state = pA.teamId != id ? PlayerActions.State.PRISONNERBALL : PlayerActions.State.FREEBALL;
                 break;
             case PlayerActions.State.PRISONNERBALL:
