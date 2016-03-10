@@ -617,9 +617,6 @@ public class PlayerActions : MonoBehaviour {
 			return;
 
 
-
-
-
         state = b ? State.FREEBALL : State.HUMAN;
 
         tag = b ? "Ball" : "Player";
@@ -655,7 +652,14 @@ public class PlayerActions : MonoBehaviour {
                 else
 				    state = State.THROWBALL;
 			}
-			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
+            if (currentZone == teamId)
+            {
+                gameObject.GetComponent<Rigidbody>().AddForce(GetComponent<Movement>()._velocity * 0.1f, ForceMode.Impulse);
+            }
+            else
+            {
+                gameObject.GetComponent<Rigidbody>().AddForce(GetComponent<Movement>()._velocity * 1f, ForceMode.Impulse);
+            }
 
             if (currentBall != null)
             {
