@@ -33,11 +33,16 @@ public class ButtonManager : MonoBehaviour {
 
 	public Sprite[] slidesTuto;
 	public GameObject currentSlide;
+	public GameObject currentSlideParent;
 	public int currentSlideCount;
 
     public bool isOnMainMenu = true;
 	public bool isTrans = false;
 	public bool tuto = false;
+
+	//public Animator anim;
+
+	public GameObject title, plants;
       
 	void Start()
     {
@@ -130,7 +135,7 @@ public class ButtonManager : MonoBehaviour {
 
 			Debug.Log (index);
             //A button action on Main Menu
-			if (isOnMainMenu && ! isTurning && !isTrans){
+			if (isOnMainMenu && ! isTurning){
                 switch (index)
                 {
                     case 0:
@@ -142,15 +147,19 @@ public class ButtonManager : MonoBehaviour {
                         //Sandbox
 						
 						SlideTuto();
+						isOnMainMenu = false;
                         break;
                     case 2:
 						//Credits
                        
-						ToggleCredits();
+						//ToggleCredits();
+						ScrollCredit(true);
+						isOnMainMenu = false;
                        break;
                     case 3:
                        //Quit
 						ToggleQuit();
+						isOnMainMenu = false;
                         break;
 					case 4:
 						//Settings
@@ -160,11 +169,10 @@ public class ButtonManager : MonoBehaviour {
                         break;
 
                 }
-				isOnMainMenu = false;
-				isTrans = true;
+				//isOnMainMenu = false;
             }
 
-			if (!isOnMainMenu  && !isTrans){
+			if (!isOnMainMenu ){
 				switch (index)
 				{
 				case 0:
@@ -209,7 +217,7 @@ public class ButtonManager : MonoBehaviour {
         //B Button Action in Menus
         if (Input.GetButtonDown("B_Button_1"))
         {
-			if (!isOnMainMenu && !isTrans){
+			if (!isOnMainMenu){
 				switch (index){
 					case 0:
 
@@ -218,15 +226,19 @@ public class ButtonManager : MonoBehaviour {
 					case 1:
 						//Sandbox
 						SlideTuto();
+						isOnMainMenu = true;
 						break;
 					case 2:
 
 						//Credits
-						ToggleCredits();
+						//ToggleCredits();
+						ScrollCredit(false);
+						isOnMainMenu = true;
 						break;
 					case 3:
 						//Quit
 						ToggleQuit();
+						isOnMainMenu = true;
 						break;
 					case 4:
 						
@@ -234,10 +246,10 @@ public class ButtonManager : MonoBehaviour {
 						break;
 					default:
 						break;
+
 							
 				}
-				isOnMainMenu = true;
-				isTrans = true;
+				//isOnMainMenu = true;
 			}           
         }
 
@@ -263,11 +275,27 @@ public class ButtonManager : MonoBehaviour {
 		isTurning = false;
 	}
 
+	void ScrollCredit(bool _play)
+	{
+		
+
+		//Debug.Log (_play);
+		title.SetActive(!_play);
+		plants.SetActive (!_play);
+		credits.gameObject.SetActive (_play);
+		_play = !_play;
+
+
+	}
+
 	void SlideTuto()
 	{
-		Debug.Log ("test");
+		//Debug.Log ("test");
 		tuto = !tuto;
+		currentSlideParent.SetActive (tuto);
 		currentSlide.SetActive (tuto);
+		title.SetActive (!tuto);
+		plants.SetActive (!tuto);
 		if (currentSlide != null) {
 			currentSlide.GetComponent<Image> ().sprite = slidesTuto [0];
 			currentSlideCount = 0;

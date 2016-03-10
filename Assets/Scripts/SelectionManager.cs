@@ -270,6 +270,22 @@ public class SelectionManager : MonoBehaviour {
 			SceneManager.LoadSceneAsync (2);
 		}
 
+		if (Input.GetKeyDown (KeyCode.Space)) {
+
+			for (int i = 1; i < 5; i++) 
+			{
+				currentTeam[i] = 1;
+				chooseMask [i] = listOfMask [3];
+				currentTexture[i] = currentTeam[i] == 1 ? listMaskTextureTeam1[3] : listMaskTextureTeam2[3];
+
+				//chooseMask[i] = listMaskPlayers[currentIdMask [i]];
+
+			}
+
+			this.enabled = false;
+			SceneManager.LoadSceneAsync (2);
+		}
+
 
 	}
 

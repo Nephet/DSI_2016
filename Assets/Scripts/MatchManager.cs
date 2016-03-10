@@ -190,7 +190,7 @@ public class MatchManager : MonoBehaviour {
 		int _tempSec = prolongation ? 0 : ((int)timer % 60);
 
 
-		timerUI.GetComponent<Text>().text = _tempMin+":"+_tempSec;
+		timerUI.GetComponent<Text>().text = _tempMin+" : "+_tempSec;
 		scoreTeam1UI.GetComponent<Text>().text = teamOneScore+"";
 		scoreTeam2UI.GetComponent<Text> ().text = teamTwoScore+"";
 	}
