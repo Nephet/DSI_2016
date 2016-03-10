@@ -48,6 +48,7 @@ public class SelectionManager : MonoBehaviour {
 	public GameObject[] listOfMask;
 	public GameObject[] chooseMask;
 	public bool[] playerReady;
+	public bool[] valid;
 
 	public int[] currentTeam;
 
@@ -80,11 +81,13 @@ public class SelectionManager : MonoBehaviour {
 		playerReady= new bool[5];
 		currentTexture = new Texture[5];
 		chooseMask = new GameObject[5];
+		valid = new bool[5];
 
 		for (int i = 1; i < 5; i++) {
 			selecting [i] = false;
 			_oldTriggerHeld [i] = false;
 			playerReady [i] = false;
+			valid [i] = false;
 		}
 	}
 
@@ -172,15 +175,21 @@ public class SelectionManager : MonoBehaviour {
 				} else {
 					
 					playerReady[i] = SameMask (currentTeam [i], i);
-
+					if(playerReady[i])
+					{
+						valid [i] = true;
+						readyCount++;
+					}
 				}
 
 			}
 
 			if (deselect && selecting[i]) {
 
+				if (valid [i]) {
+					readyCount--;
+				}
 				selecting [i] = false;
-				readyCount--;
 				playerReady [i] = false;
 				cursors [i].SetActive (true);
 				ChangeTexture (currentIdMask [i], 0, i, characterSelected [i].transform.GetChild(0).gameObject);
@@ -232,7 +241,6 @@ public class SelectionManager : MonoBehaviour {
 		{
 			if (_myTeamId == currentTeam [i] && _myId != i) {
 				if (chooseMask [i] != chooseMask [_myId]) {
-					readyCount++;
 					return true;
 
 				} else {
