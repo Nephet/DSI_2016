@@ -640,12 +640,7 @@ public class PlayerActions : MonoBehaviour {
 
         if (b)
         {
-            if (currentBall != null)
-            {
-                print("yolodoesnt work");
-                currentBall.GetComponent<Ball>().currentPowerLevel = 0;
-                Throw(1, false, false);
-            }
+            
 
             StartParticles(partTransfoBall, 2f, Vector3.up);
 
@@ -654,11 +649,29 @@ public class PlayerActions : MonoBehaviour {
             _ballScript.idTeam = teamId;
 			if (GetComponent<Movement> ()._velocity != Vector3.zero)
             {
-				//_soloThrow = true;
-				state = State.THROWBALL;
+                //_soloThrow = true;
+                if (currentZone == teamId)
+                    state = State.FREEBALL;
+                else
+				    state = State.THROWBALL;
 			}
 			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
 
+            if (currentBall != null)
+            {
+                GameObject tempGo = currentBall;
+                Throw(0.1f, false, false);
+                tempGo.GetComponent<Ball>().currentPowerLevel = 0;
+                if (tempGo.GetComponent<PlayerActions>() != null)
+                {
+                    tempGo.GetComponent<PlayerActions>().state = State.FREEBALL;
+                    tempGo.GetComponent<Movement>().meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 0);
+                }
+                else
+                {
+                    tempGo.GetComponent<Ball>().meshBall.GetComponent<MeshRenderer>().material.SetFloat("_glowIntensity", 0);
+                }
+            }
 
         }
 

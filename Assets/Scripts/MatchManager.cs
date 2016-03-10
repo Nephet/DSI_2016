@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using ParticlePlayground;
 
 public class MatchManager : MonoBehaviour {
 
@@ -83,6 +84,7 @@ public class MatchManager : MonoBehaviour {
 
 	[Header("Particles")]
 	public GameObject partRespawn;
+    public GameObject playgroundManager;
 
     public static MatchManager Instance
     {
@@ -345,12 +347,14 @@ public class MatchManager : MonoBehaviour {
 
 		// Particles
 		GameObject _partClone = Instantiate(partRespawn, _player.transform.position, Quaternion.identity) as GameObject;
+        _partClone.transform.SetParent(playgroundManager.transform);
 		Destroy (_partClone, 5f);
 
 		_player.transform.LookAt (new Vector3(center.transform.position.x, 0f, center.transform.position.z));
 		_player.GetComponent<Ball> ().currentPowerLevel = 0;
 		_player.GetComponent<PlayerActions> ().state = PlayerActions.State.HUMAN;
 		_player.SetActive (true);
+        _player.GetComponent<Rigidbody>().isKinematic = false;
 	}
 
     public void IncreaseFever(int id)
