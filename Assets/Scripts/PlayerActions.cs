@@ -42,6 +42,7 @@ public class PlayerActions : MonoBehaviour {
     public int teamId;
 
 	bool snap;
+    bool _snap;
     bool snapAlt;
     bool _transfo;
     bool _transfoAlt;
@@ -49,8 +50,9 @@ public class PlayerActions : MonoBehaviour {
 	bool _suicide;
     bool _bonus;
     bool _dance;
-    
-	bool _soloThrow = false;
+    bool _shoot;
+
+    bool _soloThrow = false;
 
     Animator _anim;
 
@@ -74,11 +76,12 @@ public class PlayerActions : MonoBehaviour {
 	float _lastMagnitude;
 	Vector3 _dirAlt;
 	Vector3 _shootDirection;
+    Vector3 _moveDir;
 
-	public float snapDelay = 0.5f;
+    public float snapDelay = 0.5f;
 	float _currentSnapDelay = Mathf.Infinity;
-    
-	bool _isMoving;
+
+    bool _isMoving;
 	bool _oldTriggerHeldRight;
 	bool _oldTriggerHeldLeft;
 
@@ -190,7 +193,9 @@ public class PlayerActions : MonoBehaviour {
 		if (MatchManager.Instance.pause || MatchManager.Instance.endGame)
 			return;
 
-		_throwTimer += Time.deltaTime;
+
+        _moveDir = new Vector3(Input.GetAxis("L_XAxis_" + id), 0.0f, Input.GetAxis("L_YAxis_" + id));
+        _throwTimer += Time.deltaTime;
 		_currentSnapDelay += Time.deltaTime;
 		float _altHorizontal = Input.GetAxis("R_XAxis_"+id);
 		float _altVertical = Input.GetAxis("R_YAxis_"+id);
@@ -199,29 +204,35 @@ public class PlayerActions : MonoBehaviour {
         snap = Input.GetButtonDown("A_Button_" + id);
         snapAlt = Input.GetAxis ("Fire_"+id) < -0.1f;
         
-        _transfo = Input.GetButtonDown("B_Button_" + id);
+        _transfo = Input.GetButtonDown("Y_Button_" + id);
         _transfoAlt = Input.GetAxis ("Fire_"+id) > 0.1f;
 
 		//_dash = Input.GetAxis("Fire_" + id) < 0.0f;
 
 		_suicide = Input.GetButtonDown ("A_Button_"+id);
 
-        _bonus = Input.GetButtonDown("X_Button_" + id);
+        _bonus = Input.GetButtonDown("Y_Button_" + id);
 
-		_dance = Input.GetButton("Y_Button_" + id) || Input.GetButton("Bump_Left_" + id) || Input.GetButton("Bump_Right_" + id);
+		_dance = Input.GetButton("B_Button_" + id) || Input.GetButton("Bump_Left_" + id) || Input.GetButton("Bump_Right_" + id);
+        _anim.SetBool("win", _dance);
 
-		_shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
-        
-        if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && currentBall != null && state == State.HUMAN)
+        _shoot = Input.GetButton("X_Button_" + id);
+        _shootDirection = new Vector3 (_altHorizontal,0.0f, _altVertical);
+
+        if (_shoot && currentBall != null && state == State.HUMAN)
         {
-			Throw(_throwPower,false);
-        }
 
-	    else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && state == State.HUMAN && _throwTimer >= 0.5f)
+            Throw(_throwPower, false, false);
+
+        }
+        
+
+            if (_shoot && state == State.HUMAN && _throwTimer >= 0.5f)
         {
             DistanceBalls();
 
-			if(_nearestBall && _nearestBall.GetComponent<Ball>().idTeam == teamId && !_nearestBall.GetComponent<Ball>().bounce/* && _nearestBall.GetComponent<Ball>().idPlayer != id*/)
+			if(_nearestBall && _nearestBall.GetComponent<Ball>().idTeam == teamId 
+                && !_nearestBall.GetComponent<Ball>().bounce && currentBall == null/* && _nearestBall.GetComponent<Ball>().idPlayer != id*/)
             {
 				
                 _nearestBall.GetComponent<Ball>().currentPowerLevel = Mathf.Clamp(_nearestBall.GetComponent<Ball>().currentPowerLevel + 2, 1, 2);
@@ -230,7 +241,7 @@ public class PlayerActions : MonoBehaviour {
 
                 Snap();
 
-				Throw(_throwPower,true);
+				Throw(_throwPower,true, false);
                 
                 //Invoke("StopSlowMo", MatchManager.Instance.slowMoDuration * MatchManager.Instance.slowMoPower);
             }
@@ -250,19 +261,25 @@ public class PlayerActions : MonoBehaviour {
                 Snap();
             }
         }
-		else if ((_transfo || (_transfoAlt && (_oldTriggerHeldLeft != _transfoAlt))) && (state == State.HUMAN || state == State.FREEBALL))
+        else if ((snap || (snapAlt && (_oldTriggerHeldRight != snapAlt))) && currentBall != null && state == State.HUMAN)
+        {
+
+            Throw(_throwPower * 0.8f, false, true);
+
+        }
+        else if ((_transfo || (_transfoAlt && (_oldTriggerHeldLeft != _transfoAlt))) && (state == State.HUMAN || state == State.FREEBALL))
         {
             SetToBall(state == State.HUMAN);
         }
-	else if ((Mathf.Abs(_altHorizontal) + Mathf.Abs(_altVertical) > 0.8f) && (state == PlayerActions.State.THROWBALL) && GetComponent<Ball>().idTeam == teamId && !_soloThrow)
+	else if (_shoot 
+            && (state == PlayerActions.State.THROWBALL || state == PlayerActions.State.FREEBALL || state == PlayerActions.State.PRISONNERBALL) 
+            && GetComponent<Ball>().idTeam == teamId && !_soloThrow)
         {
             StartDash();
         }
 
-        else if (_suicide && state == PlayerActions.State.TAKENBALL)
+        else if (_suicide && state != PlayerActions.State.HUMAN)
         {
-            Debug.Log(_smashButtonCount);
-            Debug.Log(_currentTimerSmashButton);
             if (_currentTimerSmashButton > 0f && _smashButtonCount > 0f)
             {
                 _currentTimerSmashButton -= Time.deltaTime;
@@ -364,7 +381,7 @@ public class PlayerActions : MonoBehaviour {
         }
     }
 
-	void Throw(float power, bool volley)
+	void Throw(float power, bool volley, bool pass)
     {
         if (!currentBall) return;
         
@@ -392,13 +409,11 @@ public class PlayerActions : MonoBehaviour {
             currentBall.GetComponent<Ball>().volleyParticles.emit = true;
             if (teamId == 1)
             {
-                print("Volley_1");
                 currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam1);
             }
                 
             else if (teamId == 2)
             {
-                print("Volley_2");
                 currentBall.GetComponent<Ball>().volleyParticles.GetComponent<ParticleSystemRenderer>().material.SetColor("_TintColor", PlayerManager.instance.colorTeam2);
             }
                 
@@ -424,13 +439,120 @@ public class PlayerActions : MonoBehaviour {
         willIgnoreSnap = false;
 
         currentBall.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        
+
+
+        /*
 		GetComponent<Movement> ()._lastDirectionAlt = _shootDirection;
 		GetComponent<Movement> ()._directionAlt = _shootDirection;
 
 		transform.rotation = Quaternion.LookRotation (_shootDirection);
 		_mesh.transform.rotation = Quaternion.LookRotation (_shootDirection);
 		_ballMesh.transform.rotation = Quaternion.LookRotation (_shootDirection);
+        */
+
+        
+
+        GetComponent<Movement>()._lastDirectionAlt = _mesh.transform.forward;
+        GetComponent<Movement>()._directionAlt = _mesh.transform.forward;
+
+
+        transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+        _mesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+        _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+        if (_moveDir != Vector3.zero)
+        {
+            GetComponent<Movement>()._lastDirectionAlt = _moveDir;
+            GetComponent<Movement>()._directionAlt = _moveDir;
+
+
+            transform.rotation = Quaternion.LookRotation(_moveDir);
+            _mesh.transform.rotation = Quaternion.LookRotation(_moveDir);
+            _ballMesh.transform.rotation = Quaternion.LookRotation(_moveDir);
+        }
+        if (pass)
+        {
+
+            Vector3 tempPlayer = new Vector3();
+
+            _listPlayers = PlayerManager.instance.listPlayers;
+            for (int i = 0; i < _listPlayers.Count; i++)
+            {
+                if (_listPlayers[i].GetComponent<PlayerActions>().teamId == GetComponent<PlayerActions>().teamId
+                    && _listPlayers[i].GetComponent<PlayerActions>() != GetComponent<PlayerActions>())
+                {
+
+                    tempPlayer = _listPlayers[i].transform.position;
+                }
+            }
+
+            GetComponent<Movement>()._lastDirectionAlt = tempPlayer - transform.position;
+            GetComponent<Movement>()._directionAlt = tempPlayer - transform.position;
+
+
+            transform.rotation = Quaternion.LookRotation(tempPlayer - transform.position);
+            _mesh.transform.rotation = Quaternion.LookRotation(tempPlayer - transform.position);
+            _ballMesh.transform.rotation = Quaternion.LookRotation(tempPlayer - transform.position);
+
+        }
+        if (teamId == 1 && !pass)
+        {
+            _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+
+            if (_moveDir == Vector3.zero)
+            {
+                if (Vector3.Angle((MatchManager.Instance.respawnGoal2.transform.position - transform.position), _mesh.transform.forward) < 30)
+                {
+                    GetComponent<Movement>()._lastDirectionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
+                    GetComponent<Movement>()._directionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
+
+
+                    transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
+                    _mesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
+                    _ballMesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
+                }
+            }
+            else
+            {
+                if (Vector3.Angle((MatchManager.Instance.respawnGoal2.transform.position - transform.position), _moveDir) < 30)
+                {
+                    GetComponent<Movement>()._lastDirectionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
+                    GetComponent<Movement>()._directionAlt = MatchManager.Instance.respawnGoal2.transform.position - transform.position;
+
+
+                    transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
+                    _mesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
+                    _ballMesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal2.transform.position - transform.position);
+                }
+            }
+        }
+        else
+        {
+            _ballMesh.transform.rotation = Quaternion.LookRotation(_mesh.transform.forward);
+            if (Vector3.Angle((MatchManager.Instance.respawnGoal1.transform.position - transform.position), _moveDir) < 30)
+            {
+                GetComponent<Movement>()._lastDirectionAlt = MatchManager.Instance.respawnGoal1.transform.position - transform.position;
+                GetComponent<Movement>()._directionAlt = MatchManager.Instance.respawnGoal1.transform.position - transform.position;
+
+
+                transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal1.transform.position - transform.position);
+                _mesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal1.transform.position - transform.position);
+                _ballMesh.transform.rotation = Quaternion.LookRotation(MatchManager.Instance.respawnGoal1.transform.position - transform.position);
+            }
+
+        }
+        if (_moveDir == Vector3.zero)
+        {
+            GetComponent<Movement>()._lastDirectionAlt = transform.forward;
+            GetComponent<Movement>()._directionAlt = transform.forward;
+
+
+            transform.rotation = Quaternion.LookRotation(transform.forward);
+            _mesh.transform.rotation = Quaternion.LookRotation(transform.forward);
+            _ballMesh.transform.rotation = Quaternion.LookRotation(transform.forward);
+        }
+
+
+
 
         currentBall.GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * power * speedModifier, ForceMode.Impulse);
         
@@ -497,7 +619,7 @@ public class PlayerActions : MonoBehaviour {
 			}
 			gameObject.GetComponent<Rigidbody> ().AddForce (GetComponent<Movement> ()._velocity , ForceMode.Impulse);
 
-			Throw(0,false);
+			//Throw(0,false, false);
         }
 
         else
@@ -523,8 +645,9 @@ public class PlayerActions : MonoBehaviour {
 		_lastMagnitude = GetComponent<Rigidbody> ().velocity.magnitude;
 		_dirAlt = _shootDirection;
         //GetComponent<Rigidbody>().AddForce(_mesh.transform.forward * _dashPower, ForceMode.Impulse);
-		GetComponent<Rigidbody>().velocity = Vector3.zero;
-		GetComponent<Rigidbody>().AddForce(_shootDirection * _dashPower, ForceMode.Impulse);
+        float tempMag = GetComponent<Rigidbody>().velocity.magnitude;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+		GetComponent<Rigidbody>().AddForce(_moveDir * _dashPower + (_moveDir * _dashPower * tempMag), ForceMode.Impulse);
 
         _lastDash = Time.time;
 
@@ -550,14 +673,16 @@ public class PlayerActions : MonoBehaviour {
 
 		GetComponent<Movement> ().enabled = false;
 		GetComponent<PlayerActions> ().enabled = false;
-		Throw (0,false);
+		Throw (0,false, false);
 		Invoke ("DisableStun", 2.0f);
+        _anim.SetBool("stun", true);
 	}
 
 	void DisableStun()
 	{
 		GetComponent<Movement> ().enabled = true;
 		GetComponent<PlayerActions> ().enabled = true;
+        _anim.SetBool("stun", false);
 	}
 
 	void SmashButton()
@@ -579,10 +704,13 @@ public class PlayerActions : MonoBehaviour {
 		_smashButtonCount = 0;
 		_currentTimerSmashButton = 0;
 		_listPlayers = PlayerManager.instance.listPlayers;
-		transform.parent.parent.GetComponent<PlayerActions> ().currentBall = null;
-		transform.parent.parent.GetComponent<PlayerActions> ()._nearestBall = null;
-		//transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
-		for (int i = 0; i < _listPlayers.Count; i++) 
+        if (transform.parent != null)
+        {
+            transform.parent.parent.GetComponent<PlayerActions>().currentBall = null;
+            transform.parent.parent.GetComponent<PlayerActions>()._nearestBall = null;
+        }
+        //transform.parent.parent.GetComponent<PlayerActions> ().ActiveStun ();
+        for (int i = 0; i < _listPlayers.Count; i++) 
 		{
 			if (_listPlayers[i].GetComponent<PlayerActions> ().teamId != GetComponent<PlayerActions> ().teamId) 
 			{

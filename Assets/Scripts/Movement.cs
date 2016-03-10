@@ -73,7 +73,8 @@ public class Movement : MonoBehaviour {
 			_lastDirectionAlt = _directionAlt;
 		}
 
-        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL) return;
+        if (GetComponent<PlayerActions>().state == PlayerActions.State.TAKENBALL 
+            || GetComponent<PlayerActions>().state == PlayerActions.State.THROWBALL || GetComponent<PlayerActions>().state == PlayerActions.State.PRISONNERBALL) return;
 
         float _horizontal = Input.GetAxis ("L_XAxis_"+id);
 		float _vertical = Input.GetAxis ("L_YAxis_"+id);
