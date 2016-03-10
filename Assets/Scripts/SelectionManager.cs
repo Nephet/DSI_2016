@@ -25,171 +25,6 @@ public class SelectionManager : MonoBehaviour {
 
 	#endregion
 
-	/*public List<GameObject> listMaskPlayers;
-	public List<GameObject> listMaskedPlayers;
-
-    public Texture textureTeam1;
-    public Texture textureTeam2;
-
-    public Texture textureBallTeam1;
-    public Texture textureBallTeam2;
-
-    public List<Texture> listMaskTextureTeam1;
-    public List<Texture> listMaskTextureTeam2;
-
-    public GameObject[] tabPlayers;
-	public GameObject[] currentMask;
-	public int[] currentTeam;
-    public Texture[] currentTexture;
-
-	bool _switchTeamLeft;
-	bool _switchTeamRight;
-	bool _switchMaskLeft;
-	bool _switchMaskRight;
-	bool _ready;
-
-	bool[] _oldTriggerHeldTeam;
-	bool[] _oldTriggerHeldMask;
-
-	void Start()
-	{
-		GameObject[] temp = GameObject.FindGameObjectsWithTag ("Player");
-		tabPlayers = new GameObject[5];
-		currentMask = new GameObject[5];
-		currentTeam = new int[5]; 
-		_oldTriggerHeldTeam = new bool[5];
-		_oldTriggerHeldMask = new bool[5];
-
-		foreach (GameObject player in temp) {
-			int id = int.Parse(player.name[player.name.Length-1]+"");
-			tabPlayers [id] = player;
-			currentMask[id] = Instantiate (listMaskPlayers [id - 1]) as GameObject;
-            
-			currentMask [id].name = currentMask [id].name.Replace ("(Clone)", "");
-			currentMask[id].transform.parent = player.transform;
-			currentMask[id].transform.localPosition = Vector3.zero;
-		}
-	}
-
-	void Update()
-	{
-		for (int i = 1; i < 5; i++) 
-		{
-			_switchTeamLeft = Input.GetAxis ("L_XAxis_" + i) < 0.0f;
-			_switchTeamRight = Input.GetAxis ("L_XAxis_" + i) > 0.0f;
-
-			_switchMaskLeft = Input.GetAxis ("R_XAxis_" + i) < 0.0f;
-			_switchMaskRight = Input.GetAxis ("R_XAxis_" + i) > 0.0f;
-
-			if (_oldTriggerHeldTeam [i] != _switchTeamLeft && _switchTeamLeft)
-			{
-				tabPlayers [i].transform.position = new Vector3 (Mathf.Clamp (tabPlayers [i].transform.position.x - 9f, -4.5f, 4.5f), tabPlayers [i].transform.position.y, tabPlayers [i].transform.position.z);
-			} 
-			else if (_oldTriggerHeldTeam [i] != _switchTeamRight && _switchTeamRight) 
-			{
-				tabPlayers [i].transform.position = new Vector3 (Mathf.Clamp (tabPlayers [i].transform.position.x + 9f, -4.5f, 4.5f), tabPlayers [i].transform.position.y, tabPlayers [i].transform.position.z);
-			}
-
-			if (_oldTriggerHeldMask [i] != _switchMaskLeft && _switchMaskLeft)
-			{
-				int _idMask = (CheckMask (currentMask[i]));
-				Debug.Log (_idMask);
-				if (_idMask <= 0) 
-				{
-					_idMask = 4;
-				}
-				Destroy (currentMask [i]);
-				currentMask[i] = Instantiate (listMaskPlayers [(_idMask-1)]) as GameObject;
-				currentMask [i].name = currentMask [i].name.Replace ("(Clone)", "");
-				currentMask[i].transform.parent = tabPlayers [i].transform;
-				currentMask[i].transform.localPosition = Vector3.zero;
-			} 
-			else if (_oldTriggerHeldMask [i] != _switchMaskRight && _switchMaskRight) 
-			{
-				int _idMask = (CheckMask (currentMask[i])+2);
-				if (_idMask >= 5) 
-				{
-					_idMask = 1;
-				}
-				Destroy (currentMask [i]);
-				currentMask[i] = Instantiate (listMaskPlayers [(_idMask-1)]) as GameObject;
-                currentMask[i].name = currentMask[i].name.Replace("(Clone)", "");
-                currentMask[i].transform.parent = tabPlayers [i].transform;
-				currentMask[i].transform.localPosition = Vector3.zero;
-			}
-
-			_oldTriggerHeldTeam[i] = _switchTeamLeft || _switchTeamRight;
-			_oldTriggerHeldMask [i] = _switchMaskLeft || _switchMaskRight;
-				
-		}
-
-		_ready = Input.GetButtonDown ("A_Button_1");
-		if (_ready && ValidTeam ()) 
-		{
-			PrepareGame ();
-		}
-	}
-
-	int CheckMask(GameObject _mask)
-	{
-		for (int i = 0; i < 4; i++) 
-		{
-			if (listMaskPlayers [i].name == _mask.name) 
-			{
-				return i;
-			}
-
-		}
-		return 0;
-	}
-
-	bool ValidTeam()
-	{
-		int nbTeam1 = 0;
-		int nbTeam2 = 0;
-
-        List<GameObject> team1 = new List<GameObject>();
-        List<GameObject> team2 = new List<GameObject>();
-
-        for (int i = 1; i < 5; i++) 
-		{
-			if (tabPlayers [i].transform.position.x == -4.5f) 
-			{
-				nbTeam1++;
-                team1.Add(tabPlayers[i]);
-			}
-			else if(tabPlayers [i].transform.position.x == 4.5f)
-			{
-				nbTeam2++;
-                team2.Add(tabPlayers[i]);
-            }
-		}
-
-        bool doubleMask1 = nbTeam1 == 2 && team1[0].transform.GetChild(0).name == team1[1].transform.GetChild(0).name;
-        bool doubleMask2 = nbTeam2 == 2 && team2[0].transform.GetChild(0).name == team2[1].transform.GetChild(0).name;
-
-        return nbTeam1 == nbTeam2 && nbTeam1 ==2 && !doubleMask1 && !doubleMask2;
-
-	}
-
-	void PrepareGame()
-	{
-        currentTexture = new Texture[5];
-
-        for (int i = 1; i < 5; i++) 
-		{
-			currentTeam [i] = tabPlayers [i].transform.position.x == -4.5f ? 1 : 2;
-
-            currentTexture[i] = currentTeam[i] == 1 ? listMaskTextureTeam1[CheckMask(currentMask[i])] : listMaskTextureTeam2[CheckMask(currentMask[i])];
-
-            currentMask[i] = listMaskPlayers[CheckMask(currentMask[i])];
-
-        }
-		this.enabled = false;
-		SceneManager.LoadSceneAsync (2);
-
-	}*/
-
 	float xAxis;
 	float yAxis;
 
@@ -216,6 +51,12 @@ public class SelectionManager : MonoBehaviour {
 
 	public int[] currentTeam;
 
+	public Texture[] bodyTextures;
+	public Texture[] maskLeopardTextures;
+	public Texture[] maskLlamaTextures;
+	public Texture[] maskParesseuxTextures;
+	public Texture[] maskToucanTextures;
+	public Texture[] pagneTextures;
 
 	public Texture textureTeam1;
 	public Texture textureTeam2;
@@ -285,7 +126,8 @@ public class SelectionManager : MonoBehaviour {
 					_currentMask.transform.IsChildOf (characterSelected [i].transform);
 					_currentMask.transform.parent = characterSelected [i].transform;
 					chooseMask[i] = listOfMask [currentIdMask[i]];
-
+					//ChangeTexture (currentIdMask [i], currentTeam[i], i);
+					ChangeTexture (currentIdMask [i], currentTeam[i], i, _currentMask.gameObject);
 
 				}else if((_oldTriggerHeld[i] != xAxisAltRight) && xAxisAltRight)
 				{
@@ -301,7 +143,8 @@ public class SelectionManager : MonoBehaviour {
 					_currentMask.transform.IsChildOf (characterSelected [i].transform);
 					_currentMask.transform.parent = characterSelected [i].transform;
 					chooseMask[i] = listOfMask [currentIdMask[i]];
-
+					//ChangeTexture (currentIdMask [i], currentTeam[i], i);
+					ChangeTexture (currentIdMask [i], currentTeam[i], i, _currentMask.gameObject);
 				}
 				_oldTriggerHeld[i] = xAxisAltLeft || xAxisAltRight;
 
@@ -315,19 +158,19 @@ public class SelectionManager : MonoBehaviour {
 					if (Physics.Raycast (ray, out hit)) {
 						selecting [i] = true;
 						cursors [i].SetActive (false);
-						Debug.DrawLine (ray.origin, hit.point, Color.red, 5.0f);
 						characterSelected [i] = hit.collider.gameObject;
-
-						Debug.Log (characterSelected [i]);
+						characterSelected [i].GetComponent<BoxCollider> ().enabled = false;
 						_currentMask = characterSelected [i].transform.GetChild (0).gameObject;
 						CheckTeam (characterSelected [i].transform.gameObject, i);
 						charactersEnable.Remove (hit.collider.gameObject);
 						currentIdMask [i] = GetCurrentMaskId (hit.collider.gameObject.transform.GetChild (0).gameObject);
-
+						chooseMask[i] = listOfMask [currentIdMask[i]];
+						ChangeTexture (currentIdMask [i], currentTeam[i], i, characterSelected [i].transform.GetChild(0).gameObject);
 					}
 				} else {
-					playerReady [i] = true;
-					readyCount++;
+					
+					playerReady[i] = SameMask (currentTeam [i], i);
+
 				}
 
 			}
@@ -338,9 +181,13 @@ public class SelectionManager : MonoBehaviour {
 				readyCount--;
 				playerReady [i] = false;
 				cursors [i].SetActive (true);
+				ChangeTexture (currentIdMask [i], 0, i, characterSelected [i].transform.GetChild(0).gameObject);
 				charactersEnable.Add (characterSelected[i]);
+				characterSelected [i].GetComponent<BoxCollider> ().enabled = true;
 				characterSelected [i] = null;
+				chooseMask [i] = null;
 				CheckTeam (characterSelected [i], i);
+				//ChangeTexture (currentIdMask [i], 0, i);
 
 			}
 
@@ -377,6 +224,25 @@ public class SelectionManager : MonoBehaviour {
 		}
 	}
 
+	bool SameMask (int _myTeamId, int _myId)
+	{
+		for (int i = 1; i < 5; i++) 
+		{
+			if (_myTeamId == currentTeam [i] && _myId != i) {
+				if (chooseMask [i] != chooseMask [_myId]) {
+					readyCount++;
+					return true;
+
+				} else {
+					return false;
+				}
+
+			} 
+
+		}
+		return true;
+	}
+
 	void LaunchGame()
 	{
 
@@ -397,5 +263,92 @@ public class SelectionManager : MonoBehaviour {
 
 	}
 
+	void ChangeTexture(int _idMask, int _teamId, int _idPlayer, GameObject _player)
+	{
+		Debug.Log (_idMask+", "+ _teamId+ ", "+_idPlayer);
+		Debug.Log (characterSelected [_idPlayer].transform.GetChild (0).gameObject);
+		if (_teamId == 0) {
+			
+			if (_idMask == 1) {
+				//Jaguar
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = bodyTextures[0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = pagneTextures [0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskLeopardTextures [0];
+
+			} else if (_idMask == 2) {
+				//lama
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = maskLlamaTextures [0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = bodyTextures [0];
+
+			} else if (_idMask == 3) {
+				//paresseux
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskParesseuxTextures [0];
+
+			} else if (_idMask == 4) {
+				//toucan
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[0];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskToucanTextures [0];
+
+			}
+
+		} else if (_teamId == 1) {
+
+			if (_idMask == 1) {
+				//Jaguar
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = bodyTextures[1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = pagneTextures [1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskLeopardTextures [1];
+
+
+			} else if (_idMask == 2) {
+				//lama
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = maskLlamaTextures [1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = bodyTextures [1];
+
+			} else if (_idMask == 3) {
+				//paresseux
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskParesseuxTextures [1];
+			} else if (_idMask == 4) {
+				//toucan
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[1];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskToucanTextures [1];
+			}
+		} else if (_teamId == 2) {
+			if (_idMask == 1) {
+				//Jaguar
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = bodyTextures[2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = pagneTextures [2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskLeopardTextures [2];
+
+
+			} else if (_idMask == 2) {
+				//lama
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = maskLlamaTextures [2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = bodyTextures [2];
+
+			} else if (_idMask == 3) {
+				//paresseux
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskParesseuxTextures [2];
+			} else if (_idMask == 4) {
+				//toucan
+				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[2];
+				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskToucanTextures [2];
+			}
+
+		}
+
+	}
 
 }

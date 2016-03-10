@@ -23,6 +23,7 @@ public class ButtonManager : MonoBehaviour {
 	bool axisXLeft;
 	bool _oldTriggerHeldRight;
 	bool _oldTriggerHeldLeft;
+	bool _oldTrigerTuto;
 
 	public bool isTurning;
 
@@ -30,8 +31,13 @@ public class ButtonManager : MonoBehaviour {
 	public Image credits;
 	public Image quitConf;
 
+	public Sprite[] slidesTuto;
+	public GameObject currentSlide;
+	public int currentSlideCount;
+
     public bool isOnMainMenu = true;
 	public bool isTrans = false;
+	public bool tuto = false;
       
 	void Start()
     {
@@ -91,9 +97,31 @@ public class ButtonManager : MonoBehaviour {
 					isTurning = true;
 				}
 			}
+			isTrans = false;
 			_oldTriggerHeldLeft = axisXLeft;
 			_oldTriggerHeldRight = axisXRight;
-        }
+		}else if(tuto)
+		{
+			if(axisXLeft && (_oldTrigerTuto != axisXLeft))
+			{
+				currentSlideCount--;
+				if (currentSlideCount <= -1) {
+					currentSlideCount = slidesTuto.Length - 1;
+				}
+
+
+			}else if(axisXRight && (_oldTrigerTuto != axisXRight))
+			{
+				currentSlideCount++;
+				if (currentSlideCount >= slidesTuto.Length) {
+					currentSlideCount = 0;
+				}
+
+			}
+			currentSlide.GetComponent<Image> ().sprite = slidesTuto [currentSlideCount];
+			_oldTrigerTuto = axisXRight || axisXLeft;
+			isTrans = false;
+		}
         
 
         //A Button Action in Menus
@@ -111,8 +139,9 @@ public class ButtonManager : MonoBehaviour {
 					SceneManager.LoadSceneAsync("TeamSelection");
                         break;
                     case 1:
-                        
                         //Sandbox
+						
+						SlideTuto();
                         break;
                     case 2:
 						//Credits
@@ -187,8 +216,8 @@ public class ButtonManager : MonoBehaviour {
 						//Play
 						break;
 					case 1:
-
 						//Sandbox
+						SlideTuto();
 						break;
 					case 2:
 
@@ -234,9 +263,19 @@ public class ButtonManager : MonoBehaviour {
 		isTurning = false;
 	}
 
+	void SlideTuto()
+	{
+		Debug.Log ("test");
+		tuto = !tuto;
+		currentSlide.SetActive (tuto);
+		if (currentSlide != null) {
+			currentSlide.GetComponent<Image> ().sprite = slidesTuto [0];
+			currentSlideCount = 0;
+		}
 
+	}
         
-    public IEnumerator SlideInCredits()
+    /*public IEnumerator SlideInCredits()
     {
 		float temp = 0;
 		while (credits.transform.localPosition.x > 1)
@@ -258,7 +297,7 @@ public class ButtonManager : MonoBehaviour {
 			yield return null;
 		}
 		isTrans = false;
-    }
+    }*/
 
 	public IEnumerator SlideInQuit()
 	{
@@ -276,7 +315,7 @@ public class ButtonManager : MonoBehaviour {
 	{
 		Debug.Log("cya?");
 		float temp = 0;
-		while (quitConf.transform.localScale.x > 0.05)
+		while (quitConf.transform.localScale.x > 0.0f)
 		{
 			temp += Time.deltaTime * 10;
 			quitConf.transform.localScale = new Vector3(Mathf.Lerp(1, 0, temp), Mathf.Lerp(1, 0, temp), 1);
@@ -306,10 +345,10 @@ public class ButtonManager : MonoBehaviour {
         ToggleMainMenu();
         //use right coroutine depending on credit screen location
         if (!isOnMainMenu){
-            StartCoroutine(SlideInCredits());
+            //StartCoroutine(SlideInCredits());
         }
         else{
-            StartCoroutine(SlideOutCredits());
+            //StartCoroutine(SlideOutCredits());
         }
 
     }
