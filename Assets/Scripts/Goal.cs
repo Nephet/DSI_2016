@@ -71,18 +71,6 @@ public class Goal : MonoBehaviour
 
 	void ParticlesNormalScore()
 	{
-		/*//print ("anything");
-
-		// Fire_1
-		//print(transform.GetChild(0).transform.position + " << FIRE1");
-		GameObject _partClone1 = Instantiate (partGoalFire1, transform.GetChild(0).transform.position, Quaternion.identity) as GameObject;
-		Destroy (_partClone1, 5f);
-
-		// Fire_2
-		//print(transform.GetChild(1).transform.position + " << FIRE2");
-		GameObject _partClone2 = Instantiate (partGoalFire2, transform.GetChild(1).transform.position, Quaternion.identity) as GameObject;
-		Destroy (_partClone2, 5f);*/
-
         // Confettis
         GameObject _partClone3 = Instantiate (partConfettis, transform.GetChild(2).transform.position, Quaternion.identity) as GameObject;
 		Destroy (_partClone3, 5f);
@@ -93,12 +81,12 @@ public class Goal : MonoBehaviour
         // Fire_1
         
         GameObject _partClone1 = Instantiate (partGoalFire1, transform.GetChild(0).transform.position, Quaternion.identity) as GameObject;
-        Destroy (_partClone1, 1.25f);
+        Destroy (_partClone1, 0.75f);
        
 
         // Fire_2
         GameObject _partClone2 = Instantiate (partGoalFire2, transform.GetChild(1).transform.position, Quaternion.identity) as GameObject;
-        Destroy (_partClone2, 1.25f);
+        Destroy (_partClone2, 0.75f);
         
  
         // Confettis

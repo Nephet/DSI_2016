@@ -72,8 +72,11 @@ public class SelectionManager : MonoBehaviour {
 
 	GameObject _currentMask;
 	bool _playMusic = false;
-	// Use this for initialization
-	void Start () {
+
+    public GameObject[] partSocle = new GameObject[4];
+
+    // Use this for initialization
+    void Start () {
 		selecting = new bool[5];
 		_oldTriggerHeld = new bool[5];
 		characterSelected = new GameObject[5];
@@ -100,24 +103,27 @@ public class SelectionManager : MonoBehaviour {
 			_playMusic = true;
 		}
 		LaunchGame ();
-		for (int i = 1; i < 5; i++) {
 
+		for (int i = 1; i < 5; i++)
+        {
 			xAxis = Input.GetAxis ("L_XAxis_" + i);
 			yAxis = Input.GetAxis ("L_YAxis_" + i);
 			select = Input.GetButtonDown ("A_Button_"+i);
 			deselect = Input.GetButtonDown ("B_Button_"+i);
 
-			if (!selecting [i]) {
-
+			if (!selecting [i])
+            {
 				_direction = new Vector3 (xAxis, yAxis, 0f);
 				_direction.Normalize ();
 				_direction = Vector3.ClampMagnitude (_direction, 1.0f);
 				_direction.z = 0f;
 
-				Debug.Log (cursors [i]);
-				cursors [i].transform.Translate (_direction * 2f * Time.deltaTime);
 
-			} else {
+				cursors [i].transform.Translate (_direction * 2f * Time.deltaTime);
+			}
+
+            else
+            {
 				xAxisAltLeft = Input.GetAxis ("R_XAxis_" + i) < 0.0f;
 				xAxisAltRight = Input.GetAxis ("R_XAxis_" + i) > 0.0f;
 
@@ -128,58 +134,73 @@ public class SelectionManager : MonoBehaviour {
 					{
 						currentIdMask [i] = 4;
 					}
-					Vector3 _tempPos = characterSelected [i].transform.GetChild (0).gameObject.transform.position;
-					Quaternion _tempRot = characterSelected [i].transform.GetChild (0).gameObject.transform.rotation;
-					Destroy (characterSelected [i].transform.GetChild (0).gameObject);
+
+					Vector3 _tempPos = characterSelected [i].transform.GetChild (2).gameObject.transform.position;//
+					Quaternion _tempRot = characterSelected [i].transform.GetChild (2).gameObject.transform.rotation;//
+					Destroy (characterSelected [i].transform.GetChild (2).gameObject);//
 					_currentMask = Instantiate(characters [currentIdMask [i]].gameObject,_tempPos , _tempRot) as GameObject;
-					_currentMask.transform.IsChildOf (characterSelected [i].transform);
+                    int pos = _currentMask.name.IndexOf("("); // find the left parenthesis position...
+                    _currentMask.name = _currentMask.name.Substring(0, pos); // and get only the substring before it
+                    _currentMask.transform.IsChildOf (characterSelected [i].transform);
 					_currentMask.transform.parent = characterSelected [i].transform;
 					chooseMask[i] = listOfMask [currentIdMask[i]];
-					//ChangeTexture (currentIdMask [i], currentTeam[i], i);
 					ChangeTexture (currentIdMask [i], currentTeam[i], i, _currentMask.gameObject);
 
-				}else if((_oldTriggerHeld[i] != xAxisAltRight) && xAxisAltRight)
+
+				}
+
+                else if((_oldTriggerHeld[i] != xAxisAltRight) && xAxisAltRight)
 				{
 					currentIdMask [i]++;
 					if (currentIdMask [i] >= 5) 
 					{
 						currentIdMask [i] = 1;
 					}
-					Vector3 _tempPos = characterSelected [i].transform.GetChild (0).gameObject.transform.position;
-					Quaternion _tempRot = characterSelected [i].transform.GetChild (0).gameObject.transform.rotation;
-					Destroy (characterSelected [i].transform.GetChild (0).gameObject);
+					Vector3 _tempPos = characterSelected [i].transform.GetChild (2).gameObject.transform.position;//
+					Quaternion _tempRot = characterSelected [i].transform.GetChild (2).gameObject.transform.rotation;//
+					Destroy (characterSelected [i].transform.GetChild (2).gameObject);//
 					_currentMask = Instantiate(characters [currentIdMask [i]].gameObject,_tempPos , _tempRot) as GameObject;
-					_currentMask.transform.IsChildOf (characterSelected [i].transform);
+                    int pos = _currentMask.name.IndexOf("("); // find the left parenthesis position...
+                    _currentMask.name = _currentMask.name.Substring(0, pos); // and get only the substring before it
+                    _currentMask.transform.IsChildOf (characterSelected [i].transform);
 					_currentMask.transform.parent = characterSelected [i].transform;
 					chooseMask[i] = listOfMask [currentIdMask[i]];
-					//ChangeTexture (currentIdMask [i], currentTeam[i], i);
-					ChangeTexture (currentIdMask [i], currentTeam[i], i, _currentMask.gameObject);
+                    ChangeTexture(currentIdMask [i], currentTeam[i], i, _currentMask.gameObject);
 				}
 				_oldTriggerHeld[i] = xAxisAltLeft || xAxisAltRight;
-
 			}
 
 
-			if (select) {
+			if (select)
+            {
 				Vector3 origin = Camera.main.transform.position;
 				Vector3 _dir = cursors[i].transform.position - origin;
 				RaycastHit hit;
-				if (!selecting [i]) {
-					if (Physics.Raycast (origin,_dir, out hit)) {
-						Debug.DrawLine (origin, hit.point, Color.red, 5.0f);
+
+				if (!selecting [i])
+                {
+					if (Physics.Raycast (origin,_dir, out hit))
+                    {
+						//Debug.DrawLine (origin, hit.point, Color.red, 5.0f);
 						selecting [i] = true;
 						cursors [i].SetActive (false);
 						characterSelected [i] = hit.collider.gameObject;
 						characterSelected [i].GetComponent<BoxCollider> ().enabled = false;
-						_currentMask = characterSelected [i].transform.GetChild (0).gameObject;
-						CheckTeam (characterSelected [i].transform.gameObject, i);
+						_currentMask = characterSelected [i].transform.GetChild(2).gameObject;//
+                        //_currentMask = characterSelected[i];
+
+                        CheckTeam(characterSelected [i].transform.gameObject, i);
 						charactersEnable.Remove (hit.collider.gameObject);
-						currentIdMask [i] = GetCurrentMaskId (hit.collider.gameObject.transform.GetChild (0).gameObject);
+                        currentIdMask[i] = GetCurrentMaskId (hit.collider.gameObject.transform.GetChild (2).gameObject);//
 						chooseMask[i] = listOfMask [currentIdMask[i]];
-						ChangeTexture (currentIdMask [i], currentTeam[i], i, characterSelected [i].transform.GetChild(0).gameObject);
-					}
-				} else {
-					
+                        ChangeTexture(currentIdMask [i], currentTeam[i], i, characterSelected [i].transform.GetChild(2).gameObject);//
+                        //transform.GetChild(1).gameObject.SetActive(true);
+                        hit.collider.transform.GetChild(0).gameObject.SetActive(true);//
+                    }
+				}
+
+                else
+                {
 					playerReady[i] = SameMask (currentTeam [i], i);
 					if(playerReady[i])
 					{
@@ -187,55 +208,60 @@ public class SelectionManager : MonoBehaviour {
 						readyCount++;
 					}
 				}
-
 			}
 
-			if (deselect && selecting[i]) {
-
-				if (valid [i]) {
+			if (deselect && selecting[i])
+            {
+				if (valid [i])
+                {
 					readyCount--;
 				}
+
 				selecting [i] = false;
 				playerReady [i] = false;
 				cursors [i].SetActive (true);
-				ChangeTexture (currentIdMask [i], 0, i, characterSelected [i].transform.GetChild(0).gameObject);
-				charactersEnable.Add (characterSelected[i]);
+                ChangeTexture(currentIdMask [i], 0, i, characterSelected [i].transform.GetChild(2).gameObject);//
+                charactersEnable.Add (characterSelected[i]);
 				characterSelected [i].GetComponent<BoxCollider> ().enabled = true;
-				characterSelected [i] = null;
-				chooseMask [i] = null;
+                characterSelected[i].transform.GetChild(0).gameObject.SetActive(false);//
+                characterSelected [i] = null;
+                
+                chooseMask[i] = null;
 				CheckTeam (characterSelected [i], i);
 				//ChangeTexture (currentIdMask [i], 0, i);
-
 			}
-
 		}
-
 	}
 
 	int GetCurrentMaskId(GameObject _mask)
 	{
+
 		for (int i = 1; i < 5; i++) 
 		{
 			if (characters [i].gameObject.name == _mask.name) {
-				//Debug.Log (i);
 				return i;
-
 			}
-
 		}
+
 		return 0;
 	}
 
 	void CheckTeam(GameObject _slot, int _id)
 	{
-		if (_slot == null) {
+		if (_slot == null)
+        {
 			currentTeam [_id] = 0;
-		} else {
-			if (_slot.name.Contains ("1") || _slot.name.Contains ("2")) {
+		}
 
-				currentTeam [_id] = 1;
-			} else if (_slot.name.Contains ("3") || _slot.name.Contains ("4")) {
+        else
+        {
+			if (_slot.name.Contains ("1") || _slot.name.Contains ("2"))
+            {
+				currentTeam [_id] = 1;  
+			}
 
+            else if (_slot.name.Contains ("3") || _slot.name.Contains ("4"))
+            {
 				currentTeam [_id] = 2;
 			} 
 		}
@@ -245,11 +271,16 @@ public class SelectionManager : MonoBehaviour {
 	{
 		for (int i = 1; i < 5; i++) 
 		{
-			if (_myTeamId == currentTeam [i] && _myId != i) {
-				if (chooseMask [i] != chooseMask [_myId]) {
+			if (_myTeamId == currentTeam [i] && _myId != i)
+            {
+				if (chooseMask [i] != chooseMask [_myId])
+                {
 					return true;
 
-				} else {
+				}
+
+                else
+                {
 					return false;
 				}
 
@@ -297,10 +328,12 @@ public class SelectionManager : MonoBehaviour {
 
 	void ChangeTexture(int _idMask, int _teamId, int _idPlayer, GameObject _player)
 	{
-		Debug.Log (_idMask+", "+ _teamId+ ", "+_idPlayer);
-		Debug.Log (characterSelected [_idPlayer].transform.GetChild (0).gameObject);
-		if (_teamId == 0) {
-			
+
+        //Debug.Log (_idMask+", /// iciiiiiiiiiiiiiiiiiiiii "+ _teamId+ "/// , "+_idPlayer);
+		//Debug.Log (characterSelected [_idPlayer].transform.GetChild (0).gameObject);
+
+        if (_teamId == 0)
+        {	
 			if (_idMask == 1) {
 				//Jaguar
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = bodyTextures[0];
@@ -308,7 +341,7 @@ public class SelectionManager : MonoBehaviour {
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskLeopardTextures [0];
 
 			} else if (_idMask == 2) {
-				//lama
+                //lama
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[0];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = maskLlamaTextures [0];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = bodyTextures [0];
@@ -327,34 +360,50 @@ public class SelectionManager : MonoBehaviour {
 
 			}
 
-		} else if (_teamId == 1) {
+		}
 
-			if (_idMask == 1) {
+        else if (_teamId == 1)
+        {
+			if (_idMask == 1)
+            {
 				//Jaguar
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = bodyTextures[1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = pagneTextures [1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskLeopardTextures [1];
 
 
-			} else if (_idMask == 2) {
+			}
+
+            else if (_idMask == 2)
+            {
 				//lama
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = maskLlamaTextures [1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = bodyTextures [1];
 
-			} else if (_idMask == 3) {
+			}
+
+            else if (_idMask == 3)
+            {
 				//paresseux
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskParesseuxTextures [1];
-			} else if (_idMask == 4) {
+			}
+
+            else if (_idMask == 4)
+            {
 				//toucan
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = pagneTextures[1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = bodyTextures[1];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [3].mainTexture = maskToucanTextures [1];
 			}
-		} else if (_teamId == 2) {
-			if (_idMask == 1) {
+		}
+
+        else if (_teamId == 2)
+        {
+			if (_idMask == 1)
+            {
 				//Jaguar
 				_player.gameObject.GetComponent<MeshRenderer>().materials[1].mainTexture = bodyTextures[2];
 				_player.gameObject.GetComponent<MeshRenderer> ().materials [2].mainTexture = pagneTextures [2];

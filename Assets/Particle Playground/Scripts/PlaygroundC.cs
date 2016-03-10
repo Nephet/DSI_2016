@@ -1300,7 +1300,7 @@ namespace ParticlePlayground {
 			// Check for duplicates of the Playground Manager
 			if (reference!=null && reference!=this) {
 				yield return null;
-                                                          
+				Debug.Log("There can only be one instance of the Playground Manager in the scene.");
 				
 				// Save all children!
 				foreach (Transform child in transform)
