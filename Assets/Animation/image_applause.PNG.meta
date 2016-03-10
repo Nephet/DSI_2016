@@ -1,0 +1,574 @@
+fileFormatVersion: 2
+guid: fb67575c487745d47aa2e0e15d88d351
+timeCreated: 1457606536
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: image_applause_0
+    21300002: image_applause_1
+    21300004: image_applause_2
+    21300006: image_applause_3
+    21300008: image_applause_4
+    21300010: image_applause_5
+    21300012: image_applause_6
+    21300014: image_applause_7
+    21300016: image_applause_8
+    21300018: image_applause_9
+    21300020: image_applause_10
+    21300022: image_applause_11
+    21300024: image_applause_12
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: image_applause_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 254, y: -41}
+        - {x: 254, y: -16}
+        - {x: 248, y: -9}
+        - {x: 227, y: -3}
+        - {x: 213, y: 28}
+        - {x: 191, y: 42}
+        - {x: 176, y: 43}
+        - {x: 83, y: 29}
+        - {x: 139, y: 88}
+        - {x: 112, y: 191}
+        - {x: -41, y: 191}
+        - {x: -40, y: 70}
+        - {x: -146, y: 131}
+        - {x: -194, y: 140}
+        - {x: -235, y: 114}
+        - {x: -235, y: 84}
+        - {x: -209, y: 45}
+        - {x: -24, y: 15}
+        - {x: -71, y: -36}
+        - {x: -109, y: -152}
+        - {x: -49, y: -216}
+        - {x: -13, y: -218}
+        - {x: -11, y: -211}
+        - {x: 9, y: -236}
+        - {x: 12, y: -238}
+        - {x: 45, y: -238}
+        - {x: 101, y: -108}
+        - {x: 167, y: -87}
+        - {x: 234, y: -73}
+    - name: image_applause_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 72, y: -25}
+        - {x: 75, y: -33}
+        - {x: 78, y: -36}
+        - {x: 93, y: -47}
+        - {x: 137, y: -40}
+        - {x: 173, y: -13}
+        - {x: 173, y: 67}
+        - {x: 160, y: 98}
+        - {x: 120, y: 158}
+        - {x: 93, y: 191}
+        - {x: -30, y: 191}
+        - {x: -55, y: 84}
+        - {x: -136, y: 144}
+        - {x: -211, y: 135}
+        - {x: -222, y: 116}
+        - {x: -222, y: 99}
+        - {x: -213, y: 76}
+        - {x: -200, y: 67}
+        - {x: -181, y: 41}
+        - {x: -39, y: 18}
+        - {x: -103, y: -151}
+        - {x: -63, y: -238}
+        - {x: 53, y: -238}
+        - {x: 55, y: -237}
+        - {x: 98, y: -75}
+        - {x: 74, y: -31}
+        - {x: 74, y: -29}
+    - name: image_applause_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 101, y: 46}
+        - {x: 119, y: 80}
+        - {x: 119, y: 143}
+        - {x: 99, y: 190}
+        - {x: 90, y: 192}
+        - {x: 10, y: 192}
+        - {x: -39, y: 157}
+        - {x: -44, y: 134}
+        - {x: -110, y: 149}
+        - {x: -177, y: 134}
+        - {x: -177, y: 93}
+        - {x: -165, y: 65}
+        - {x: -121, y: 31}
+        - {x: -29, y: 11}
+        - {x: -80, y: -76}
+        - {x: -97, y: -149}
+        - {x: -52, y: -217}
+        - {x: -29, y: -219}
+        - {x: -9, y: -216}
+        - {x: 25, y: -161}
+        - {x: 1, y: -238}
+        - {x: 46, y: -238}
+        - {x: 96, y: -107}
+        - {x: 94, y: -15}
+        - {x: 116, y: -2}
+    - name: image_applause_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1536
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 113, y: 73}
+        - {x: 116, y: 83}
+        - {x: 116, y: 155}
+        - {x: 85, y: 193}
+        - {x: 11, y: 193}
+        - {x: -28, y: 176}
+        - {x: -39, y: 148}
+        - {x: -124, y: 148}
+        - {x: -138, y: 124}
+        - {x: -138, y: 71}
+        - {x: -127, y: 53}
+        - {x: -73, y: 17}
+        - {x: -18, y: 26}
+        - {x: -67, y: -36}
+        - {x: -100, y: -152}
+        - {x: -45, y: -232}
+        - {x: -4, y: -219}
+        - {x: -9, y: -156}
+        - {x: 31, y: -163}
+        - {x: 15, y: -206}
+        - {x: 13, y: -235}
+        - {x: 16, y: -238}
+        - {x: 36, y: -238}
+        - {x: 50, y: -231}
+        - {x: 91, y: -104}
+        - {x: 86, y: -58}
+        - {x: 109, y: 25}
+    - name: image_applause_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 114, y: 17}
+        - {x: 114, y: 18}
+        - {x: 91, y: 33}
+        - {x: 114, y: 79}
+        - {x: 114, y: 144}
+        - {x: 93, y: 193}
+        - {x: 8, y: 193}
+        - {x: -21, y: 176}
+        - {x: -134, y: 145}
+        - {x: -157, y: 118}
+        - {x: -158, y: 116}
+        - {x: -158, y: 87}
+        - {x: -129, y: 38}
+        - {x: -22, y: 17}
+        - {x: -63, y: -44}
+        - {x: -79, y: -77}
+        - {x: -95, y: -150}
+        - {x: -76, y: -189}
+        - {x: -33, y: -228}
+        - {x: -4, y: -217}
+        - {x: -12, y: -155}
+        - {x: 13, y: -235}
+        - {x: 27, y: -238}
+        - {x: 36, y: -238}
+        - {x: 50, y: -231}
+        - {x: 94, y: -103}
+        - {x: 84, y: -14}
+    - name: image_applause_5
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 116, y: 148}
+        - {x: 113, y: 168}
+        - {x: 83, y: 193}
+        - {x: 9, y: 193}
+        - {x: -33, y: 181}
+        - {x: -85, y: 134}
+        - {x: -81, y: 124}
+        - {x: -73, y: 114}
+        - {x: -127, y: 139}
+        - {x: -150, y: 140}
+        - {x: -165, y: 116}
+        - {x: -165, y: 82}
+        - {x: -133, y: 40}
+        - {x: -21, y: 14}
+        - {x: -72, y: -16}
+        - {x: -114, y: -155}
+        - {x: -54, y: -210}
+        - {x: -41, y: -221}
+        - {x: -4, y: -219}
+        - {x: -9, y: -156}
+        - {x: 13, y: -235}
+        - {x: 16, y: -238}
+        - {x: 36, y: -238}
+        - {x: 50, y: -231}
+        - {x: 91, y: -104}
+        - {x: 105, y: 22}
+        - {x: 116, y: 58}
+    - name: image_applause_6
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 119, y: 148}
+        - {x: 98, y: 190}
+        - {x: 79, y: 192}
+        - {x: -1, y: 192}
+        - {x: -29, y: 160}
+        - {x: -37, y: 132}
+        - {x: -39, y: 123}
+        - {x: -70, y: 131}
+        - {x: -92, y: 134}
+        - {x: -151, y: 133}
+        - {x: -172, y: 113}
+        - {x: -172, y: 88}
+        - {x: -150, y: 41}
+        - {x: -28, y: 10}
+        - {x: -68, y: -55}
+        - {x: -72, y: -78}
+        - {x: -110, y: -98}
+        - {x: -73, y: -238}
+        - {x: -55, y: -238}
+        - {x: -29, y: -219}
+        - {x: -9, y: -216}
+        - {x: -1, y: -238}
+        - {x: 47, y: -238}
+        - {x: 94, y: -107}
+        - {x: 112, y: 23}
+        - {x: 119, y: 84}
+    - name: image_applause_7
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 119, y: -7}
+        - {x: 123, y: 39}
+        - {x: 123, y: 144}
+        - {x: 87, y: 191}
+        - {x: 14, y: 191}
+        - {x: -32, y: 157}
+        - {x: -43, y: 114}
+        - {x: -60, y: 138}
+        - {x: -123, y: 150}
+        - {x: -146, y: 152}
+        - {x: -184, y: 122}
+        - {x: -184, y: 66}
+        - {x: -181, y: 56}
+        - {x: -76, y: 14}
+        - {x: -32, y: 22}
+        - {x: -77, y: -79}
+        - {x: -103, y: -151}
+        - {x: -41, y: -238}
+        - {x: -38, y: -238}
+        - {x: -11, y: -222}
+        - {x: -3, y: -158}
+        - {x: 14, y: -234}
+        - {x: 25, y: -238}
+        - {x: 50, y: -238}
+        - {x: 55, y: -237}
+        - {x: 98, y: -75}
+        - {x: 82, y: -25}
+    - name: image_applause_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142, y: 14}
+        - {x: 130, y: 57}
+        - {x: 142, y: 125}
+        - {x: 142, y: 134}
+        - {x: 90, y: 191}
+        - {x: 12, y: 191}
+        - {x: -15, y: 179}
+        - {x: -46, y: 138}
+        - {x: -62, y: 69}
+        - {x: -102, y: 127}
+        - {x: -124, y: 148}
+        - {x: -190, y: 150}
+        - {x: -212, y: 121}
+        - {x: -212, y: 99}
+        - {x: -202, y: 70}
+        - {x: -176, y: 43}
+        - {x: -27, y: 11}
+        - {x: -73, y: -35}
+        - {x: -99, y: -149}
+        - {x: -49, y: -215}
+        - {x: -13, y: -218}
+        - {x: -11, y: -211}
+        - {x: 25, y: -167}
+        - {x: 9, y: -236}
+        - {x: 12, y: -238}
+        - {x: 45, y: -238}
+        - {x: 101, y: -108}
+        - {x: 84, y: -40}
+        - {x: 142, y: -43}
+    - name: image_applause_9
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 187, y: -20}
+        - {x: 187, y: 23}
+        - {x: 155, y: 53}
+        - {x: 131, y: 65}
+        - {x: 144, y: 132}
+        - {x: 90, y: 191}
+        - {x: 0, y: 191}
+        - {x: -18, y: 185}
+        - {x: -50, y: 85}
+        - {x: -98, y: 91}
+        - {x: -145, y: 167}
+        - {x: -229, y: 131}
+        - {x: -229, y: 73}
+        - {x: -227, y: 70}
+        - {x: -26, y: -9}
+        - {x: -60, y: -42}
+        - {x: -74, y: -77}
+        - {x: -95, y: -150}
+        - {x: -82, y: -170}
+        - {x: -48, y: -214}
+        - {x: -13, y: -218}
+        - {x: -11, y: -211}
+        - {x: 25, y: -167}
+        - {x: 9, y: -236}
+        - {x: 12, y: -238}
+        - {x: 45, y: -238}
+        - {x: 101, y: -108}
+        - {x: 87, y: -67}
+        - {x: 136, y: -70}
+    - name: image_applause_10
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 224, y: 22}
+        - {x: 191, y: 80}
+        - {x: 120, y: 32}
+        - {x: 130, y: 90}
+        - {x: 125, y: 156}
+        - {x: 80, y: 191}
+        - {x: 22, y: 191}
+        - {x: -15, y: 180}
+        - {x: -37, y: 115}
+        - {x: -34, y: 75}
+        - {x: -104, y: 90}
+        - {x: -142, y: 136}
+        - {x: -166, y: 136}
+        - {x: -203, y: 135}
+        - {x: -234, y: 121}
+        - {x: -234, y: 67}
+        - {x: -112, y: 29}
+        - {x: -74, y: -77}
+        - {x: -96, y: -150}
+        - {x: -82, y: -170}
+        - {x: -48, y: -214}
+        - {x: -13, y: -218}
+        - {x: -11, y: -211}
+        - {x: 9, y: -236}
+        - {x: 12, y: -238}
+        - {x: 46, y: -238}
+        - {x: 104, y: -108}
+        - {x: 219, y: -40}
+        - {x: 224, y: -33}
+    - name: image_applause_11
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 246, y: 36}
+        - {x: 175, y: 75}
+        - {x: 136, y: 64}
+        - {x: 130, y: 190}
+        - {x: 126, y: 191}
+        - {x: 14, y: 191}
+        - {x: -10, y: 174}
+        - {x: -109, y: 116}
+        - {x: -178, y: 148}
+        - {x: -176, y: 128}
+        - {x: -173, y: 119}
+        - {x: -168, y: 115}
+        - {x: -211, y: 131}
+        - {x: -235, y: 114}
+        - {x: -235, y: 84}
+        - {x: -233, y: 73}
+        - {x: -166, y: 41}
+        - {x: -60, y: -42}
+        - {x: -74, y: -77}
+        - {x: -96, y: -150}
+        - {x: -82, y: -170}
+        - {x: -48, y: -214}
+        - {x: -13, y: -218}
+        - {x: -11, y: -211}
+        - {x: 9, y: -236}
+        - {x: 12, y: -238}
+        - {x: 45, y: -238}
+        - {x: 101, y: -108}
+        - {x: 235, y: -92}
+        - {x: 246, y: -57}
+    - name: image_applause_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 254, y: -41}
+        - {x: 254, y: -16}
+        - {x: 248, y: -9}
+        - {x: 227, y: -3}
+        - {x: 213, y: 28}
+        - {x: 191, y: 42}
+        - {x: 176, y: 43}
+        - {x: 83, y: 29}
+        - {x: 139, y: 88}
+        - {x: 112, y: 191}
+        - {x: -41, y: 191}
+        - {x: -40, y: 70}
+        - {x: -146, y: 131}
+        - {x: -194, y: 140}
+        - {x: -235, y: 114}
+        - {x: -235, y: 84}
+        - {x: -209, y: 45}
+        - {x: -24, y: 15}
+        - {x: -71, y: -36}
+        - {x: -109, y: -152}
+        - {x: -49, y: -216}
+        - {x: -13, y: -218}
+        - {x: -11, y: -211}
+        - {x: 9, y: -236}
+        - {x: 12, y: -238}
+        - {x: 45, y: -238}
+        - {x: 101, y: -108}
+        - {x: 167, y: -87}
+        - {x: 234, y: -73}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
