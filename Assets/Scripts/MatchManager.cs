@@ -84,6 +84,12 @@ public class MatchManager : MonoBehaviour {
 
 	[Header("Particles")]
 	public GameObject partRespawn;
+    public GameObject partVictory;
+    public GameObject victoryTriggerPosition1;
+    public GameObject victoryTriggerPosition2;
+    public GameObject victoryTriggerPosition3;
+    public GameObject victoryTriggerPosition4;
+    public GameObject victoryTriggerPosition5;
     public GameObject playgroundManager;
 
     public static MatchManager Instance
@@ -197,7 +203,11 @@ public class MatchManager : MonoBehaviour {
 
 	void EndGame()
 	{
-		panelVictory.SetActive (true);
+        // Particles victory
+        print("MARCHE");
+        StartCoroutine(VictoryParticles());
+
+        panelVictory.SetActive (true);
 		SoundManagerEvent.emit (SoundManagerType.WHISTLEEND);
 		SoundManagerEvent.emit (SoundManagerType.BASSEND);
 		//pause = true;
@@ -388,5 +398,31 @@ public class MatchManager : MonoBehaviour {
                 PinataManager.instance.CheckEffect(id);
             }
         }
+    }
+
+    IEnumerator VictoryParticles()
+    {
+        TriggerParticles();
+        yield return new WaitForSeconds(1.5f);
+        TriggerParticles();
+        yield return new WaitForSeconds(1.0f);
+        TriggerParticles();
+        yield return new WaitForSeconds(0.5f);
+        TriggerParticles();
+    }
+
+    void TriggerParticles()
+    {
+        GameObject _partClone1 = Instantiate(partVictory, victoryTriggerPosition1.transform.position, Quaternion.identity) as GameObject;
+        GameObject _partClone2 = Instantiate(partVictory, victoryTriggerPosition2.transform.position, Quaternion.identity) as GameObject;
+        GameObject _partClone3 = Instantiate(partVictory, victoryTriggerPosition3.transform.position, Quaternion.identity) as GameObject;
+        GameObject _partClone4 = Instantiate(partVictory, victoryTriggerPosition4.transform.position, Quaternion.identity) as GameObject;
+        GameObject _partClone5 = Instantiate(partVictory, victoryTriggerPosition5.transform.position, Quaternion.identity) as GameObject;
+
+        Destroy(_partClone1, 2f);
+        Destroy(_partClone2, 2f);
+        Destroy(_partClone3, 2f);
+        Destroy(_partClone4, 2f);
+        Destroy(_partClone5, 2f);
     }
 }

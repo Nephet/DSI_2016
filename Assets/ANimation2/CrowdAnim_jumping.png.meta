@@ -1,0 +1,876 @@
+fileFormatVersion: 2
+guid: 406d04e8b6dc0be45a8bc932f94460e8
+timeCreated: 1457630617
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: CrowdAnim_jumping_0
+    21300002: CrowdAnim_jumping_1
+    21300004: CrowdAnim_jumping_2
+    21300006: CrowdAnim_jumping_3
+    21300008: CrowdAnim_jumping_4
+    21300010: CrowdAnim_jumping_5
+    21300012: CrowdAnim_jumping_6
+    21300014: CrowdAnim_jumping_7
+    21300016: CrowdAnim_jumping_8
+    21300018: CrowdAnim_jumping_9
+    21300020: CrowdAnim_jumping_10
+    21300022: CrowdAnim_jumping_11
+    21300024: CrowdAnim_jumping_12
+    21300026: CrowdAnim_jumping_13
+    21300028: CrowdAnim_jumping_14
+    21300030: CrowdAnim_jumping_15
+    21300032: CrowdAnim_jumping_16
+    21300034: CrowdAnim_jumping_17
+    21300036: CrowdAnim_jumping_18
+    21300038: CrowdAnim_jumping_19
+    21300040: CrowdAnim_jumping_20
+    21300042: CrowdAnim_jumping_21
+    21300044: CrowdAnim_jumping_22
+    21300046: CrowdAnim_jumping_23
+    21300048: CrowdAnim_jumping_24
+    21300050: CrowdAnim_jumping_25
+    21300052: CrowdAnim_jumping_26
+    21300054: CrowdAnim_jumping_27
+    21300056: CrowdAnim_jumping_28
+    21300058: CrowdAnim_jumping_29
+    21300060: CrowdAnim_jumping_30
+    21300062: CrowdAnim_jumping_31
+    21300064: CrowdAnim_jumping_32
+    21300066: CrowdAnim_jumping_33
+    21300068: CrowdAnim_jumping_34
+    21300070: CrowdAnim_jumping_35
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: CrowdAnim_jumping_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2400
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 61, y: 1.0001221}
+        - {x: 63, y: 9.000122}
+        - {x: 41, y: 42.000122}
+        - {x: -59, y: 42.000122}
+        - {x: -63, y: 41.000122}
+        - {x: -66, y: 34.000122}
+        - {x: -66, y: 12.000122}
+        - {x: -54, y: 3.000122}
+        - {x: -30, y: -84.99988}
+        - {x: -13, y: -112.99988}
+        - {x: 53, y: -112.99988}
+        - {x: 88, y: -53.999878}
+        - {x: 88, y: -6.999878}
+        - {x: 81, y: 8.000122}
+    - name: CrowdAnim_jumping_1
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2400
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 59.333344, y: 1.0001221}
+        - {x: 52.333344, y: -10.999878}
+        - {x: 47.333344, y: 30.000122}
+        - {x: 36.333344, y: 36.000122}
+        - {x: -48.666656, y: 36.000122}
+        - {x: -64.66666, y: 30.000122}
+        - {x: -64.66666, y: 4.000122}
+        - {x: -60.666656, y: 2.000122}
+        - {x: -39.666656, y: -84.99988}
+        - {x: -1.6666565, y: -107.99988}
+        - {x: 11.3333435, y: -113.99988}
+        - {x: 48.333344, y: -113.99988}
+        - {x: 84.33334, y: -52.999878}
+        - {x: 84.33334, y: -8.999878}
+        - {x: 76.33334, y: 3.000122}
+    - name: CrowdAnim_jumping_2
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2400
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 45.666687, y: -8.999878}
+        - {x: 47.666687, y: -0.9998779}
+        - {x: 46.666687, y: 12.000122}
+        - {x: 40.666687, y: 30.000122}
+        - {x: -61.333313, y: 30.000122}
+        - {x: -61.333313, y: -61.999878}
+        - {x: -44.333313, y: -102.99988}
+        - {x: -26.333313, y: -114.99988}
+        - {x: 49.666687, y: -114.99988}
+        - {x: 77.66669, y: -37.999878}
+        - {x: 77.66669, y: 2.000122}
+        - {x: 52.666687, y: 8.000122}
+    - name: CrowdAnim_jumping_3
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 2400
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -62, y: 28.000122}
+        - {x: -62, y: -22.999878}
+        - {x: -13, y: -116.99988}
+        - {x: 45, y: -116.99988}
+        - {x: 70, y: -57.999878}
+        - {x: 70, y: 12.000122}
+        - {x: 58, y: 28.000122}
+    - name: CrowdAnim_jumping_4
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 2400
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24.333374, y: 34.000122}
+        - {x: -55.666626, y: 34.000122}
+        - {x: -55.666626, y: -32.999878}
+        - {x: -35.666626, y: -91.99988}
+        - {x: -13.666626, y: -118.99988}
+        - {x: 29.333374, y: -118.99988}
+        - {x: 44.333374, y: -112.99988}
+        - {x: 65.333374, y: -55.999878}
+        - {x: 65.333374, y: 23.000122}
+        - {x: 64.333374, y: 29.000122}
+    - name: CrowdAnim_jumping_5
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 2400
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -51.333252, y: 36.000122}
+        - {x: -51.333252, y: -15.999878}
+        - {x: -25.333252, y: -96.99988}
+        - {x: -13.333252, y: -118.99988}
+        - {x: 46.666748, y: -118.99988}
+        - {x: 63.666748, y: -79.99988}
+        - {x: 63.666748, y: 24.000122}
+        - {x: 38.666748, y: 36.000122}
+    - name: CrowdAnim_jumping_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1920
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10, y: 41}
+        - {x: -45, y: 41}
+        - {x: -50, y: 25}
+        - {x: -50, y: 16}
+        - {x: -36, y: -115}
+        - {x: 58, y: -115}
+        - {x: 65, y: -82}
+        - {x: 65, y: 18}
+        - {x: 58, y: 36}
+    - name: CrowdAnim_jumping_7
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1920
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47.666656, y: 53}
+        - {x: -47.666656, y: -105}
+        - {x: -7.6666565, y: -106}
+        - {x: 5.3333435, y: -105}
+        - {x: 7.3333435, y: -103}
+        - {x: 7.3333435, y: -97}
+        - {x: 24.333344, y: -114}
+        - {x: 36.333344, y: -114}
+        - {x: 61.333344, y: -59}
+        - {x: 71.33334, y: -18}
+        - {x: 71.33334, y: 35}
+        - {x: 32.333344, y: 53}
+    - name: CrowdAnim_jumping_8
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1920
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28.666687, y: 69}
+        - {x: -43.333313, y: 69}
+        - {x: -45.333313, y: 67}
+        - {x: -45.333313, y: -47}
+        - {x: -36.333313, y: -104}
+        - {x: -34.333313, y: -105}
+        - {x: 49.666687, y: -105}
+        - {x: 78.66669, y: -33}
+        - {x: 78.66669, y: 45}
+        - {x: 76.66669, y: 49}
+    - name: CrowdAnim_jumping_9
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 1920
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44, y: 86}
+        - {x: -44, y: -90}
+        - {x: 57, y: -90}
+        - {x: 84, y: -40}
+        - {x: 84, y: 65}
+        - {x: 51, y: 86}
+    - name: CrowdAnim_jumping_10
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 1920
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.666626, y: 97}
+        - {x: -40.666626, y: 50}
+        - {x: -24.666626, y: -52}
+        - {x: 8.333374, y: -79}
+        - {x: 54.333374, y: -79}
+        - {x: 88.333374, y: -8}
+        - {x: 88.333374, y: 91}
+        - {x: 66.333374, y: 97}
+    - name: CrowdAnim_jumping_11
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 1920
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 26.666748, y: 98}
+        - {x: 25.666748, y: 98}
+        - {x: 1.666748, y: 73}
+        - {x: 5.666748, y: 67}
+        - {x: 5.666748, y: 64}
+        - {x: 5.666748, y: 66}
+        - {x: -2.333252, y: 80}
+        - {x: -13.333252, y: 98}
+        - {x: -39.333252, y: 98}
+        - {x: -39.333252, y: -75}
+        - {x: 55.666748, y: -75}
+        - {x: 88.66675, y: -11}
+        - {x: 88.66675, y: 73}
+        - {x: 51.666748, y: 93}
+    - name: CrowdAnim_jumping_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1440
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37, y: 89.00006}
+        - {x: -41, y: 82.00006}
+        - {x: -42, y: 77.00006}
+        - {x: -42, y: 59.00006}
+        - {x: -24, y: 48.00006}
+        - {x: -17, y: -51.99994}
+        - {x: -15, y: -79.99994}
+        - {x: 38, y: -79.99994}
+        - {x: 83, y: 16.000061}
+        - {x: 83, y: 59.00006}
+        - {x: 58, y: 89.00006}
+    - name: CrowdAnim_jumping_13
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1440
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.666656, y: 79.00006}
+        - {x: -44.666656, y: 4.000061}
+        - {x: -26.666656, y: -63.99994}
+        - {x: -7.6666565, y: -76.99994}
+        - {x: 9.3333435, y: -71.99994}
+        - {x: 22.333344, y: -88.99994}
+        - {x: 57.333344, y: -88.99994}
+        - {x: 76.33334, y: -63.99994}
+        - {x: 76.33334, y: 59.00006}
+        - {x: 65.33334, y: 79.00006}
+    - name: CrowdAnim_jumping_14
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 1440
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44.666687, y: 65.00006}
+        - {x: -8.333313, y: 65.00006}
+        - {x: -48.333313, y: 53.00006}
+        - {x: -49.333313, y: 48.00006}
+        - {x: -49.333313, y: 23.000061}
+        - {x: -44.333313, y: 21.000061}
+        - {x: -15.333313, y: -82.99994}
+        - {x: 12.666687, y: -86.99994}
+        - {x: 25.666687, y: -99.99994}
+        - {x: 38.666687, y: -99.99994}
+        - {x: 44.666687, y: -73.99994}
+        - {x: 67.66669, y: -18.999939}
+        - {x: 67.66669, y: 31.000061}
+    - name: CrowdAnim_jumping_15
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 1440
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 30, y: 50.00006}
+        - {x: -3, y: 50.00006}
+        - {x: -20, y: 34.00006}
+        - {x: -14, y: 22.000061}
+        - {x: -14, y: 15.000061}
+        - {x: -14, y: 17.000061}
+        - {x: -26, y: 29.000061}
+        - {x: -44, y: 34.00006}
+        - {x: -54, y: 30.000061}
+        - {x: -54, y: -32.99994}
+        - {x: -46, y: -48.99994}
+        - {x: -12, y: -108.99994}
+        - {x: 35, y: -108.99994}
+        - {x: 39, y: -104.99994}
+        - {x: 61, y: -46.99994}
+        - {x: 61, y: -14.999939}
+        - {x: 45, y: 43.00006}
+    - name: CrowdAnim_jumping_16
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 1440
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11.666626, y: 36.00006}
+        - {x: -49.666626, y: 19.000061}
+        - {x: -55.666626, y: 7.000061}
+        - {x: -55.666626, y: -36.99994}
+        - {x: -40.666626, y: -67.99994}
+        - {x: -14.666626, y: -113.99994}
+        - {x: 42.333374, y: -113.99994}
+        - {x: 58.333374, y: -69.99994}
+        - {x: 58.333374, y: -25.999939}
+        - {x: 37.333374, y: 36.00006}
+    - name: CrowdAnim_jumping_17
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 1440
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 20.666748, y: 25.000061}
+        - {x: -8.333252, y: 25.000061}
+        - {x: -55.333252, y: -6.999939}
+        - {x: -55.333252, y: -40.99994}
+        - {x: -30.333252, y: -84.99994}
+        - {x: -18.333252, y: -96.99994}
+        - {x: 4.666748, y: -113.99994}
+        - {x: 15.666748, y: -113.99994}
+        - {x: 18.666748, y: -112.99994}
+        - {x: 17.666748, y: -105.99994}
+        - {x: 26.666748, y: -114.99994}
+        - {x: 40.666748, y: -114.99994}
+        - {x: 58.666748, y: -59.99994}
+        - {x: 58.666748, y: -39.99994}
+        - {x: 34.666748, y: 17.000061}
+    - name: CrowdAnim_jumping_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 960
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 21}
+        - {x: -13, y: 20}
+        - {x: -57, y: -20}
+        - {x: -57, y: -52}
+        - {x: -56, y: -55}
+        - {x: -7, y: -117}
+        - {x: 46, y: -117}
+        - {x: 57, y: -81}
+        - {x: 57, y: -33}
+        - {x: 28, y: 21}
+    - name: CrowdAnim_jumping_19
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 960
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11.6666565, y: 20}
+        - {x: -56.666656, y: -15}
+        - {x: -56.666656, y: -64}
+        - {x: -14.6666565, y: -118}
+        - {x: 58.333344, y: -118}
+        - {x: 58.333344, y: 20}
+    - name: CrowdAnim_jumping_20
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 960
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -55.333313, y: 27}
+        - {x: -55.333313, y: -115}
+        - {x: 19.666687, y: -115}
+        - {x: 19.666687, y: -110}
+        - {x: 25.666687, y: -115}
+        - {x: 39.666687, y: -115}
+        - {x: 50.666687, y: -109}
+        - {x: 60.666687, y: -88}
+        - {x: 60.666687, y: -6}
+        - {x: 35.666687, y: 27}
+    - name: CrowdAnim_jumping_21
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 960
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 45}
+        - {x: -43, y: 15}
+        - {x: -55, y: 3}
+        - {x: -55, y: -11}
+        - {x: -54, y: -16}
+        - {x: -14, y: -94}
+        - {x: 12, y: -111}
+        - {x: 54, y: -111}
+        - {x: 63, y: -87}
+        - {x: 63, y: 15}
+        - {x: 50, y: 45}
+    - name: CrowdAnim_jumping_22
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 960
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 3.333374, y: 68}
+        - {x: -52.666626, y: 46}
+        - {x: -52.666626, y: -3}
+        - {x: -25.666626, y: -81}
+        - {x: 1.333374, y: -82}
+        - {x: 32.333374, y: -96}
+        - {x: 37.333374, y: -98}
+        - {x: 69.333374, y: -98}
+        - {x: 69.333374, y: 68}
+    - name: CrowdAnim_jumping_23
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 960
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9.666748, y: 88}
+        - {x: -37.333252, y: 63}
+        - {x: -49.333252, y: 46}
+        - {x: -49.333252, y: 20}
+        - {x: -32.333252, y: -41}
+        - {x: 12.666748, y: -82}
+        - {x: 75.66675, y: -82}
+        - {x: 75.66675, y: 58}
+        - {x: 57.666748, y: 88}
+    - name: CrowdAnim_jumping_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 103}
+        - {x: -50, y: 72}
+        - {x: -50, y: 37}
+        - {x: -20, y: -70}
+        - {x: 49, y: -70}
+        - {x: 79, y: -8}
+        - {x: 79, y: 81}
+        - {x: 55, y: 103}
+    - name: CrowdAnim_jumping_25
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 480
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 68.33334, y: 113}
+        - {x: -5.6666565, y: 113}
+        - {x: -49.666656, y: 75}
+        - {x: -49.666656, y: 68}
+        - {x: -45.666656, y: 65}
+        - {x: -47.666656, y: 61}
+        - {x: -47.666656, y: 56}
+        - {x: -43.666656, y: 50}
+        - {x: -19.666656, y: -47}
+        - {x: 7.3333435, y: -61}
+        - {x: 66.33334, y: -61}
+        - {x: 84.33334, y: 38}
+        - {x: 84.33334, y: 110}
+    - name: CrowdAnim_jumping_26
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 480
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.333313, y: 120}
+        - {x: -49.333313, y: 95}
+        - {x: -49.333313, y: 62}
+        - {x: -43.333313, y: 57}
+        - {x: -13.333313, y: -39}
+        - {x: 5.666687, y: -34}
+        - {x: 8.666687, y: -31}
+        - {x: 37.666687, y: -56}
+        - {x: 59.666687, y: -56}
+        - {x: 88.66669, y: 17}
+        - {x: 88.66669, y: 114}
+        - {x: 86.66669, y: 120}
+    - name: CrowdAnim_jumping_27
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 480
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 123}
+        - {x: -51, y: 110}
+        - {x: -51, y: -18}
+        - {x: -37, y: -53}
+        - {x: -24, y: -53}
+        - {x: 2, y: -31}
+        - {x: 6, y: -28}
+        - {x: 40, y: -53}
+        - {x: 52, y: -53}
+        - {x: 55, y: -52}
+        - {x: 89, y: 38}
+        - {x: 89, y: 123}
+    - name: CrowdAnim_jumping_28
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 480
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6.666626, y: 124}
+        - {x: -51.666626, y: 99}
+        - {x: -51.666626, y: -24}
+        - {x: -9.666626, y: -52}
+        - {x: 91.333374, y: -52}
+        - {x: 91.333374, y: 109}
+        - {x: 72.333374, y: 124}
+    - name: CrowdAnim_jumping_29
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 480
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.333252, y: 122}
+        - {x: -48.333252, y: 101}
+        - {x: -53.333252, y: 90}
+        - {x: -53.333252, y: 72}
+        - {x: -52.333252, y: 69}
+        - {x: -45.333252, y: 64}
+        - {x: -12.333252, y: -43}
+        - {x: 20.666748, y: -55}
+        - {x: 56.666748, y: -55}
+        - {x: 92.66675, y: 49}
+        - {x: 92.66675, y: 122}
+    - name: CrowdAnim_jumping_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 62, y: 117}
+        - {x: -2, y: 117}
+        - {x: -37, y: 106}
+        - {x: -56, y: 93}
+        - {x: -56, y: 3}
+        - {x: -17, y: -59}
+        - {x: -2, y: -59}
+        - {x: 7, y: -37}
+        - {x: 9, y: -31}
+        - {x: 36, y: -59}
+        - {x: 55, y: -59}
+        - {x: 92, y: 58}
+        - {x: 92, y: 89}
+        - {x: 89, y: 100}
+    - name: CrowdAnim_jumping_31
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 71.33334, y: 91}
+        - {x: 60.333344, y: 79}
+        - {x: 60.333344, y: 71}
+        - {x: 60.333344, y: 88}
+        - {x: 44.333344, y: 109}
+        - {x: -20.666656, y: 109}
+        - {x: -57.666656, y: 89}
+        - {x: -57.666656, y: 0}
+        - {x: -25.666656, y: -66}
+        - {x: 45.333344, y: -66}
+        - {x: 92.33334, y: 28}
+        - {x: 92.33334, y: 85}
+    - name: CrowdAnim_jumping_32
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 62.666687, y: 67}
+        - {x: 60.666687, y: 60}
+        - {x: 61.666687, y: 54}
+        - {x: 57.666687, y: 53}
+        - {x: 59.666687, y: 96}
+        - {x: -59.333313, y: 96}
+        - {x: -59.333313, y: -71}
+        - {x: -58.333313, y: -77}
+        - {x: -55.333313, y: -77}
+        - {x: 8.666687, y: -58}
+        - {x: 11.666687, y: -55}
+        - {x: 31.666687, y: -75}
+        - {x: 34.666687, y: -77}
+        - {x: 50.666687, y: -77}
+        - {x: 92.66669, y: 32}
+        - {x: 92.66669, y: 64}
+        - {x: 75.66669, y: 73}
+    - name: CrowdAnim_jumping_33
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 71, y: 48}
+        - {x: 61, y: 41}
+        - {x: 65, y: 64}
+        - {x: 41, y: 77}
+        - {x: -31, y: 77}
+        - {x: -62, y: 68}
+        - {x: -62, y: 41}
+        - {x: -58, y: 35}
+        - {x: -20, y: -92}
+        - {x: 46, y: -92}
+        - {x: 90, y: 0}
+        - {x: 90, y: 42}
+    - name: CrowdAnim_jumping_34
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 0
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -63.666626, y: 59}
+        - {x: -63.666626, y: -105}
+        - {x: 89.333374, y: -105}
+        - {x: 89.333374, y: 59}
+    - name: CrowdAnim_jumping_35
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 0
+        width: 640
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 88.66675, y: 34}
+        - {x: 72.66675, y: 48}
+        - {x: -64.33325, y: 48}
+        - {x: -64.33325, y: -68}
+        - {x: -52.333252, y: -112}
+        - {x: 37.666748, y: -112}
+        - {x: 41.666748, y: -104}
+        - {x: 55.666748, y: -74}
+        - {x: 88.66675, y: -47}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
