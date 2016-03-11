@@ -145,7 +145,7 @@ public class SoundManager : MonoBehaviour
 
 			case SoundManagerType.GOAL:
 				GoalSource.Stop ();
-				int randGoal = Random.Range (1, 3);
+				int randGoal = Random.Range (1, 2);
 				if (randGoal == 1) 
 				{
 					GoalSource.clip = Goal1_FX;

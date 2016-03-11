@@ -74,6 +74,11 @@ public class SelectionManager : MonoBehaviour {
 	bool _playMusic = false;
 
     public GameObject[] partSocle = new GameObject[4];
+	public GameObject[] arrowSelection = new GameObject[4];
+
+	public SpriteRenderer tagPlayer;
+	public Sprite[] tagTeam1;
+	public Sprite[] tagTeam2;
 
     // Use this for initialization
     void Start () {
@@ -124,8 +129,8 @@ public class SelectionManager : MonoBehaviour {
 
             else
             {
-				xAxisAltLeft = Input.GetAxis ("R_XAxis_" + i) < 0.0f;
-				xAxisAltRight = Input.GetAxis ("R_XAxis_" + i) > 0.0f;
+				xAxisAltLeft = Input.GetAxis ("L_XAxis_" + i) < 0.0f;
+				xAxisAltRight = Input.GetAxis ("L_XAxis_" + i) > 0.0f;
 
 				if ((_oldTriggerHeld[i] != xAxisAltLeft) && xAxisAltLeft) 
 				{
@@ -135,9 +140,9 @@ public class SelectionManager : MonoBehaviour {
 						currentIdMask [i] = 4;
 					}
 
-					Vector3 _tempPos = characterSelected [i].transform.GetChild (2).gameObject.transform.position;//
-					Quaternion _tempRot = characterSelected [i].transform.GetChild (2).gameObject.transform.rotation;//
-					Destroy (characterSelected [i].transform.GetChild (2).gameObject);//
+					Vector3 _tempPos = characterSelected [i].transform.GetChild (4).gameObject.transform.position;//
+					Quaternion _tempRot = characterSelected [i].transform.GetChild (4).gameObject.transform.rotation;//
+					Destroy (characterSelected [i].transform.GetChild (4).gameObject);//
 					_currentMask = Instantiate(characters [currentIdMask [i]].gameObject,_tempPos , _tempRot) as GameObject;
                     int pos = _currentMask.name.IndexOf("("); // find the left parenthesis position...
                     _currentMask.name = _currentMask.name.Substring(0, pos); // and get only the substring before it
@@ -156,9 +161,9 @@ public class SelectionManager : MonoBehaviour {
 					{
 						currentIdMask [i] = 1;
 					}
-					Vector3 _tempPos = characterSelected [i].transform.GetChild (2).gameObject.transform.position;//
-					Quaternion _tempRot = characterSelected [i].transform.GetChild (2).gameObject.transform.rotation;//
-					Destroy (characterSelected [i].transform.GetChild (2).gameObject);//
+					Vector3 _tempPos = characterSelected [i].transform.GetChild (4).gameObject.transform.position;//
+					Quaternion _tempRot = characterSelected [i].transform.GetChild (4).gameObject.transform.rotation;//
+					Destroy (characterSelected [i].transform.GetChild (4).gameObject);//
 					_currentMask = Instantiate(characters [currentIdMask [i]].gameObject,_tempPos , _tempRot) as GameObject;
                     int pos = _currentMask.name.IndexOf("("); // find the left parenthesis position...
                     _currentMask.name = _currentMask.name.Substring(0, pos); // and get only the substring before it
@@ -186,24 +191,32 @@ public class SelectionManager : MonoBehaviour {
 						cursors [i].SetActive (false);
 						characterSelected [i] = hit.collider.gameObject;
 						characterSelected [i].GetComponent<BoxCollider> ().enabled = false;
-						_currentMask = characterSelected [i].transform.GetChild(2).gameObject;//
+						_currentMask = characterSelected [i].transform.GetChild(4).gameObject;//
                         //_currentMask = characterSelected[i];
-
+						hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(true);
                         CheckTeam(characterSelected [i].transform.gameObject, i);
+						AssociateTag (hit.collider.gameObject, currentTeam [i], i);
 						charactersEnable.Remove (hit.collider.gameObject);
-                        currentIdMask[i] = GetCurrentMaskId (hit.collider.gameObject.transform.GetChild (2).gameObject);//
+                        currentIdMask[i] = GetCurrentMaskId (hit.collider.gameObject.transform.GetChild (4).gameObject);//
 						chooseMask[i] = listOfMask [currentIdMask[i]];
-                        ChangeTexture(currentIdMask [i], currentTeam[i], i, characterSelected [i].transform.GetChild(2).gameObject);//
+                        ChangeTexture(currentIdMask [i], currentTeam[i], i, characterSelected [i].transform.GetChild(4).gameObject);//
                         //transform.GetChild(1).gameObject.SetActive(true);
-                        hit.collider.transform.GetChild(0).gameObject.SetActive(true);//
+                        
+						print(hit.collider.name);
+						CheckArrow(hit.collider.gameObject);
                     }
 				}
 
                 else
                 {
+					
+
+
 					playerReady[i] = SameMask (currentTeam [i], i);
 					if(playerReady[i])
 					{
+						characterSelected [i].transform.GetChild(0).gameObject.SetActive(true);//particles activation
+						characterSelected [i].transform.GetChild(3).gameObject.SetActive(false);
 						valid [i] = true;
 						readyCount++;
 					}
@@ -220,10 +233,27 @@ public class SelectionManager : MonoBehaviour {
 				selecting [i] = false;
 				playerReady [i] = false;
 				cursors [i].SetActive (true);
-                ChangeTexture(currentIdMask [i], 0, i, characterSelected [i].transform.GetChild(2).gameObject);//
+
+
+
+
+                ChangeTexture(currentIdMask [i], 0, i, characterSelected [i].transform.GetChild(4).gameObject);//
                 charactersEnable.Add (characterSelected[i]);
 				characterSelected [i].GetComponent<BoxCollider> ().enabled = true;
-                characterSelected[i].transform.GetChild(0).gameObject.SetActive(false);//
+
+				Vector3 origin = Camera.main.transform.position;
+				Vector3 _dir = cursors[i].transform.position - origin;
+				RaycastHit hit;
+
+				if (Physics.Raycast (origin, _dir, out hit)) 
+				{
+					DisableArrow(hit.collider.gameObject);
+					hit.collider.gameObject.transform.GetChild (2).GetComponent<SpriteRenderer> ().sprite = null;
+					hit.collider.gameObject.transform.GetChild(3).gameObject.SetActive(false);
+
+				}
+
+                characterSelected[i].transform.GetChild(0).gameObject.SetActive(false);//particles deactivation
                 characterSelected [i] = null;
                 
                 chooseMask[i] = null;
@@ -430,6 +460,67 @@ public class SelectionManager : MonoBehaviour {
 
 		}
 
+	}
+
+	void CheckArrow(GameObject _target)
+	{
+		if (_target.name.Contains ("1")) 
+		{
+			arrowSelection [0].SetActive (true);
+		}
+
+		else if (_target.name.Contains ("2")) 
+		{
+			arrowSelection [1].SetActive (true);
+		}
+
+		else if (_target.name.Contains ("3")) 
+		{
+			arrowSelection [2].SetActive (true);
+		}
+
+		else if (_target.name.Contains ("4")) 
+		{
+			arrowSelection [3].SetActive (true);
+		}
+	}
+
+	void DisableArrow(GameObject _target)
+	{
+		if (_target.name.Contains ("1")) 
+		{
+			print (_target.name + "<<<disable");
+			arrowSelection [0].SetActive (false);
+		}
+
+		else if (_target.name.Contains ("2")) 
+		{
+			arrowSelection [1].SetActive (false);
+		}
+
+		else if (_target.name.Contains ("3")) 
+		{
+			arrowSelection [2].SetActive (false);
+		}
+
+		else if (_target.name.Contains ("4")) 
+		{
+			arrowSelection [3].SetActive (false);
+		}
+	}
+
+	void AssociateTag(GameObject _slot, int _teamId, int _id)
+	{
+		Debug.Log (_slot);
+		if (_teamId == 1) 
+		{
+			_slot.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = tagTeam1[_id-1];
+		} 
+
+		else if (_teamId == 2) 
+		{
+			_slot.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = tagTeam2[_id-1];
+		}
 	}
 
 }

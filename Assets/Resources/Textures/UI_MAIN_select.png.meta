@@ -1,0 +1,188 @@
+fileFormatVersion: 2
+guid: eb0614e3426d6b747bdd3ba26268cf22
+timeCreated: 1457659636
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: UI_MAIN_select_0
+    21300002: UI_MAIN_select_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: UI_MAIN_select_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 223
+        width: 814
+        height: 187
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -376, y: 93.5}
+        - {x: -407, y: 56.5}
+        - {x: -407, y: -47.5}
+        - {x: -365, y: -93.5}
+        - {x: -258, y: -93.5}
+        - {x: -218, y: -52.5}
+        - {x: -218, y: 75.5}
+        - {x: -262, y: 93.5}
+      - - {x: -119, y: 34.5}
+        - {x: -84, y: 34.5}
+        - {x: -107, y: 30.5}
+        - {x: -109, y: 28.5}
+        - {x: -109, y: -3.5}
+        - {x: -107, y: -5.5}
+        - {x: -74, y: -5.5}
+        - {x: -72, y: -3.5}
+        - {x: -72, y: 60.5}
+        - {x: -73, y: 62.5}
+        - {x: -139, y: 62.5}
+        - {x: -148, y: 59.5}
+        - {x: -148, y: -63.5}
+        - {x: -72, y: -63.5}
+        - {x: -72, y: -41.5}
+        - {x: -129, y: -36.5}
+      - - {x: 5, y: 62.5}
+        - {x: -61, y: 62.5}
+        - {x: -62, y: 52.5}
+        - {x: -62, y: -60.5}
+        - {x: -55, y: -63.5}
+        - {x: 5, y: -63.5}
+        - {x: 13, y: -60.5}
+        - {x: 14, y: -47.5}
+        - {x: 14, y: 54.5}
+      - - {x: 20, y: 63.5}
+        - {x: 20, y: -63.5}
+        - {x: 97, y: -63.5}
+        - {x: 97, y: 57.5}
+        - {x: 83, y: 63.5}
+      - - {x: 103, y: -63.5}
+        - {x: 139, y: -63.5}
+        - {x: 179, y: -42.5}
+        - {x: 179, y: 62.5}
+        - {x: 110, y: 62.5}
+        - {x: 103, y: 53.5}
+      - - {x: 186, y: 62.5}
+        - {x: 186, y: 24.5}
+        - {x: 192, y: -61.5}
+        - {x: 198, y: -63.5}
+        - {x: 212, y: -63.5}
+        - {x: 213, y: -62.5}
+        - {x: 216, y: 22.5}
+        - {x: 216, y: 62.5}
+      - - {x: 223, y: 62.5}
+        - {x: 223, y: -63.5}
+        - {x: 298, y: -63.5}
+        - {x: 298, y: 62.5}
+      - - {x: 325, y: 63.5}
+        - {x: 308, y: 62.5}
+        - {x: 306, y: 60.5}
+        - {x: 306, y: -63.5}
+        - {x: 407, y: -63.5}
+        - {x: 407, y: 60.5}
+        - {x: 400, y: 63.5}
+    - name: UI_MAIN_select_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 815
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -407.5, y: -53.5}
+        - {x: -406.5, y: -65.5}
+        - {x: -385.5, y: -94.5}
+        - {x: -232.5, y: -94.5}
+        - {x: -216.5, y: -90.5}
+        - {x: -216.5, y: 73.5}
+        - {x: -225.5, y: 94.5}
+        - {x: -358.5, y: 94.5}
+        - {x: -407.5, y: 75.5}
+      - - {x: -72.5, y: -63.5}
+        - {x: -72.5, y: 54.5}
+        - {x: -78.5, y: 62.5}
+        - {x: -147.5, y: 62.5}
+        - {x: -147.5, y: -63.5}
+        - {x: -135.5, y: -63.5}
+        - {x: -132.5, y: -62.5}
+        - {x: -129.5, y: -28.5}
+        - {x: -86.5, y: -63.5}
+      - - {x: -63.5, y: 62.5}
+        - {x: -63.5, y: -63.5}
+        - {x: 12.5, y: -63.5}
+        - {x: 12.5, y: 62.5}
+      - - {x: 20.5, y: 62.5}
+        - {x: 20.5, y: 14.5}
+        - {x: 40.5, y: -63.5}
+        - {x: 63.5, y: -63.5}
+        - {x: 65.5, y: -61.5}
+        - {x: 94.5, y: 36.5}
+        - {x: 94.5, y: 62.5}
+      - - {x: 99.5, y: 62.5}
+        - {x: 99.5, y: -54.5}
+        - {x: 106.5, y: -63.5}
+        - {x: 170.5, y: -63.5}
+        - {x: 176.5, y: -53.5}
+        - {x: 176.5, y: 62.5}
+      - - {x: 258.5, y: 62.5}
+        - {x: 183.5, y: 62.5}
+        - {x: 183.5, y: -63.5}
+        - {x: 258.5, y: -63.5}
+      - - {x: 265.5, y: 63.5}
+        - {x: 265.5, y: -63.5}
+        - {x: 342.5, y: -63.5}
+        - {x: 342.5, y: 50.5}
+        - {x: 334.5, y: 63.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

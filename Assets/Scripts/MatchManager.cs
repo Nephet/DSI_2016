@@ -81,6 +81,10 @@ public class MatchManager : MonoBehaviour {
     public float slowMoDuration = 0.9f;
     public float slowMoPower = 0.1f;
 
+	public SpriteRenderer tagPlayer;
+	public Sprite[] tagTeam1;
+	public Sprite[] tagTeam2;
+
     [HideInInspector]
     public bool prolongation = false;
 
@@ -265,6 +269,9 @@ public class MatchManager : MonoBehaviour {
 
             _player.GetComponent<PlayerActions> ().id = i;
 			_player.GetComponent<PlayerActions> ().teamId = SelectionManager.instance.currentTeam[i];
+
+			AssociateTag (_player);
+
 			_player.GetComponent<Movement>().meshBall.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureBallTeam1 : SelectionManager.instance.textureBallTeam2;
 
             _player.GetComponent<Movement>().body.GetComponent<Renderer>().material.mainTexture = _player.GetComponent<PlayerActions>().teamId == 1 ? SelectionManager.instance.textureTeam1 : SelectionManager.instance.textureTeam2;
@@ -436,4 +443,18 @@ public class MatchManager : MonoBehaviour {
         Destroy(_partClone4, 2f);
         Destroy(_partClone5, 2f);
     }
+
+	void AssociateTag(GameObject _player)
+	{
+		Debug.Log (_player);
+		if (_player.GetComponent<PlayerActions> ().teamId == 1) 
+		{
+			_player.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = tagTeam1[_player.GetComponent<PlayerActions> ().id-1];
+		} 
+
+		else if (_player.GetComponent<PlayerActions> ().teamId == 2) 
+		{
+			_player.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = tagTeam2[_player.GetComponent<PlayerActions> ().id-1];
+		}
+	}
 }
