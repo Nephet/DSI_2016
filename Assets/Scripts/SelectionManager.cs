@@ -132,7 +132,7 @@ public class SelectionManager : MonoBehaviour {
 				xAxisAltLeft = Input.GetAxis ("L_XAxis_" + i) < 0.0f;
 				xAxisAltRight = Input.GetAxis ("L_XAxis_" + i) > 0.0f;
 
-				if ((_oldTriggerHeld[i] != xAxisAltLeft) && xAxisAltLeft) 
+				if ((_oldTriggerHeld[i] != xAxisAltLeft) && xAxisAltLeft && playerReady[i] == false) 
 				{
 					currentIdMask [i]--;
 					if (currentIdMask [i] <= 0) 
@@ -154,7 +154,7 @@ public class SelectionManager : MonoBehaviour {
 
 				}
 
-                else if((_oldTriggerHeld[i] != xAxisAltRight) && xAxisAltRight)
+                else if((_oldTriggerHeld[i] != xAxisAltRight) && xAxisAltRight && playerReady[i] == false)
 				{
 					currentIdMask [i]++;
 					if (currentIdMask [i] >= 5) 
@@ -218,6 +218,7 @@ public class SelectionManager : MonoBehaviour {
 						characterSelected [i].transform.GetChild(0).gameObject.SetActive(true);//particles activation
 						characterSelected [i].transform.GetChild(3).gameObject.SetActive(false);
 						valid [i] = true;
+                        arrowSelection[i-1].SetActive(false);
 						readyCount++;
 					}
 				}
@@ -233,6 +234,8 @@ public class SelectionManager : MonoBehaviour {
 				selecting [i] = false;
 				playerReady [i] = false;
 				cursors [i].SetActive (true);
+                arrowSelection[i-1].SetActive(true);
+
 
 
 
@@ -489,7 +492,6 @@ public class SelectionManager : MonoBehaviour {
 	{
 		if (_target.name.Contains ("1")) 
 		{
-			print (_target.name + "<<<disable");
 			arrowSelection [0].SetActive (false);
 		}
 
