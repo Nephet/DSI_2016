@@ -218,7 +218,8 @@ public class SelectionManager : MonoBehaviour {
 						characterSelected [i].transform.GetChild(0).gameObject.SetActive(true);//particles activation
 						characterSelected [i].transform.GetChild(3).gameObject.SetActive(false);
 						valid [i] = true;
-                        arrowSelection[i-1].SetActive(false);
+                        //arrowSelection[i-1].SetActive(false);
+                        DisableArrow(characterSelected[i]);
 						readyCount++;
 					}
 				}
@@ -234,7 +235,8 @@ public class SelectionManager : MonoBehaviour {
 				selecting [i] = false;
 				playerReady [i] = false;
 				cursors [i].SetActive (true);
-                arrowSelection[i-1].SetActive(true);
+                // arrowSelection[i-1].SetActive(true);
+                CheckArrow(characterSelected[i]);
 
 
 
